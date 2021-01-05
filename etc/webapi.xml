@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/sendcloud-information" method="GET">
+        <service class="SendCloud\SendCloudV2\Api\SettingsInterface" method="getModuleInformation"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
+    <route method="PUT" url="/V1/sendcloud-sendcloudv2/checkout">
+        <service class="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" method="putCheckout"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route method="DELETE" url="/V1/sendcloud-sendcloudv2/checkout">
+        <service class="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" method="deleteCheckout"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

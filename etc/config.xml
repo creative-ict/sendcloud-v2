@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <sendcloudskeleton>
+                <model>SendCloud\SendCloudV2\Model\Carrier\SendcloudSkeleton</model>
+                <active>0</active>
+                <title>SendcloudSkeleton</title>
+                <name>SendcloudSkeleton</name>
+                <price>0.00</price>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <sallowspecific>0</sallowspecific>
+            </sendcloudskeleton>
+            <sendcloudv2>
+                <model>SendCloud\SendCloudV2\Model\Carrier\Sendcloudv2</model>
+                <active>0</active>
+                <title>Sendcloudv2</title>
+                <name>Sendcloudv2</name>
+                <price>0.00</price>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <sallowspecific>0</sallowspecific>
+            </sendcloudv2>
+            <sendcloudservicepoint>
+                <active>0</active>
+                <sallowspecific>0</sallowspecific>
+                <model>SendCloud\SendCloudV2\Model\Carrier\SendCloudServicepoint</model>
+                <name>SendCloudServicepoint</name>
+                <price>0.00</price>
+                <title>SendCloud</title>
+                <type>I</type>
+                <sort_order>500</sort_order>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+            </sendcloudservicepoint>
+        </carriers>
+    </default>
+</config>

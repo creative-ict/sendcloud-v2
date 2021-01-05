@@ -1,0 +1,14 @@
+<integrations>
+    <integration name="SendCloud">
+        <resources>
+            <resource name="Magento_Sales::sales" />
+            <resource name="Magento_Sales::sales_operation" />
+            <resource name="Magento_Sales::sales_order" />
+            <resource name="Magento_Sales::actions" />
+            <resource name="Magento_Sales::actions_view" />
+            <resource name="Magento_Sales::actions_edit" />
+            <resource name="Magento_Sales::shipment" />
+            <resource name="Magento_Sales::ship" />
+        </resources>
+    </integration>
+</integrations>
