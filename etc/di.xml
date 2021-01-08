@@ -17,4 +17,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
+        <plugin name="SendCloud_SendCloudV2::AddOrderItemExtensionAttribute" type="SendCloud\SendCloudV2\Plugin\Order\OrderItemRepository"/>
+    </type>
 </config>
