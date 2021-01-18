@@ -1,0 +1,17 @@
+.sendcloud-branding {
+    margin: 20px 0;
+    display: flex;
+}
+.sendcloud-branding .logo-wrap {
+    width: 10%;
+    display: flex;
+    margin-right: 2%;
+}
+.sendcloud-branding .content {
+    display: inline-block;
+    width: 50%;
+    padding-left: 4%;
+    line-height: 30px;
+    border-left: 1px solid #cccccc;
+    vertical-align: sub;
+}

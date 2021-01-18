@@ -2,12 +2,12 @@
 
 namespace SendCloud\SendCloudV2\Model;
 
-use SendCloud\SendCloudV2\Api\ServicePointInterface;
-use SendCloud\SendCloudV2\Logger\SendCloudLogger;
 use Exception;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
+use SendCloud\SendCloudV2\Api\ServicePointInterface;
+use SendCloud\SendCloudV2\Logger\SendCloudLogger;
 
 class ServicePoint implements ServicePointInterface
 {
@@ -34,8 +34,8 @@ class ServicePoint implements ServicePointInterface
     public function activate($script_url)
     {
         try {
-            $this->writer->save('carriers/sendcloudservicepoint/active', 1, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
-            $this->writer->save('sendcloud/sendcloudv2/script_url', $script_url, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+            $this->writer->save('carriers/sendcloudv2servicepoint/active', 1, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+            $this->writer->save('sendcloudv2/sendcloud/script_url', $script_url, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
             $this->cache->cleanType('config');
         } catch (Exception $ex) {
             $this->logger->debug($ex->getMessage());
@@ -52,8 +52,8 @@ class ServicePoint implements ServicePointInterface
     public function deactivate()
     {
         try {
-            $this->writer->save('carriers/sendcloudservicepoint/active', 0, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
-            $this->writer->save('sendcloud/sendcloudv2/script_url', '', ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+            $this->writer->save('carriers/sendcloudv2servicepoint/active', 0, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+            $this->writer->save('sendcloudv2/sendcloud/script_url', '', ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
             $this->cache->cleanType('config');
         } catch (Exception $ex) {
             $this->logger->debug($ex->getMessage());

@@ -2,35 +2,35 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <carriers>
-            <sendcloudskeleton>
+            <sendcloudv2skeleton>
                 <model>SendCloud\SendCloudV2\Model\Carrier\SendcloudSkeleton</model>
                 <active>0</active>
-                <title>SendcloudSkeleton</title>
-                <name>SendcloudSkeleton</name>
+                <title>SendcloudV2Skeleton</title>
+                <name>SendcloudV2Skeleton</name>
                 <price>0.00</price>
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <sallowspecific>0</sallowspecific>
-            </sendcloudskeleton>
+            </sendcloudv2skeleton>
             <sendcloudv2>
                 <model>SendCloud\SendCloudV2\Model\Carrier\Sendcloudv2</model>
                 <active>0</active>
-                <title>Sendcloudv2</title>
-                <name>Sendcloudv2</name>
+                <title>SendcloudV2</title>
+                <name>SendcloudV2</name>
                 <price>0.00</price>
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <sallowspecific>0</sallowspecific>
             </sendcloudv2>
-            <sendcloudservicepoint>
+            <sendcloudv2servicepoint>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
-                <model>SendCloud\SendCloudV2\Model\Carrier\SendCloudServicepoint</model>
-                <name>SendCloudServicepoint</name>
+                <model>SendCloud\SendCloudV2\Model\Carrier\SendcloudServicepoint</model>
+                <title>SendCloudV2Servicepoint</title>
+                <name>SendCloudV2Servicepoint</name>
                 <price>0.00</price>
-                <title>SendCloud</title>
                 <type>I</type>
                 <sort_order>500</sort_order>
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
-            </sendcloudservicepoint>
+            </sendcloudv2servicepoint>
         </carriers>
     </default>
 </config>

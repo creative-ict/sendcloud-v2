@@ -86,7 +86,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="sendcloudskeleton" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="sendcloudv2skeleton" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sendcloud Skeleton</label>
                 <field id="active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
                     <label>Enabled</label>
@@ -119,7 +119,7 @@
                     <label>Displayed Error Message</label>
                 </field>
             </group>
-            <group id="sendcloudservicepoint" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="sendcloudv2servicepoint" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>SendCloud Service Points</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
@@ -162,10 +162,10 @@
                     <label>Include Virtual Products in Price Calculation</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="sen_export" translate="label" type="SendCloud\SendCloud\Block\Adminhtml\Form\Field\Export" sortOrder="23" showInWebsite="1">
+                <field id="sen_export" translate="label" type="SendCloud\SendCloudV2\Block\Adminhtml\Form\Field\Export" sortOrder="23" showInWebsite="1">
                     <label>Export</label>
                 </field>
-                <field id="sen_import" translate="label" type="SendCloud\SendCloud\Block\Adminhtml\Form\Field\Import" sortOrder="24" showInWebsite="1">
+                <field id="sen_import" translate="label" type="SendCloud\SendCloudV2\Block\Adminhtml\Form\Field\Import" sortOrder="24" showInWebsite="1">
                     <label>Import</label>
                     <backend_model>SendCloud\SendCloudV2\Model\Config\Backend\Servicepointrate</backend_model>
                 </field>

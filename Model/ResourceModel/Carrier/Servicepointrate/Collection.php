@@ -2,13 +2,16 @@
 
 namespace SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate;
 
+use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use \SendCloud\SendCloudV2\Model\Carrier\SendcloudServicepoint;
+use \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate as ResourceServicepointrate;
 /**
  * Shipping table rates collection
  *
  * @api
  * @since 100.0.2
  */
-class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+class Collection extends AbstractCollection
 {
     /**
      * Directory/country table name
@@ -32,8 +35,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected function _construct()
     {
         $this->_init(
-            \SendCloud\SendCloudV2\Model\Carrier\SendCloud::class,
-            \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate::class
+            SendcloudServicepoint::class,
+            ResourceServicepointrate::class
         );
         $this->_countryTable = $this->getTable('directory_country');
         $this->_regionTable = $this->getTable('directory_country_region');
@@ -68,7 +71,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * Add website filter to collection
      *
      * @param int $websiteId
-     * @return \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\Collection
+     * @return Collection
      */
     public function setWebsiteFilter($websiteId)
     {
@@ -79,7 +82,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * Add condition name (code) filter to collection
      *
      * @param string $conditionName
-     * @return \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\Collection
+     * @return Collection
      */
     public function setConditionFilter($conditionName)
     {
@@ -90,7 +93,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * Add country filter to collection
      *
      * @param string $countryId
-     * @return \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\Collection
+     * @return Collection
      */
     public function setCountryFilter($countryId)
     {

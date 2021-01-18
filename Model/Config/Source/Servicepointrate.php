@@ -8,7 +8,7 @@ use SendCloud\SendCloudV2\Model\Carrier\SendcloudServicepoint;
 
 /**
  * Class Servicepointrate
- * @package SendCloud\SendCloud\Model\Config\Source
+ * @package SendCloud\SendCloudV2\Model\Config\Source
  *
  * TODO: class Servicepointrate implements \Magento\Framework\Option\OptionSourceInterface
  * use OptionSourceInterface as ArrayInterface is deprecated, but OptionSourceInterface gives compile error when used.
@@ -16,14 +16,14 @@ use SendCloud\SendCloudV2\Model\Carrier\SendcloudServicepoint;
 class Servicepointrate implements ArrayInterface
 {
     /**
-     * @var SendCloudServicepoint
+     * @var SendcloudServicepoint
      */
     protected $_carrierServicepointrate;
 
 
     /**
      * Servicepointrate constructor.
-     * @param SendCloud $carrierServicepointrate
+     * @param SendcloudServicepoint $carrierServicepointrate
      */
     public function __construct(SendcloudServicepoint $carrierServicepointrate)
     {

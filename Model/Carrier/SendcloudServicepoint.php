@@ -25,16 +25,15 @@ use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackFactory;
 use Psr\Log\LoggerInterface;
-use SendCloud\SendCloudV2\Helper\Backend;
+use SendCloud\SendCloudV2\Helper\Checkout;
 use SendCloud\SendCloudV2\Model\ResourceModel\Carrier\ServicepointrateFactory;
-use SendCloud\SendCloudV2\Logger\SendCloudLogger;
 
 class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInterface
 {
     /**
      * @var string
      */
-    protected $_code = 'sendcloudservicepoint';
+    protected $_code = 'sendcloudv2servicepoint';
 
     /**
      * @var bool
@@ -59,16 +58,13 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
     /** @var ResultFactory */
     private $_rateResultFactory;
 
-    /** @var SendCloudLogger */
-    private $sendCloudLogger;
-
     /**
      * @var ItemPriceCalculator
      */
     private $itemPriceCalculator;
 
     /**
-     * @var Backend
+     * @var Checkout
      */
     private $helper;
 
@@ -90,8 +86,7 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
      * @param Data $directoryData
      * @param StockRegistryInterface $stockRegistry
      * @param ItemPriceCalculator $itemPriceCalculator
-     * @param SendCloudLogger $sendCloudLogger
-     * @param Backend $helper
+     * @param Checkout $helper
      * @param ServicepointrateFactory $servicepointrateFactory
      * @param array $data
      * @throws LocalizedException
@@ -113,8 +108,7 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
         Data $directoryData,
         StockRegistryInterface $stockRegistry,
         ItemPriceCalculator $itemPriceCalculator,
-        SendCloudLogger $sendCloudLogger,
-        Backend $helper,
+        Checkout $helper,
         ServicepointrateFactory $servicepointrateFactory,
         array $data = []
     )
@@ -122,7 +116,6 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->itemPriceCalculator = $itemPriceCalculator;
-        $this->sendCloudLogger = $sendCloudLogger;
         $this->helper = $helper;
         $this->_servicepiontrateFactory = $servicepointrateFactory;
         parent::__construct(
@@ -162,7 +155,7 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
      */
     public function getAllowedMethods()
     {
-        return ['sendcloud' => $this->getConfigData('name')];
+        return ['sendcloudv2servicepoint' => $this->getConfigData('name')];
     }
 
     /**
@@ -172,13 +165,14 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
      */
     public function collectRates(RateRequest $request)
     {
+
         if (!$this->getConfigFlag('active')) {
             return false;
         }
 
-        if ($this->helper->checkForScriptUrl() == false || $this->helper->checkIfModuleIsActive() == false) {
+        if ($this->helper->checkForScriptUrl() === false || $this->helper->checkIfModuleIsActive() == false) {
             return false;
-        };
+        }
 
         //TODO: can we remove this?
         if (!$request->getSenConditionName()) {

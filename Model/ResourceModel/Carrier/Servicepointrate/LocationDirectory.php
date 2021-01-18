@@ -73,7 +73,7 @@ class LocationDirectory
     /**
      * Load directory countries
      *
-     * @return \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate
+     * @return $this
      */
     protected function loadCountries()
     {

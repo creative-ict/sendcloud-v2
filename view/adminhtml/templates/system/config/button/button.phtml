@@ -1,0 +1,26 @@
+<div class="pp-buttons-container">
+    <button id="<?= /* @escapeNotVerified */ $block->getId() ?>" onclick="return false;">
+        <span><span><span><?= /* @escapeNotVerified */ $block->escapeHtml($block->getButtonLabel()); ?></span></span></span>
+    </button>
+</div>
+
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function($){
+        $('#connectToSendCloud').click(function () {
+            var w = window.open('');
+            $.ajax({
+                url: "<?= /* @escapeNotVerified */ $block->getAjaxCheckUrl() ?>",
+                method: 'POST',
+                data: {form_key: window.FORM_KEY},
+                success: function (response) {
+                    w.location = response.url;
+                }
+            });
+            return false;
+        });
+
+    });
+</script>

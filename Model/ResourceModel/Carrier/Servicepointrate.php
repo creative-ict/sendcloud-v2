@@ -15,6 +15,7 @@ use SendCloud\SendCloudV2\Model\Carrier\SendcloudServicepoint;
 use SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\Import;
 use SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\RateQuery;
 use SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\RateQueryFactory;
+use Magento\Framework\App\RequestInterface;
 
 
 /**
@@ -26,6 +27,18 @@ use SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\RateQuery
  */
 class Servicepointrate extends AbstractDb
 {
+
+
+    /**
+     * @var string
+     */
+    protected $_fullCarrierName = 'sendcloudv2servicepoint';
+
+    const XML_PATH_SENDCLOUDV2 = 'groups/sendcloudv2servicepoint/fields/sen_condition_name/';
+    const XML_PATH_SENDCLOUDV2_INHERIT = self::XML_PATH_SENDCLOUDV2 . 'inherit';
+    const XML_PATH_SENDCLOUDV2_VALUE = self::XML_PATH_SENDCLOUDV2 . 'value';
+    const ADMIN_PATH_SENDCLOUDV2_CARRIER = 'carriers/sendcloudv2servicepoint/sen_condition_name';
+
     /**
      * Import Service point rates website ID
      *
@@ -132,6 +145,11 @@ class Servicepointrate extends AbstractDb
     private $rateQueryFactory;
 
     /**
+     * @var RequestInterface
+     */
+    private $request;
+
+    /**
      * Servicepointrate constructor.
      * @param Context $context
      * @param SendCloudLogger $logger
@@ -141,6 +159,7 @@ class Servicepointrate extends AbstractDb
      * @param Filesystem $filesystem
      * @param Import $import
      * @param RateQueryFactory $rateQueryFactory
+     * @param RequestInterface $request
      * @param null $connectionName
      */
     public function __construct(
@@ -152,6 +171,7 @@ class Servicepointrate extends AbstractDb
         Filesystem $filesystem,
         Import $import,
         RateQueryFactory $rateQueryFactory,
+        RequestInterface $request,
         $connectionName = null
     ) {
         parent::__construct($context, $connectionName);
@@ -162,6 +182,7 @@ class Servicepointrate extends AbstractDb
         $this->filesystem = $filesystem;
         $this->import = $import;
         $this->rateQueryFactory = $rateQueryFactory;
+        $this->request = $request;
     }
 
     /**
@@ -240,7 +261,7 @@ class Servicepointrate extends AbstractDb
             $connection->rollBack();
             $this->logger->critical($e);
             throw new LocalizedException(
-                __('Something went wrong while importing Sendcloud servicepoint rates.')
+                __('Something went wrong while importing %1 rates.', $this->_conditionFullNames)
             );
         }
         $connection->commit();
@@ -262,11 +283,14 @@ class Servicepointrate extends AbstractDb
         /**
          * @var \Magento\Framework\App\Config\Value $object
          */
-        if (empty($_FILES['groups']['tmp_name']['sendcloud']['fields']['sen_import']['value'])) {
-            return $this;
+        $files = $this->request->getFiles()->toArray();
+        $this->logger->debug(print_r($files['groups'],true));
+        if (!isset($files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value'])) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('Something went wrong while importing Sendcloud Servicepoint rates.')
+            );
         }
-        $filePath = $_FILES['groups']['tmp_name']['sendcloud']['fields']['sen_import']['value'];
-
+        $filePath = $files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value']['tmp_name'];
         $websiteId = $this->storeManager->getWebsite($object->getScopeId())->getId();
         $conditionName = $this->getSenConditionName($object);
 
@@ -287,7 +311,7 @@ class Servicepointrate extends AbstractDb
         } catch (\Exception $e) {
             $this->logger->critical($e);
             throw new LocalizedException(
-                __('Something went wrong while importing Sendcloud Servicepoint rates.')
+                __('Something went wrong while importing %1 rates.', print_r($e->getMessage(), true))
             );
         } finally {
             $file->close();
@@ -309,10 +333,10 @@ class Servicepointrate extends AbstractDb
      */
     public function getSenConditionName(DataObject $object)
     {
-        if ($object->getData('groups/sendcloud/fields/sen_condition_name/inherit') == '1') {
-            $conditionName = (string)$this->coreConfig->getValue('carriers/sendcloud/sen_condition_name', 'default');
+        if ($object->getData(self::XML_PATH_SENDCLOUDV2_INHERIT) == '1') {
+            $conditionName = (string)$this->coreConfig->getValue(self::ADMIN_PATH_SENDCLOUDV2_CARRIER, 'default');
         } else {
-            $conditionName = $object->getData('groups/sendcloud/fields/sen_condition_name/value');
+            $conditionName = $object->getData(self::XML_PATH_SENDCLOUDV2_VALUE);
         }
         return $conditionName;
     }

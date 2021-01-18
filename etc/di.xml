@@ -9,6 +9,7 @@
             <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
         </arguments>
     </type>
+
     <type name="SendCloud\SendCloudV2\Logger\SendCloudLogger">
         <arguments>
             <argument name="name" xsi:type="string">SendCloud Logger</argument>
@@ -17,7 +18,32 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Sales\Model\OrderRepository">
+        <plugin sortOrder="1" name="SendCloud_SendCloudV2::OrderRepository" type="SendCloud\SendCloudV2\Plugin\Order\OrderRepository"/>
+    </type>
+
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin sortOrder="1" name="SendCloud_SendCloudV2::ShippingInformationManagement" type="SendCloud\SendCloudV2\Plugin\BeforeSaveShippingInformation"/>
+    </type>
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="sendcloud_service_point_id" xsi:type="string">sales_order.sendcloud_service_point_id</item>
+                <item name="sendcloud_service_point_name" xsi:type="string">sales_order.sendcloud_service_point_name</item>
+                <item name="sendcloud_service_point_street" xsi:type="string">sales_order.sendcloud_service_point_street</item>
+                <item name="sendcloud_service_point_house_number" xsi:type="string">sales_order.sendcloud_service_point_house_number</item>
+                <item name="sendcloud_service_point_zip_code" xsi:type="string">sales_order.sendcloud_service_point_zip_code</item>
+                <item name="sendcloud_service_point_city" xsi:type="string">sales_order.sendcloud_service_point_city</item>
+                <item name="sendcloud_service_point_country" xsi:type="string">sales_order.sendcloud_service_point_country</item>
+                <item name="sendcloud_service_point_postnumber" xsi:type="string">sales_order.sendcloud_service_point_postnumber</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
     <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
         <plugin name="SendCloud_SendCloudV2::AddOrderItemExtensionAttribute" type="SendCloud\SendCloudV2\Plugin\Order\OrderItemRepository"/>
     </type>
+
 </config>
