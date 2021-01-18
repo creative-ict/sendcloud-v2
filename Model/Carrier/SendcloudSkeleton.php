@@ -17,7 +17,7 @@ class SendcloudSkeleton extends SendcloudAbstract
         implements CarrierInterface
 {
 
-    protected $_code = 'sendcloudskeleton';
+    protected $_code = 'sendcloudv2skeleton';
     protected $_isFixed = true;
 
     /**
@@ -73,10 +73,10 @@ class SendcloudSkeleton extends SendcloudAbstract
             $test = get_parent_class($this);
 
             $method->setCarrier($this->_code);
-            $method->setCarrierTitle($test);
+            $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod($this->_code);
-            $method->setMethodTitle($test);
+            $method->setMethodTitle($this->getConfigData('name'));
 
             if ($request->getFreeShipping() === true || $request->getPackageQty() == $this->getFreeBoxes()) {
                 $shippingPrice = '0.00';

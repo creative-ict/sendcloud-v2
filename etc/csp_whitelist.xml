@@ -4,6 +4,22 @@
         <policy id="script-src">
             <values>
                 <value id="sendcloud" type="host">*.sendcloud.sc</value>
+                <value id="jsdelivr-cdn" type="host">*.jsdelivr.net</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="jsdelivr-cdn" type="host">*.jsdelivr.net</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="sendcloud" type="host">*.sendcloud.sc</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="sendcloud-logo" type="host">sendcloud-prod-scp-static-files.s3.amazonaws.com</value>
             </values>
         </policy>
     </policies>

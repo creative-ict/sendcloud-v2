@@ -3,6 +3,7 @@ var config = {
         "*": {
             'Magento_Checkout/js/model/shipping-save-processor/default': 'SendCloud_SendCloudV2/js/model/shipping-save-processor/servicepoint',
             'Amasty_Checkout/js/model/shipping-save-processor/default': 'SendCloud_SendCloudV2/js/model/shipping-save-processor/amasty-servicepoint',
+            'SendCloudCheckoutPluginUi': 'https://cdn.jsdelivr.net/npm/@sendcloud/checkout-plugin-ui@1.0.0',
         }
     },
     config: {

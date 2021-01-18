@@ -62,5 +62,5 @@ class ColumnResolver
         }
 
         return  trim($values[$columnIndex]);
-    } //*/
+    }
 }

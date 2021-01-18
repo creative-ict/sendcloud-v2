@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="https://cdn.jsdelivr.net/npm/@sendcloud/checkout-plugin-ui@^1.0.0/dist/checkout-plugin-ui.css" src_type="url" rel="stylesheet" type="text/css"/>
+    </head>
     <body>
         <referenceBlock name="head.additional">
             <block name="sendcloud_config" class="SendCloud\SendCloudV2\Block\Checkout\Config" template="SendCloud_SendCloudV2::js.phtml"/>
@@ -23,6 +26,9 @@
                                                                 <item name="children" xsi:type="array">
                                                                     <item name="service-point" xsi:type="array">
                                                                         <item name="component" xsi:type="string">SendCloud_SendCloudV2/js/view/checkout/shipping/servicePoint</item>
+                                                                    </item>
+                                                                    <item name="sendcloud-delivery-options" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">SendCloud_SendCloudV2/js/view/checkout/shipping/deliveryOptions</item>
                                                                     </item>
                                                                 </item>
                                                             </item>
