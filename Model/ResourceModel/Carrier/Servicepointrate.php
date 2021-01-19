@@ -284,13 +284,16 @@ class Servicepointrate extends AbstractDb
          * @var \Magento\Framework\App\Config\Value $object
          */
         $files = $this->request->getFiles()->toArray();
-        $this->logger->debug(print_r($files['groups'],true));
         if (!isset($files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value'])) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Something went wrong while importing Sendcloud Servicepoint rates.')
             );
         }
-        $filePath = $files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value']['tmp_name'];
+        if(empty$files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value']['tmp_name'])){
+            return false;
+        }
+        $filePath = $files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value'];
+
         $websiteId = $this->storeManager->getWebsite($object->getScopeId())->getId();
         $conditionName = $this->getSenConditionName($object);
 
