@@ -289,10 +289,10 @@ class Servicepointrate extends AbstractDb
                 __('Something went wrong while importing Sendcloud Servicepoint rates.')
             );
         }
-        if(empty$files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value']['tmp_name'])){
+        if(empty($files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value']['tmp_name'])){
             return false;
         }
-        $filePath = $files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value'];
+        $filePath = $files['groups']['sendcloudv2servicepoint']['fields']['sen_import']['value']['tmp_name'];
 
         $websiteId = $this->storeManager->getWebsite($object->getScopeId())->getId();
         $conditionName = $this->getSenConditionName($object);
