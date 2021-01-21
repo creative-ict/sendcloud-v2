@@ -3,6 +3,7 @@
     <preference for="SendCloud\SendCloudV2\Api\ServicePointInterface" type="SendCloud\SendCloudV2\Model\ServicePoint" />
     <preference for="SendCloud\SendCloudV2\Api\SettingsInterface" type="SendCloud\SendCloudV2\Model\Settings"/>
     <preference for="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" type="SendCloud\SendCloudV2\Model\CheckoutManagement"/>
+    <preference for="SendCloud\SendCloudV2\Api\PluginInterface" type="SendCloud\SendCloudV2\Model\Plugin"/>
 
     <type name="SendCloud\SendCloudV2\Logger\SendCloudHandler">
         <arguments>
@@ -17,6 +18,9 @@
                 <item name="system" xsi:type="object">SendCloud\SendCloudV2\Logger\SendCloudHandler</item>
             </argument>
         </arguments>
+    </type>
+    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
+        <plugin name="SendCloud_SendCloudV2::AddOrderItemExtensionAttribute" type="SendCloud\SendCloudV2\Plugin\Order\OrderItemRepository"/>
     </type>
 
     <type name="Magento\Sales\Model\OrderRepository">

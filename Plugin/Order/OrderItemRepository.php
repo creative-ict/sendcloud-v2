@@ -75,7 +75,7 @@ class OrderItemRepository
 
     /**
      * @param $orderItem
-     * @return OrderItemRepository
+     * @return bool
      * @throws NoSuchEntityException
      */
     protected function setCustomAttributes($orderItem)
