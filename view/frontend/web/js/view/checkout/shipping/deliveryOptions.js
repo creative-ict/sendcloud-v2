@@ -2,26 +2,25 @@ define([
     'uiComponent',
     'ko',
     'Magento_Checkout/js/model/quote',
+    'Magento_Checkout/js/action/set-shipping-information',
+    'uiRegistry',
     'SendCloudCheckoutPluginUi'
-], function (Component, ko, quote) {
+], function (Component, ko, quote, setShippingInformationAction, registry) {
     'use strict';
+
+    var self = this,
+        deliveryOptions = ko.observable(false),
+        checkoutConfig = ko.observable(false);
 
     return Component.extend({
         defaults: {
             template: 'SendCloud_SendCloudV2/checkout/shipping/deliveryOptions'
         },
-        initObservable: function () {
-            this.selectedMethod = ko.computed(function () {
-                var method = quote.shippingMethod();
-                return method != null ? method.carrier_code + '_' + method.method_code : null;
-            }, this);
-            return this;
-        },
-        renderDeliveryOptions: function () {
-            const mountElement = document.querySelector('.sendcloud-delivery-options');
-            // TO DO: replace mock data
-            const locale = 'en-GB';
-            const deliveryMethod = {
+        options: {
+            mountElement: ko.observable(document.querySelector('.sendcloud-delivery-options')),
+            nominatedDayDelivery: ko.observable(false),
+            // TODO: implement checkoutConfig to replace deliveryMethod
+            deliveryMethod: {
                 "id": "1",
                 "delivery_method_type": "nominated_day_delivery",
                 "external_title": "External title",
@@ -93,9 +92,90 @@ define([
                     "saturday": null,
                     "sunday": null
                 }
+            },
+            locale: 'nl-NL'
+        },
+        deliveryOptionsData: deliveryOptions,
+        initialize: function (config) {
+            this._super();
+
+            checkoutConfig = config.checkoutConfig;
+
+            return this;
+        },
+        initObservable: function () {
+            this.selectedMethod = ko.computed(function () {
+                var method = quote.shippingMethod();
+                return method != null ? method.carrier_code + '_' + method.method_code : null;
+            }, this);
+
+            return this;
+        },
+        renderDeliveryOptions: function () {
+            this.getMountElement();
+
+            window.renderScShippingOption(this.options);
+
+            if (!this.nominatedDayDelivery) {
+                this.setDefaultData();
             }
 
-            window.renderScShippingOption({mountElement, deliveryMethod, locale});
+            this.options.mountElement.addEventListener('scShippingOptionChange', this.handleScShippingOptionChange.bind(this));
+        },
+        setDefaultData: function () {
+            var self = this,
+                selectedTimeItem = self.options.mountElement.querySelector('.sc-delivery-date-list__item--selected time');
+
+            self.nominatedDayDelivery = {
+                "delivery_date": selectedTimeItem.getAttribute('data-delivery-date'),
+                "formatted_delivery_date": selectedTimeItem.getAttribute('data-formatted-delivery-date'),
+                "processing_date": ""
+            }
+            self.setDeliveryOptionsData();
+        },
+        getMountElement: function () {
+            this.options.mountElement = document.querySelector('.sendcloud-delivery-options');
+        },
+        handleScShippingOptionChange: function (event) {
+            var self = this,
+                nominatedDayDelivery = event.detail.data.nominated_day_delivery;
+
+            if (nominatedDayDelivery) {
+                self.nominatedDayDelivery = nominatedDayDelivery;
+                self.setDeliveryOptionsData();
+            }
+        },
+        setDeliveryOptionsData: function () {
+            var self = this;
+            var result = {
+                "checkout_payload": {
+                    "shipping_product": {
+                        "code": this.options.deliveryMethod.shipping_product.code,
+                        "name": this.options.deliveryMethod.shipping_product.name,
+                        "selected_functionalities": this.options.deliveryMethod.shipping_product.selected_functionalities
+                    },
+                    "nominated_day_delivery": {
+                        "delivery_date": self.nominatedDayDelivery.delivery_date,
+                        "formatted_delivery_date": self.nominatedDayDelivery.formatted_delivery_date,
+                        "processing_date": ""
+                    }
+                }
+            }
+
+            self.deliveryOptionsData(result);
+            window.sessionStorage.setItem("sc-delivery-options-data", JSON.stringify(result));
+            self.setShippingInformation();
+
+            return result;
+        },
+        setShippingInformation: function () {
+            var shipping = registry.get('checkout.steps.shipping-step.shippingAddress'),
+                result;
+
+            result = shipping.validateShippingInformation();
+            if (result) {
+                setShippingInformationAction();
+            }
         }
     })
 });

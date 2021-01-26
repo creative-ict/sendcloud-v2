@@ -18,4 +18,14 @@ class Config extends Template
     {
         return $this->_scopeConfig->getValue('sendcloudv2/sendcloud/script_url', ScopeInterface::SCOPE_STORE);
     }
+
+    public function getIsActiveSCSkeleton()
+    {
+        return $this->_scopeConfig->getValue(
+            'carriers/sendcloudv2skeleton/active',
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+
 }

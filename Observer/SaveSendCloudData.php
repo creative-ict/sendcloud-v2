@@ -10,7 +10,7 @@ use Magento\Quote\Model\QuoteRepository;
  * Class SaveServicePointsData
  * @package SendCloud\SendCloudV2\Observer
  */
-class SaveServicePointsData implements ObserverInterface
+class SaveSendCloudData implements ObserverInterface
 {
     private $quoteRepository;
 
@@ -42,6 +42,7 @@ class SaveServicePointsData implements ObserverInterface
         $order->setSendcloudServicePointCity($quote->getSendcloudServicePointCity());
         $order->setSendcloudServicePointCountry($quote->getSendcloudServicePointCountry());
         $order->setSendcloudServicePointPostnumber($quote->getSendcloudServicePointPostnumber());
+        $order->setSendcloudCheckoutPayload($quote->getSendcloudCheckoutPayload());
 
         return $this;
     }

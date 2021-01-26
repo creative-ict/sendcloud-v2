@@ -1,9 +1,11 @@
 var config = {
     "map": {
         "*": {
-            'Magento_Checkout/js/model/shipping-save-processor/default': 'SendCloud_SendCloudV2/js/model/shipping-save-processor/servicepoint',
-            'Amasty_Checkout/js/model/shipping-save-processor/default': 'SendCloud_SendCloudV2/js/model/shipping-save-processor/amasty-servicepoint',
             'SendCloudCheckoutPluginUi': 'https://cdn.jsdelivr.net/npm/@sendcloud/checkout-plugin-ui@1.0.0',
+            'SendCloudV2RatesValidationRulesServicepoint' : 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/servicepoint',
+            'SendCloudV2RatesValidationRulesDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/deliveryoptions',
+            'SendCloudV2RatesValidatorServicepoint': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint',
+            'SendCloudV2RatesValidatorDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint'
         }
     },
     config: {
@@ -17,14 +19,8 @@ var config = {
             'Magento_Checkout/js/view/payment/default': {
                 'SendCloud_SendCloudV2/js/mixins/checkout/view/payment/default-mixin': true
             },
-            'Mageplaza_Osc/js/model/shipping-save-processor/checkout': {
-                'SendCloud_SendCloudV2/js/model/shipping-save-processor/mageplaza-servicepoint': true
-            },
-            'Mageplaza_Osc/js/view/review/placeOrder': {
-                'SendCloud_SendCloudV2/js/mixins/view/review/placeOrder': true
-            },
-            'Onestepcheckout_Iosc/js/shipping': {
-                'SendCloud_SendCloudV2/js/mixins/shipping': true
+            'Magento_Checkout/js/model/shipping-save-processor/payload-extender': {
+                'SendCloud_SendCloudV2/js/model/shipping-save-processor/payload-extender': true
             }
         }
     }

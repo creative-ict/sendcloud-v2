@@ -5,10 +5,8 @@ namespace SendCloud\SendCloudV2\Plugin;
 use Magento\Checkout\Api\Data\ShippingInformationInterface;
 use Magento\Checkout\Model\ShippingInformationManagement;
 use Magento\Framework\App\RequestInterface;
-use Magento\Quote\Api\Data\ShippingMethodInterface;
 use Magento\Quote\Model\QuoteRepository;
 use SendCloud\SendCloudV2\Helper\Checkout;
-use SendCloud\SendCloudV2\Logger\SendCloudLogger;
 
 /**
  * Class BeforeSaveShippingInformation
@@ -60,6 +58,11 @@ class BeforeSaveShippingInformation
     public function beforeSaveAddressInformation(ShippingInformationManagement $subject, $cartId, ShippingInformationInterface $addressInformation)
     {
         $extensionAttributes = $addressInformation->getExtensionAttributes();
+
+        if ($extensionAttributes != null ) {
+            $quote = $this->quoteRepository->getActive($cartId);
+            $quote->setSendcloudCheckoutPayload($extensionAttributes->getSendcloudCheckoutPayload());
+        }
 
         if ($this->helper->checkForScriptUrl() && $extensionAttributes != null && $this->helper->checkIfModuleIsActive()) {
             $spId = $extensionAttributes->getSendcloudServicePointId();

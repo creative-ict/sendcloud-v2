@@ -2,7 +2,7 @@ define(
     [
         'jquery',
         'mageUtils',
-        'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules',
+        'SendCloudV2RatesValidationRulesDeliveryoptions',
         'mage/translate'
     ],
     function ($, utils, validationRules, $t) {
@@ -15,7 +15,7 @@ define(
                 this.validationErrors = [];
                 $.each(validationRules.getRules(), function (field, rule) {
                     if (rule.required && utils.isEmpty(address[field])) {
-                        var message = $t('Field ') + field + $t(' is required.');
+                        var message = $('Field ') + field + $t(' is required.');
                         self.validationErrors.push(message);
                     }
                 });

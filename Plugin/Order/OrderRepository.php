@@ -7,6 +7,7 @@ use Magento\Sales\Api\Data\OrderExtensionFactory;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Magento\Sales\Model\OrderRepository as MagentoOrderRepository;
+use SendCloud\SendCloudV2\Api\Data\CheckoutPayloadInterface;
 
 /**
  * Class OrderRepository
@@ -79,6 +80,7 @@ class OrderRepository
             $extensionAttributes->setSendcloudServicePointCity($order->getSendcloudServicePointCity());
             $extensionAttributes->setSendcloudServicePointCountry($order->getSendcloudServicePointCountry());
             $extensionAttributes->setSendcloudServicePointPostnumber($order->getSendcloudServicePointPostnumber());
+            $extensionAttributes->setSendcloudCheckoutPayload($order->getSendcloudCheckoutPayload());
         } catch (NoSuchEntityException $e) {
             return $this;
         }

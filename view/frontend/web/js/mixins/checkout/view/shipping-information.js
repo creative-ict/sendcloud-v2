@@ -5,7 +5,7 @@ define([
 ], function($, ko, quote){
     'use strict';
     return function(c){
-        //if targetModule is a uiClass based objec
+        //if targetModule is a uiClass based object
         var self = this;
         return c.extend({
             defaults: {

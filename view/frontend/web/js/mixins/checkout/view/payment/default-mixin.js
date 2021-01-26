@@ -15,6 +15,7 @@ define([
             afterPlaceOrder: function () {
                 // Override this function and put after place order logic here
                 window.sessionStorage.removeItem("service-point-data");
+                window.sessionStorage.removeItem("sc-delivery-options-data");
             }
         });
     }
