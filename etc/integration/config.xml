@@ -1,7 +1,7 @@
 <integrations>
     <integration name="SendCloud">
         <email>info@sendcloud.com</email>
-        <endpoint_url>https://sendcloud241.magdev.creative-ct.nl/endpoint.php</endpoint_url>
-        <identity_link_url>https://sendcloud241.magdev.creative-ct.nl/login.php</identity_link_url>
+        <endpoint_url>https://panel.sendcloud.sc/shops/magento_v2/oauth/callback/</endpoint_url>
+        <identity_link_url>https://panel.sendcloud.sc/shops/magento_v2/oauth/identity-link/</identity_link_url>
     </integration>
 </integrations>

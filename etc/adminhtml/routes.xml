@@ -4,5 +4,8 @@
         <route id="sendcloudv2_exportrates" frontName="sendcloudv2_exportrates">
             <module name="SendCloud_SendCloudV2" before="Magento_Backend" />
         </route>
+        <route id="setup_integration" frontName="setup_integration">
+            <module name="SendCloud_SendCLoudV2" before="Magento_Backend"/>
+        </route>
     </router>
 </config>
