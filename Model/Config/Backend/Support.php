@@ -5,6 +5,7 @@ namespace SendCloud\SendCloudV2\Model\Config\Backend;
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Integration\Api\IntegrationServiceInterface;
 use SendCloud\SendCloudV2\Helper\Backend;
 
 
@@ -16,15 +17,23 @@ class Support extends Field
     public $backendHelper;
 
     /**
+     * @var IntegrationServiceInterface
+     */
+    protected $integrationService;
+
+    /**
      * @param Context $context
      * @param Backend $backendHelper
+     * @param IntegrationServiceInterface $integrationService
      */
     public function __construct(
         Context $context,
-        Backend $backendHelper
+        Backend $backendHelper,
+        IntegrationServiceInterface $integrationService
     ) {
         parent::__construct($context);
         $this->backendHelper = $backendHelper;
+        $this->integrationService = $integrationService;
     }
 
     /**
@@ -52,8 +61,9 @@ class Support extends Field
     protected function getCheckIntegration()
     {
         $integrationResult = '<br/>';
-        if (!extension_loaded('soap')) {
-            $integrationResult .= '<span style="color:red">SendCloud Integration is not activated!</span><br/>';
+        $integration = $this->integrationService->findByName('SendCloud');
+        if (!$integration->getId()) {
+            $integrationResult .= '<span style="color:red">SendCloud Integration is not installed!</span><br/>';
         }
 
         return $integrationResult;
