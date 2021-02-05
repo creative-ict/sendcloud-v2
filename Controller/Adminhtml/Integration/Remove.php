@@ -12,6 +12,9 @@ use Magento\Integration\Api\IntegrationServiceInterface;
 class Remove extends Action
 {
 
+    /**
+     * @var IntegrationServiceInterface
+     */
     protected $integrationService;
 
     public function __construct(
@@ -25,6 +28,7 @@ class Remove extends Action
 
     /**
      * @return ResponseInterface|Redirect|ResultInterface
+     * @throws \Exception
      */
     public function execute()
     {
