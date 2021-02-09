@@ -164,6 +164,7 @@ define([
 
             self.deliveryOptionsData(result);
             window.sessionStorage.setItem("sc-delivery-options-data", JSON.stringify(result));
+            // window.sessionStorage.setItem("sc-delivery-options-data", result);
             self.setShippingInformation();
 
             return result;

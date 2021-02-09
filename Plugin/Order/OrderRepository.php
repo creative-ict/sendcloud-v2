@@ -7,7 +7,7 @@ use Magento\Sales\Api\Data\OrderExtensionFactory;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Magento\Sales\Model\OrderRepository as MagentoOrderRepository;
-use SendCloud\SendCloudV2\Api\Data\CheckoutPayloadInterface;
+use SendCloud\SendCloudV2\Model\SendcloudCheckoutPayload;
 
 /**
  * Class OrderRepository
@@ -18,13 +18,20 @@ class OrderRepository
     /** @var OrderExtensionFactory */
     private $orderExtensionFactory;
 
+    /** @var SendcloudCheckoutPayload */
+    private $sendcloudCheckoutPayload;
+
     /**
      * OrderRepository constructor.
      * @param OrderExtensionFactory $orderExtensionFactory
+     * @param SendcloudCheckoutPayload $sendcloudCheckoutPayload
      */
-    public function __construct(OrderExtensionFactory $orderExtensionFactory)
-    {
+    public function __construct(
+        OrderExtensionFactory $orderExtensionFactory,
+        SendcloudCheckoutPayload $sendcloudCheckoutPayload
+    ){
         $this->orderExtensionFactory = $orderExtensionFactory;
+        $this->sendcloudCheckoutPayload = $sendcloudCheckoutPayload;
     }
 
     /**
@@ -35,7 +42,6 @@ class OrderRepository
     public function afterGet(MagentoOrderRepository $subject, OrderInterface $order)
     {
         $this->loadSendCloudExtensionAttributes($order);
-
         return $order;
     }
 
@@ -80,7 +86,21 @@ class OrderRepository
             $extensionAttributes->setSendcloudServicePointCity($order->getSendcloudServicePointCity());
             $extensionAttributes->setSendcloudServicePointCountry($order->getSendcloudServicePointCountry());
             $extensionAttributes->setSendcloudServicePointPostnumber($order->getSendcloudServicePointPostnumber());
-            $extensionAttributes->setSendcloudCheckoutPayload($order->getSendcloudCheckoutPayload());
+
+
+
+            // JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
+//            $data = json_decode($order->getSendcloudCheckoutPayload(), true);
+            //$data = json_decode($order->getSendcloudCheckoutPayload(), false,4, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+            //$data = json_decode($order->getSendcloudCheckoutPayload(), true,10, JSON_UNESCAPED_SLASHES);
+
+
+            $this->sendcloudCheckoutPayload->setSendcloudCheckoutPayload($order->getSendcloudCheckoutPayload());
+
+//            print_r($data);exit;
+            $extensionAttributes->setSendcloudCheckoutPayload($this->sendcloudCheckoutPayload);
+//
+//            $extensionAttributes->setSendcloudCheckoutPayload($order->getSendcloudCheckoutPayload());
         } catch (NoSuchEntityException $e) {
             return $this;
         }
