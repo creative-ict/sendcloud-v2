@@ -120,6 +120,7 @@ class OrderRepository
     {
         foreach ($orderCollection->getItems() as $order) {
             $this->loadSendCloudExtensionAttributes($order);
+            $this->getCheckoutPayload($order);
             $this->saveCheckoutPayload($order);
         }
 
