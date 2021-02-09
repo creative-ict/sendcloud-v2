@@ -13,7 +13,29 @@
         },
         "constraint": {
             "PRIMARY": true,
-            "UNQ_D8DHAGSD72O9FDHLA020ILKAHSDALDS8": true
+            "UNQ_D8DHAGSD72O9FDHLA020ILKAHSDALDS8": true,
+            "UNQ_D806CF5C0467AEF72EE56CBD3EBA93A8": true
+        }
+    },
+    "sendcloud_checkout_payload": {
+        "column": {
+            "entity_id": true,
+            "quote_id": true,
+            "checkout_payload": true,
+            "code": true,
+            "name": true,
+            "selected_functionalities": true,
+            "delivery_date": true,
+            "formatted_delivery_date": true,
+            "processing_date": true
+        },
+        "index": {
+            "SENDCLOUD_CHECKOUT_PAYLOAD_QUOTE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SENDCLOUD_CHECKOUT_PAYLOAD_ORDER_ID_SALES_QUOTE_ENTITY_ID": true,
+            "SENDCLOUD_CHECKOUT_PAYLOAD_QUOTE_ID_QUOTE_ENTITY_ID": true
         }
     }
 }

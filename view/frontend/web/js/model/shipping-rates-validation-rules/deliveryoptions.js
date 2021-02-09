@@ -3,7 +3,7 @@ define([], function () {
     return {
         getRules: function () {
             return {
-                'sendcloud_checkout_payload': {
+                'checkout_payload': {
                     'required': true
                 }
             }

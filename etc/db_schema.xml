@@ -31,13 +31,21 @@
             <column name="condition_value"/>
         </constraint>
     </table>
-    <table name="sales_order" resource="sales" comment="Sales Flat Order">
-        <column xsi:type="varchar" name="sendcloud_checkout_payload" nullable="true"/>
-    </table>
-    <table name="sales_order_grid" resource="sales" comment="Sales Flat Order Grid">
-        <column xsi:type="varchar" name="sendcloud_checkout_payload" nullable="true"/>
-    </table>
-    <table name="quote" resource="sales" comment="Sales Flat Quote">
-        <column xsi:type="varchar" name="sendcloud_checkout_payload" nullable="true"/>
+    <table name="sendcloud_checkout_payload" resource="default" engine="innodb" comment="SendCloud Checkout Payload">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
+        <column xsi:type="text" name="code" nullable="true" comment="Code"/>
+        <column xsi:type="text" name="name" nullable="true" comment="Name"/>
+        <column xsi:type="text" name="selected_functionalities" nullable="true" comment="Selected Functionalities"/>
+        <column xsi:type="text" name="delivery_date" nullable="true" comment="Delivery Date"/>
+        <column xsi:type="text" name="formatted_delivery_date" nullable="true" comment="Formatted Delivery Date"/>
+        <column xsi:type="text" name="processing_date" nullable="true" comment="Processing Date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="SENDCLOUD_CHECKOUT_PAYLOAD_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="SENDCLOUD_CHECKOUT_PAYLOAD_QUOTE_ID_SALES_ORDER_QUOTE_ID" table="sendcloud_checkout_payload" column="quote_id" referenceTable="quote" referenceColumn="entity_id" />
     </table>
 </schema>

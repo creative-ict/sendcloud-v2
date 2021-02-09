@@ -4,10 +4,23 @@ namespace SendCloud\SendCloudV2\Plugin\Order;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderExtensionFactory;
+use Magento\Sales\Api\Data\OrderExtensionInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Magento\Sales\Model\OrderRepository as MagentoOrderRepository;
-use SendCloud\SendCloudV2\Model\SendcloudCheckoutPayload;
+use SendCloud\SendCloudV2\Api\Data\CheckoutPayloadInterface;
+use SendCloud\SendCloudV2\Api\Data\NominatedDayDeliveryInterface;
+use SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface;
+use SendCloud\SendCloudV2\Api\Data\SendCloudDataInterface;
+use SendCloud\SendCloudV2\Api\Data\ShippingProductInterface;
+use SendCloud\SendCloudV2\Logger\SendCloudLogger;
+use SendCloud\SendCloudV2\Model\CheckoutPayloadBuilder;
+use SendCloud\SendCloudV2\Model\CheckoutPayloadFactory;
+use SendCloud\SendCloudV2\Model\NominatedDayDeliveryFactory;
+use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutPayload;
+use SendCloud\SendCloudV2\Model\SelectedFunctionalitiesFactory;
+use SendCloud\SendCloudV2\Model\SendCloudDataFactory;
+use SendCloud\SendCloudV2\Model\ShippingProductFactory;
 
 /**
  * Class OrderRepository
@@ -18,20 +31,70 @@ class OrderRepository
     /** @var OrderExtensionFactory */
     private $orderExtensionFactory;
 
-    /** @var SendcloudCheckoutPayload */
-    private $sendcloudCheckoutPayload;
+    /**
+     * @var CheckoutPayloadFactory
+     */
+    private $checkoutPayloadFactory;
+
+    /**
+     * @var CheckoutPayload
+     */
+    private $checkoutPayload;
+
+    /**
+     * @var CheckoutPayloadBuilder
+     */
+    private $checkoutPayloadBuilder;
+
+    /**
+     * @var ShippingProductFactory
+     */
+    private $shippingProductFactory;
+
+    /**
+     * @var SendCloudDataFactory
+     */
+    private $sendCloudDataFactory;
+
+    /**
+     * @var SelectedFunctionalitiesFactory
+     */
+    private $selectedFunctionalitiesFactory;
+
+    /**
+     * @var NominatedDayDeliveryFactory
+     */
+    private $nominatedFactory;
 
     /**
      * OrderRepository constructor.
      * @param OrderExtensionFactory $orderExtensionFactory
-     * @param SendcloudCheckoutPayload $sendcloudCheckoutPayload
+     * @param CheckoutPayloadFactory $checkoutPayloadFactory
+     * @param CheckoutPayload $checkoutPayload
+     * @param ShippingProductFactory $shippingProductFactory
+     * @param SendCloudDataFactory $sendCloudDataFactory
+     * @param SelectedFunctionalitiesFactory $selectedFunctionalitiesFactory
+     * @param NominatedDayDeliveryFactory $nominatedDayDeliveryFactory
+     * @param SendCloudLogger $logger
      */
     public function __construct(
         OrderExtensionFactory $orderExtensionFactory,
-        SendcloudCheckoutPayload $sendcloudCheckoutPayload
+        CheckoutPayloadFactory $checkoutPayloadFactory,
+        CheckoutPayload $checkoutPayload,
+        ShippingProductFactory $shippingProductFactory,
+        SendCloudDataFactory $sendCloudDataFactory,
+        SelectedFunctionalitiesFactory $selectedFunctionalitiesFactory,
+        NominatedDayDeliveryFactory $nominatedDayDeliveryFactory,
+        SendCloudLogger $logger
     ){
         $this->orderExtensionFactory = $orderExtensionFactory;
-        $this->sendcloudCheckoutPayload = $sendcloudCheckoutPayload;
+        $this->checkoutPayloadFactory = $checkoutPayloadFactory;
+        $this->checkoutPayload = $checkoutPayload;
+        $this->shippingProductFactory = $shippingProductFactory;
+        $this->sendCloudDataFactory = $sendCloudDataFactory;
+        $this->selectedFunctionalitiesFactory = $selectedFunctionalitiesFactory;
+        $this->nominatedFactory = $nominatedDayDeliveryFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -42,6 +105,9 @@ class OrderRepository
     public function afterGet(MagentoOrderRepository $subject, OrderInterface $order)
     {
         $this->loadSendCloudExtensionAttributes($order);
+        $this->getCheckoutPayload($order);
+        $this->saveCheckoutPayload($order);
+
         return $order;
     }
 
@@ -54,9 +120,41 @@ class OrderRepository
     {
         foreach ($orderCollection->getItems() as $order) {
             $this->loadSendCloudExtensionAttributes($order);
+            $this->saveCheckoutPayload($order);
         }
 
         return $orderCollection;
+    }
+
+    /**
+     * @param OrderInterface $order
+     * @return OrderInterface
+     */
+    private function getCheckoutPayload(OrderInterface $order)
+    {
+        try {
+            /** @var CheckoutPayloadInterface $checkoutPayloadModel */
+            $checkoutPayloadModel = $this->checkoutPayloadFactory->create();
+
+            /** @var SendCloudDataInterface $sendCloudData */
+            $sendCloudData = $this->sendCloudDataFactory->create();
+            $checkoutPayloadId = $this->checkoutPayload->getIdByQuoteId($order->getQuoteId());
+            $this->checkoutPayload->load($checkoutPayloadModel, $checkoutPayloadId);
+            $sendCloudData->setCheckoutPayload($checkoutPayloadModel);
+            if (!$checkoutPayloadModel->getEntityId()) {
+                throw new NoSuchEntityException();
+            }
+        } catch (NoSuchEntityException $e) {
+            return $order;
+        }
+
+        $extensionAttributes = $order->getExtensionAttributes();
+        $orderExtension = $extensionAttributes ? $extensionAttributes : $this->orderExtensionFactory->create();
+
+        $orderExtension->setSendcloudData($sendCloudData);
+        $order->setExtensionAttributes($orderExtension);
+
+        return $order;
     }
 
     /**
@@ -86,23 +184,60 @@ class OrderRepository
             $extensionAttributes->setSendcloudServicePointCity($order->getSendcloudServicePointCity());
             $extensionAttributes->setSendcloudServicePointCountry($order->getSendcloudServicePointCountry());
             $extensionAttributes->setSendcloudServicePointPostnumber($order->getSendcloudServicePointPostnumber());
-
-
-
-            // JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
-//            $data = json_decode($order->getSendcloudCheckoutPayload(), true);
-            //$data = json_decode($order->getSendcloudCheckoutPayload(), false,4, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
-            //$data = json_decode($order->getSendcloudCheckoutPayload(), true,10, JSON_UNESCAPED_SLASHES);
-
-
-            $this->sendcloudCheckoutPayload->setSendcloudCheckoutPayload($order->getSendcloudCheckoutPayload());
-
-//            print_r($data);exit;
-            $extensionAttributes->setSendcloudCheckoutPayload($this->sendcloudCheckoutPayload);
-//
-//            $extensionAttributes->setSendcloudCheckoutPayload($order->getSendcloudCheckoutPayload());
         } catch (NoSuchEntityException $e) {
             return $this;
         }
+    }
+
+    public function afterSave(MagentoOrderRepository $subject, OrderInterface $order)
+    {
+        $order = $this->saveCheckoutPayload($order);
+
+        return $order;
+    }
+
+    private function saveCheckoutPayload(OrderInterface $order)
+    {
+        /** @var OrderExtensionInterface $extensionAttributes */
+        $extensionAttributes = $order->getExtensionAttributes();
+
+        if ($extensionAttributes === null) {
+            $extensionAttributes = $this->orderExtensionFactory->create();
+        } elseif ($extensionAttributes->getSendcloudData() !== null) {
+            $checkoutPayloadModel = $this->checkoutPayloadFactory->create();
+            $checkoutPayloadId = $this->checkoutPayload->getIdByQuoteId($order->getQuoteId());
+            $this->checkoutPayload->load($checkoutPayloadModel, $checkoutPayloadId);
+
+            /** @var SelectedFunctionalitiesInterface $selectedFunctionalities */
+            $selectedFunctionalities = $this->selectedFunctionalitiesFactory->create();
+            $data = json_decode($checkoutPayloadModel->getSelectedFunctionalities());
+            $selectedFunctionalities->setSignature($data->signature);
+
+            /** @var ShippingProductInterface $shippingProduct */
+            $shippingProduct = $this->shippingProductFactory->create();
+            $shippingProduct->setCode($checkoutPayloadModel->getCode());
+            $shippingProduct->setName($checkoutPayloadModel->getName());
+            $shippingProduct->setSelectedFunctionalities($selectedFunctionalities);
+
+            /** @var NominatedDayDeliveryInterface $nominatedDay */
+            $nominatedDay = $this->nominatedFactory->create();
+            $nominatedDay->setDeliveryDate($checkoutPayloadModel->getDeliveryDate());
+            $nominatedDay->setFormattedDeliveryDate($checkoutPayloadModel->getFormattedDeliveryDate());
+            $nominatedDay->setProcessingDate($checkoutPayloadModel->getProcessingDate());
+
+            /** @var CheckoutPayloadInterface $sendcloudCheckoutPayload */
+            $sendcloudCheckoutPayload = $this->checkoutPayloadFactory->create();
+            $sendcloudCheckoutPayload->setShippingProduct($shippingProduct);
+            $sendcloudCheckoutPayload->setNominatedDayDelivery($nominatedDay);
+
+            /** @var SendCloudDataInterface $sendCloudData */
+            $sendCloudData = $this->sendCloudDataFactory->create();
+            $sendCloudData->setCheckoutPayload($sendcloudCheckoutPayload);
+
+            $extensionAttributes->setSendcloudData($sendCloudData);
+            $order->setExtensionAttributes($extensionAttributes);
+        }
+
+        return $order;
     }
 }

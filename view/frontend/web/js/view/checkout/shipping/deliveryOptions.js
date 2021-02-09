@@ -31,7 +31,9 @@ define([
                 "shipping_product": {
                     "code": "ups:standard",
                     "name": "UPS Standard",
-                    "selected_functionalities": {},
+                    "selected_functionalities": {
+                        "signature": true
+                    },
                     "carrier_delivery_days": {
                         "monday": null,
                         "tuesday": {
@@ -125,11 +127,10 @@ define([
         setDefaultData: function () {
             var self = this,
                 selectedTimeItem = self.options.mountElement.querySelector('.sc-delivery-date-list__item--selected time');
-
             self.nominatedDayDelivery = {
                 "delivery_date": selectedTimeItem.getAttribute('data-delivery-date'),
                 "formatted_delivery_date": selectedTimeItem.getAttribute('data-formatted-delivery-date'),
-                "processing_date": ""
+                "processing_date": selectedTimeItem.getAttribute('data-parcel-handover-date')
             }
             self.setDeliveryOptionsData();
         },
@@ -146,23 +147,28 @@ define([
             }
         },
         setDeliveryOptionsData: function () {
-            var self = this;
+            var self = this,
+                selectedTimeItem = self.options.mountElement.querySelector('.sc-delivery-date-list__item--selected time'),
+                selectedFunctionalities = this.options.deliveryMethod.shipping_product.selected_functionalities,
+                shipping_product = {
+                    "code": this.options.deliveryMethod.shipping_product.code,
+                    "name": this.options.deliveryMethod.shipping_product.name
+                };
             var result = {
                 "checkout_payload": {
-                    "shipping_product": {
-                        "code": this.options.deliveryMethod.shipping_product.code,
-                        "name": this.options.deliveryMethod.shipping_product.name,
-                        "selected_functionalities": this.options.deliveryMethod.shipping_product.selected_functionalities
-                    },
+                    shipping_product,
                     "nominated_day_delivery": {
-                        "delivery_date": self.nominatedDayDelivery.delivery_date,
-                        "formatted_delivery_date": self.nominatedDayDelivery.formatted_delivery_date,
-                        "processing_date": ""
+                        "delivery_date": selectedTimeItem.getAttribute('data-delivery-date'),
+                        "formatted_delivery_date": selectedTimeItem.getAttribute('data-formatted-delivery-date'),
+                        "processing_date": selectedTimeItem.getAttribute('data-parcel-handover-date')
                     }
                 }
             }
 
+            result.checkout_payload.shipping_product['selected_functionalities'] = selectedFunctionalities;
+
             self.deliveryOptionsData(result);
+
             window.sessionStorage.setItem("sc-delivery-options-data", JSON.stringify(result));
             // window.sessionStorage.setItem("sc-delivery-options-data", result);
             self.setShippingInformation();

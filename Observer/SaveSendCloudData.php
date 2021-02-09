@@ -42,7 +42,6 @@ class SaveSendCloudData implements ObserverInterface
         $order->setSendcloudServicePointCity($quote->getSendcloudServicePointCity());
         $order->setSendcloudServicePointCountry($quote->getSendcloudServicePointCountry());
         $order->setSendcloudServicePointPostnumber($quote->getSendcloudServicePointPostnumber());
-        $order->setSendcloudCheckoutPayload($quote->getSendcloudCheckoutPayload());
 
         return $this;
     }

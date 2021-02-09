@@ -7,6 +7,9 @@ use Magento\Checkout\Model\ShippingInformationManagement;
 use Magento\Framework\App\RequestInterface;
 use Magento\Quote\Model\QuoteRepository;
 use SendCloud\SendCloudV2\Helper\Checkout;
+use SendCloud\SendCloudV2\Model\CheckoutPayloadBuilder;
+use SendCloud\SendCloudV2\Model\CheckoutPayloadFactory;
+use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutPayload;
 
 /**
  * Class BeforeSaveShippingInformation
@@ -30,20 +33,42 @@ class BeforeSaveShippingInformation
     private $helper;
 
     /**
+     * @var CheckoutPayloadFactory
+     */
+    private $checkoutPayloadFactory;
+
+    /**
+     * @var CheckoutPayload
+     */
+    private $checkoutPayload;
+
+    /**
+     * @var CheckoutPayloadBuilder
+     */
+    private $checkoutPayloadBuilder;
+
+
+    /**
      * BeforeSaveShippingInformation constructor.
      * @param RequestInterface $request
      * @param QuoteRepository $quoteRepository
      * @param Checkout $helper
+     * @param CheckoutPayloadFactory $checkoutPayloadFactory
+     * @param CheckoutPayload $checkoutPayload
      */
     public function __construct(
         RequestInterface $request,
         QuoteRepository $quoteRepository,
-        Checkout $helper
+        Checkout $helper,
+        CheckoutPayloadFactory $checkoutPayloadFactory,
+        CheckoutPayload $checkoutPayload
     )
     {
         $this->request = $request;
         $this->quoteRepository = $quoteRepository;
         $this->helper = $helper;
+        $this->checkoutPayloadFactory = $checkoutPayloadFactory;
+        $this->checkoutPayload = $checkoutPayload;
     }
 
     /**
@@ -58,10 +83,29 @@ class BeforeSaveShippingInformation
     public function beforeSaveAddressInformation(ShippingInformationManagement $subject, $cartId, ShippingInformationInterface $addressInformation)
     {
         $extensionAttributes = $addressInformation->getExtensionAttributes();
-
         if ($extensionAttributes != null ) {
             $quote = $this->quoteRepository->getActive($cartId);
-            $quote->setSendcloudCheckoutPayload($extensionAttributes->getSendcloudCheckoutPayload());
+
+            $checkoutPayload = $extensionAttributes->getSendcloudData()->getCheckoutPayload();
+            $sendcloudCheckoutPayload = [$checkoutPayload->getCheckoutPayload()];
+
+            $shippingProduct = $checkoutPayload->getShippingProduct();
+            $nominatedDayDelivery = $checkoutPayload->getNominatedDayDelivery();
+
+            $checkoutPayloadModel = $this->checkoutPayloadFactory->create();
+            $checkoutPayload = $this->getCheckoutPayloadBuilderDependency();
+            $checkoutPayload->setOrderId($quote->getEntityId());
+
+            $checkoutPayloadModel->setQuoteId($quote->getEntityId());
+            $checkoutPayloadModel->setCode($shippingProduct->getCode());
+            $checkoutPayloadModel->setName($shippingProduct->getName());
+            $checkoutPayloadModel->setSelectedFunctionalities(json_encode($shippingProduct->getSelectedFunctionalities()->getData()));
+            $checkoutPayloadModel->setDeliveryDate($nominatedDayDelivery->getDeliveryDate());
+            $checkoutPayloadModel->setFormattedDeliveryDate($nominatedDayDelivery->getFormattedDeliveryDate());
+            $checkoutPayloadModel->setProcessingDate($nominatedDayDelivery->getProcessingDate());
+
+            $this->checkoutPayload->save($checkoutPayloadModel);
+            $quote->setSendcloudCheckoutPayload(json_encode($sendcloudCheckoutPayload));
         }
 
         if ($this->helper->checkForScriptUrl() && $extensionAttributes != null && $this->helper->checkIfModuleIsActive()) {
@@ -84,5 +128,18 @@ class BeforeSaveShippingInformation
             $quote->setSendcloudServicePointCountry($spCountry);
             $quote->setSendcloudServicePointPostnumber($spPostnumber);
         }
+    }
+
+    /**
+     * @return CheckoutPayloadBuilder
+     */
+    private function getCheckoutPayloadBuilderDependency()
+    {
+        if (!$this->checkoutPayloadBuilder instanceof CheckoutPayloadBuilder) {
+            $this->checkoutPayloadBuilder = \Magento\Framework\App\ObjectManager::getInstance()->get(
+                CheckoutPayloadBuilder::class
+            );
+        }
+        return $this->checkoutPayloadBuilder;
     }
 }

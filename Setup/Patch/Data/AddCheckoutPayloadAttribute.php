@@ -65,7 +65,6 @@ class AddCheckoutPayloadAttribute implements DataPatchInterface
             'sendcloud_checkout_payload',
             [
                 'type' => Table::TYPE_TEXT,
-                'length' => 255,
                 'nullable' => true,
                 'comment' => 'SendCloud Checkout Payload'
             ]

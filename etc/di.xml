@@ -4,6 +4,12 @@
     <preference for="SendCloud\SendCloudV2\Api\SettingsInterface" type="SendCloud\SendCloudV2\Model\Settings"/>
     <preference for="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" type="SendCloud\SendCloudV2\Model\CheckoutManagement"/>
     <preference for="SendCloud\SendCloudV2\Api\PluginInterface" type="SendCloud\SendCloudV2\Model\Plugin"/>
+    <preference for="SendCloud\SendCloudV2\Api\Data\CheckoutPayloadInterface" type="SendCloud\SendCloudV2\Model\CheckoutPayload"/>
+    <preference for="SendCloud\SendCloudV2\Api\CheckoutPayloadRepositoryInterface" type="SendCloud\SendCloudV2\Model\CheckoutPayloadRepository"/>
+    <preference for="SendCloud\SendCloudV2\Api\Data\ShippingProductInterface" type="SendCloud\SendCloudV2\Model\ShippingProduct"/>
+    <preference for="SendCloud\SendCloudV2\Api\Data\NominatedDayDeliveryInterface" type="SendCloud\SendCloudV2\Model\NominatedDayDelivery"/>
+    <preference for="SendCloud\SendCloudV2\Api\Data\SendCloudDataInterface" type="SendCloud\SendCloudV2\Model\SendCloudData"/>
+    <preference for="SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface" type="SendCloud\SendCloudV2\Model\SelectedFunctionalities"/>
 
     <type name="SendCloud\SendCloudV2\Logger\SendCloudHandler">
         <arguments>
@@ -45,9 +51,5 @@
             </argument>
         </arguments>
     </virtualType>
-
-    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
-        <plugin name="SendCloud_SendCloudV2::AddOrderItemExtensionAttribute" type="SendCloud\SendCloudV2\Plugin\Order\OrderItemRepository"/>
-    </type>
 
 </config>
