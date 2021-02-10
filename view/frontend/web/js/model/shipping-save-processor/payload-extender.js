@@ -13,7 +13,7 @@ define([
             payload = originalAction(payload);
 
             if (methodCode === 'sendcloudv2skeleton') {
-                var checkoutPayload = JSON.parse(window.sessionStorage.getItem('sc-delivery-options-data'));
+                var checkoutPayload = JSON.parse(window.checkoutConfig.scDeliveryOptionsData);
                 payload.addressInformation['extension_attributes']['sendcloud_data'] = checkoutPayload;
             } else if (methodCode === 'sendcloudv2servicepoint') {
                 var sendCloudAttributes;

@@ -59,11 +59,11 @@ define([
             }
         },
         sessionData: function() {
-            var serviceObject = JSON.parse(window.sessionStorage.getItem('service-point-data'));
-
-            this.servicePoint(serviceObject);
-
-            return serviceObject;
+            if (window.checkoutConfig.servicePointData !== undefined) {
+                var serviceObject = JSON.parse(window.checkoutConfig.servicePointData);
+                this.servicePoint(serviceObject);
+                return serviceObject;
+            }
         },
         openSendCloudMap: function (e) {
             var zipCode = $('[name="postcode"]').val(),
@@ -130,7 +130,7 @@ define([
 
                     self.servicePoint(sessionData);
 
-                    window.sessionStorage.setItem("service-point-data", JSON.stringify(sessionData));
+                    window.checkoutConfig.servicePointData = JSON.stringify(sessionData);
 
                     var shipping = registry.get('checkout.steps.shipping-step.shippingAddress'),
                         result;

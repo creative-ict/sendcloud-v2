@@ -168,11 +168,8 @@ define([
             result.checkout_payload.shipping_product['selected_functionalities'] = selectedFunctionalities;
 
             self.deliveryOptionsData(result);
-
-            window.sessionStorage.setItem("sc-delivery-options-data", JSON.stringify(result));
-            // window.sessionStorage.setItem("sc-delivery-options-data", result);
+            window.checkoutConfig.scDeliveryOptionsData = JSON.stringify(result);
             self.setShippingInformation();
-
             return result;
         },
         setShippingInformation: function () {
