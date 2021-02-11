@@ -31,7 +31,7 @@
         </resources>
     </route>
     <route url="/V1/service-point" method="POST">
-        <service class="SendCloud\SendCloud\Api\ServicePointInterface" method="activate"/>
+        <service class="SendCloud\SendCloudV2\Api\ServicePointInterface" method="activate"/>
         <resources>
             <resource ref="Magento_Sales::sales"/>
         </resources>
