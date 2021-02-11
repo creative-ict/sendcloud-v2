@@ -24,4 +24,16 @@
             <resource ref="self"/>
         </resources>
     </route>
+    <route url="/V1/service-point" method="DELETE">
+        <service class="SendCloud\SendCloudV2\Api\ServicePointInterface" method="deactivate"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
+    <route url="/V1/service-point" method="POST">
+        <service class="SendCloud\SendCloud\Api\ServicePointInterface" method="activate"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
 </routes>
