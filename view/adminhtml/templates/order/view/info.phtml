@@ -4,11 +4,22 @@
  * See COPYING.txt for license details.
  */
 
+use Magento\Framework\Escaper;
+use Magento\Shipping\Block\Adminhtml\View;
+use SendCloud\SendCloudV2\ViewModel\SendCloudData;
+
 // @codingStandardsIgnoreFile
 
 ?>
-<?php /** @var $block \Magento\Shipping\Block\Adminhtml\View */ ?>
-<?php $order = $block->getOrder() ?>
+<?php
+/** @var $block View */
+/** @var $escaper Escaper */
+/** @var $sendCloudData SendCloudData */
+
+$order = $block->getOrder();
+$sendCloudData = $block->getData('sendcloudData');
+$checkoutPayload = $sendCloudData->getSendCloudData($order->getQuoteId());
+?>
 <?php if ($order->getIsVirtual()) :
     return '';
 endif; ?>
@@ -34,7 +45,7 @@ endif; ?>
         <?php endif; ?>
         <?php if ($order->getShippingDescription()) : ?>
             <p>
-                <strong><?= /* @escapeNotVerified */ $block->escapeHtml($order->getShippingDescription()) ?></strong>
+                <strong><?= /* @escapeNotVerified */ $escaper->escapeHtml($order->getShippingDescription()) ?></strong>
 
                 <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()) : ?>
                     <?php $_excl = $block->displayShippingPriceInclTax($order); ?>
@@ -49,6 +60,15 @@ endif; ?>
                 <?php endif; ?>
             </p>
         <?php //TODO: SC-19: Use the getSendCloudData() container to store the data ?>
+
+        <?php if ($checkoutPayload->getEntityId()) : ?>
+            <div class="sendcloud-data">
+                <strong><?= $escaper->escapeHtml(__('SendCloud Data')) ?></strong>
+                <div><?= $checkoutPayload->getName() ?></div>
+                <div><?= $escaper->escapeHtml(__('Delivery Date')) ?>: <?= $checkoutPayload->getFormattedDeliveryDate() ?></div>
+            </div>
+        <?php endif; ?>
+
         <?php if ($order->getSendCloudData() != null) : ?>
             <?php if ($order->getSendCloudData()->getSendcloudServicePointId() > 0) : ?>
                 <div class="service-point-information">
@@ -62,18 +82,6 @@ endif; ?>
                 </div>
             <?php endif; ?>
 
-
-            <?php if ($order->getSendCloudData()->getSendcloudServicePointId() > 0) : ?>
-                <div class="service-point-information">
-                    <strong><?= __('Service Point') ?></strong>
-                    <address>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointName() ?><br>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointStreet() ?> <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointHouseNumber() ?><br>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointZipCode() ?>  <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointCity() ?><br>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointPostnumber()?>
-                    </address>
-                </div>
-            <?php endif; ?>
         <?php endif; ?>
 
         <?php else : ?>

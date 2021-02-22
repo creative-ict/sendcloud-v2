@@ -1,8 +1,9 @@
 define([
     'jquery',
     'knockout',
-    'Magento_Checkout/js/model/quote'
-], function($, ko, quote){
+    'Magento_Checkout/js/model/quote',
+    'SendCloudData'
+], function($, ko, quote, sendCloudData){
     'use strict';
     return function(c){
         //if targetModule is a uiClass based object
@@ -23,9 +24,20 @@ define([
                 return this;
             },
             getServicePointInformation: function(){
-                var address = JSON.parse(window.checkoutConfig.servicePointData);
+                var address = window.checkoutConfig.servicePointData;
 
-                return address;
+                if (address) {
+                    return JSON.parse(address);
+                }
+            },
+            getFormattedSendCloudData: function () {
+                if (sendCloudData().getSendCloudData()) {
+                    return {
+                        name: sendCloudData().getName(),
+                        date: sendCloudData().getDeliveryDate()
+                    }
+                }
+                return false;
             }
         });
     };

@@ -11,6 +11,8 @@
     <preference for="SendCloud\SendCloudV2\Api\Data\SendCloudDataInterface" type="SendCloud\SendCloudV2\Model\SendCloudData"/>
     <preference for="SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface" type="SendCloud\SendCloudV2\Model\SelectedFunctionalities"/>
 
+    <preference for="Magento\Sales\Block\Order\Info" type="SendCloud\SendCloudV2\Block\Order\Info"/>
+
     <type name="SendCloud\SendCloudV2\Logger\SendCloudHandler">
         <arguments>
             <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
