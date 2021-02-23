@@ -78,6 +78,10 @@ class AddSendCloudVariable implements ObserverInterface
         return $checkoutPayloadModel;
     }
 
+    /**
+     * @param $transportObject
+     * @param $sendCloudData
+     */
     private function getDeliveryOptionsVariables($transportObject, $sendCloudData)
     {
         $transportObject['sc_delivery_id'] = $sendCloudData->getEntityId();
