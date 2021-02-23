@@ -4,88 +4,86 @@
  * See COPYING.txt for license details.
  */
 
-use Magento\Framework\Escaper;
-use Magento\Shipping\Block\Adminhtml\View;
-use SendCloud\SendCloudV2\ViewModel\SendCloudData;
+/**
+ * @var $block \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ * @var \Magento\Framework\Escaper $escaper
+ */
 
-// @codingStandardsIgnoreFile
+/** @var \Magento\Shipping\Helper\Data $shippingHelper */
 
+use Magento\Sales\Api\Data\OrderExtensionInterface;
+
+$shippingHelper = $block->getData('shippingHelper');
+/** @var \Magento\Tax\Helper\Data $taxHelper */
+$taxHelper = $block->getData('taxHelper');
 ?>
+<?php $order = $block->getOrder() ?>
 <?php
-/** @var $block View */
-/** @var $escaper Escaper */
-/** @var $sendCloudData SendCloudData */
-
-$order = $block->getOrder();
-$sendCloudData = $block->getData('sendcloudData');
-$checkoutPayload = $sendCloudData->getSendCloudData($order->getQuoteId());
+/** @var OrderExtensionInterface $extensionAttributes */
+$extensionAttributes = $order->getExtensionAttributes();
 ?>
-<?php if ($order->getIsVirtual()) :
+<?php if ($order->getIsVirtual()):
     return '';
 endif; ?>
 
 <?php /* Shipping Method */ ?>
 <div class="admin__page-section-item order-shipping-method">
     <div class="admin__page-section-item-title">
-        <span class="title"><?= /* @escapeNotVerified */ __('Shipping &amp; Handling Information') ?></span>
+        <span class="title"><?= $escaper->escapeHtml(__('Shipping &amp; Handling Information')) ?></span>
     </div>
     <div class="admin__page-section-item-content">
-        <?php  if ($order->getTracksCollection()->count()) : ?>
+        <?php  if ($order->getTracksCollection()->count()): ?>
             <p>
-                <a href="#"
-                   id="linkId"
-                   onclick="popWin(
-                       '<?= /* @escapeNotVerified */ $this->helper('Magento\Shipping\Helper\Data')
-                                                                ->getTrackingPopupUrlBySalesModel($order) ?>'
-                       ,'trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"
-                   title="<?= /* @escapeNotVerified */ __('Track Order') ?>">
-                    <?= /* @escapeNotVerified */ __('Track Order') ?>
+                <a href="#" id="linkId" title="<?= $escaper->escapeHtmlAttr(__('Track Order')) ?>">
+                    <?= $escaper->escapeHtml(__('Track Order')) ?>
                 </a>
             </p>
+            <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+                'onclick',
+                "popWin('" . $escaper->escapeJs($shippingHelper->getTrackingPopupUrlBySalesModel($order)) .
+                "','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')",
+                'a#linkId'
+            ) ?>
         <?php endif; ?>
-        <?php if ($order->getShippingDescription()) : ?>
-            <p>
-                <strong><?= /* @escapeNotVerified */ $escaper->escapeHtml($order->getShippingDescription()) ?></strong>
+        <?php if ($order->getShippingDescription()): ?>
+            <strong><?= $escaper->escapeHtml($order->getShippingDescription()) ?></strong>
 
-                <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()) : ?>
-                    <?php $_excl = $block->displayShippingPriceInclTax($order); ?>
-                <?php else : ?>
-                    <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
-                <?php endif; ?>
-                <?php $_incl = $block->displayShippingPriceInclTax($order); ?>
+            <?php if ($taxHelper->displayShippingPriceIncludingTax()): ?>
+                <?php $_excl = $block->displayShippingPriceInclTax($order); ?>
+            <?php else: ?>
+                <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
+            <?php endif; ?>
+            <?php $_incl = $block->displayShippingPriceInclTax($order); ?>
 
-                <?= /* @escapeNotVerified */ $_excl ?>
-                <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl) : ?>
-                    (<?= /* @escapeNotVerified */ __('Incl. Tax') ?> <?= /* @escapeNotVerified */ $_incl ?>)
-                <?php endif; ?>
-            </p>
-        <?php //TODO: SC-19: Use the getSendCloudData() container to store the data ?>
-
-        <?php if ($checkoutPayload->getEntityId()) : ?>
-            <div class="sendcloud-data">
-                <strong><?= $escaper->escapeHtml(__('SendCloud Data')) ?></strong>
-                <div><?= $checkoutPayload->getName() ?></div>
-                <div><?= $escaper->escapeHtml(__('Delivery Date')) ?>: <?= $checkoutPayload->getFormattedDeliveryDate() ?></div>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($order->getSendCloudData() != null) : ?>
-            <?php if ($order->getSendCloudData()->getSendcloudServicePointId() > 0) : ?>
-                <div class="service-point-information">
-                    <strong><?= __('Service Point') ?></strong>
-                    <address>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointName() ?><br>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointStreet() ?> <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointHouseNumber() ?><br>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointZipCode() ?>  <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointCity() ?><br>
-                        <?= /* @escapeNotVerified */ $order->getSendCloudData()->getSendcloudServicePointPostnumber()?>
-                    </address>
-                </div>
+            <?= /** @noEscape */ $_excl ?>
+            <?php if ($taxHelper->displayShippingBothPrices() && $_incl != $_excl): ?>
+                (<?= $escaper->escapeHtml(__('Incl. Tax')) ?> <?= /** @noEscape */ $_incl ?>)
             <?php endif; ?>
 
-        <?php endif; ?>
-
-        <?php else : ?>
-            <?= /* @escapeNotVerified */ __('No shipping information available') ?>
+            <?php if ($extensionAttributes != null) : ?>
+                <?php if ($extensionAttributes->getSendcloudData()) : ?>
+                    <?php $sendCloudData = $extensionAttributes->getSendcloudData(); ?>
+                    <div class="sendcloud-data">
+                        <strong><?= $escaper->escapeHtml(__('SendCloud Data')) ?></strong>
+                        <div><?= $escaper->escapeHtml($sendCloudData->getCheckoutPayload()->getShippingProduct()->getName()) ?></div>
+                        <div><?= $escaper->escapeHtml($sendCloudData->getCheckoutPayload()->getNominatedDayDelivery()->getFormattedDeliveryDate()) ?></div>
+                    </div>
+                <?php endif; ?>
+                <?php if ($extensionAttributes->getSendcloudServicePointId() > 0) : ?>
+                    <div class="service-point-information">
+                        <strong><?= $escaper->escapeHtml(__('Service Point')) ?></strong>
+                        <address>
+                            <?= $escaper->escapeHtml($extensionAttributes->getSendcloudServicePointName()) ?><br>
+                            <?= $escaper->escapeHtml($extensionAttributes->getSendcloudServicePointStreet()) ?> <?= $escaper->escapeHtml($extensionAttributes->getSendcloudServicePointHouseNumber()) ?><br>
+                            <?= $escaper->escapeHtml($extensionAttributes->getSendcloudServicePointZipCode()) ?>  <?= $escaper->escapeHtml($extensionAttributes->getSendcloudServicePointCity()) ?><br>
+                            <?= $escaper->escapeHtml($extensionAttributes->getSendcloudServicePointPostnumber()) ?>
+                        </address>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php else: ?>
+            <?= $escaper->escapeHtml(__('No shipping information available')) ?>
         <?php endif; ?>
     </div>
 </div>
