@@ -25,8 +25,10 @@ use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackFactory;
 use Psr\Log\LoggerInterface;
-use SendCloud\SendCloudV2\Helper\Checkout;
+use SendCloud\SendCloudV2\Helper\Backend;
 use SendCloud\SendCloudV2\Model\ResourceModel\Carrier\ServicepointrateFactory;
+use SendCloud\SendCloudV2\Logger\SendCloudLogger;
+use SendCloud\SendCloudV2\Helper\Checkout;
 
 class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInterface
 {
@@ -58,13 +60,16 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
     /** @var ResultFactory */
     private $_rateResultFactory;
 
+    /** @var SendCloudLogger */
+    private $sendCloudLogger;
+
     /**
      * @var ItemPriceCalculator
      */
     private $itemPriceCalculator;
 
     /**
-     * @var Checkout
+     * @var Backend
      */
     private $helper;
 
@@ -87,6 +92,7 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
      * @param StockRegistryInterface $stockRegistry
      * @param ItemPriceCalculator $itemPriceCalculator
      * @param Checkout $helper
+     * @param SendCloudLogger $sendCloudLogger
      * @param ServicepointrateFactory $servicepointrateFactory
      * @param array $data
      * @throws LocalizedException
@@ -109,6 +115,7 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
         StockRegistryInterface $stockRegistry,
         ItemPriceCalculator $itemPriceCalculator,
         Checkout $helper,
+        SendCloudLogger $sendCloudLogger,
         ServicepointrateFactory $servicepointrateFactory,
         array $data = []
     )
@@ -116,6 +123,7 @@ class SendcloudServicepoint extends AbstractCarrierOnline implements CarrierInte
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->itemPriceCalculator = $itemPriceCalculator;
+        $this->sendCloudLogger = $sendCloudLogger;
         $this->helper = $helper;
         $this->_servicepiontrateFactory = $servicepointrateFactory;
         parent::__construct(

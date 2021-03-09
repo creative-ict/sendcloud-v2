@@ -7,6 +7,7 @@ use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\Module\Dir;
 use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Store\Model\ScopeInterface;
 
 class Backend extends AbstractHelper
 {
@@ -61,5 +62,34 @@ class Backend extends AbstractHelper
             $version = $this->moduleResource->getDbVersion('SendCloud_SendCloudV2');
         }
         return $version;
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkForScriptUrl()
+    {
+        $isScriptUrlDefined = true;
+        $scriptUrl = $this->scopeConfig->getValue('sendcloud/sendcloudv2/script_url', ScopeInterface::SCOPE_STORE);
+
+        if ($scriptUrl == '' || $scriptUrl == null) {
+            $this->sendCloudLogger->debug('The option service point is not active in SendCloud');
+            $isScriptUrlDefined = false;
+        }
+
+        return $isScriptUrlDefined;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function checkIfModuleIsActive()
+    {
+        $isActive = $this->scopeConfig->getValue(
+            'sendcloudv2/general/enable',
+            ScopeInterface::SCOPE_STORE
+        );
+
+        return $isActive;
     }
 }

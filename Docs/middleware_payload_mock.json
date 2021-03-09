@@ -1,0 +1,121 @@
+{
+    "checkout_configuration": {
+        "id": "2f56479a-e1d2-4354-b0ea-bbf08e34a2c0",
+        "version": 1,
+        "updated_at": "2020-10-20T07:33:56.328Z",
+        "delivery_zones": [
+            {
+                "id": "1",
+                "location": {
+                    "country": {
+                        "iso_2": "NL",
+                        "name": "Netherlands"
+                    }
+                },
+                "delivery_methods": [
+                    {
+                        "id": "1",
+                        "delivery_method_type": "nominated_day_delivery",
+                        "external_title": "My PostNL Checkout",
+                        "internal_title": "postnl_checkout",
+                        "carrier": {
+                            "name": "PostNL",
+                            "code": "postnl",
+                            "logo_url": "https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg"
+                        },
+                        "lead_time_hours": 24,
+                        "show_carrier_information_in_checkout": true,
+                        "shipping_product": {
+                            "code": "postnl:standard/signature,home_only,eve",
+                            "name": "PostNL Standard",
+                            "selected_functionalities": {
+                                "signature": true
+                            },
+                            "delivery_days": {
+                                "monday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 19,
+                                    "end_time_minutes": 30
+                                },
+                                "tuesday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 19,
+                                    "end_time_minutes": 30
+                                },
+                                "wednesday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 19,
+                                    "end_time_minutes": 30
+                                },
+                                "thursday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 19,
+                                    "end_time_minutes": 30
+                                },
+                                "friday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 22,
+                                    "end_time_minutes": 0
+                                },
+                                "saturday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 15,
+                                    "end_time_minutes": 0
+                                },
+                                "sunday": {
+                                    "start_time_hours": 7,
+                                    "start_time_minutes": 0,
+                                    "end_time_hours": 15,
+                                    "end_time_minutes": 0
+                                }
+                            }
+                        },
+                        "nominated_day_processing_days": {
+                            "monday": {
+                                "enabled": true,
+                                "cut_off_time_hours": 17,
+                                "cut_off_time_minutes": 0
+                            },
+                            "tuesday": {
+                                "enabled": true,
+                                "cut_off_time_hours": 17,
+                                "cut_off_time_minutes": 0
+                            },
+                            "wednesday": {
+                                "enabled": true,
+                                "cut_off_time_hours": 17,
+                                "cut_off_time_minutes": 0
+                            },
+                            "thursday": {
+                                "enabled": true,
+                                "cut_off_time_hours": 17,
+                                "cut_off_time_minutes": 0
+                            },
+                            "friday": {
+                                "enabled": true,
+                                "cut_off_time_hours": 20,
+                                "cut_off_time_minutes": 0
+                            },
+                            "saturday": {
+                                "enabled": true,
+                                "cut_off_time_hours": 16,
+                                "cut_off_time_minutes": 0
+                            },
+                            "sunday": {
+                                "enabled": false,
+                                "cut_off_time_hours": 0,
+                                "cut_off_time_minutes": 0
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -17,7 +17,6 @@
     }
 </script>
 <?php if ($block->getIsActiveSCSkeleton()) : ?>
-<?php // TODO: inject checkoutConfig with the deliveryOptions ?>
 <script type="text/x-magento-init">
     {
         "*": {
@@ -26,7 +25,7 @@
                     "sendcloudv2skeleton": {
                         "component": "SendCloud_SendCloudV2/js/view/checkout/shipping/deliveryOptions",
                         "config": {
-                            "checkoutConfig": {"test":"test"}
+                            "checkoutConfig": <?= Zend_Json::encode($block->getCheckoutConfig()) ?>
                         }
                     }
                 }
