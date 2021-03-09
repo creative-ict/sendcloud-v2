@@ -60,7 +60,7 @@ define([
             self.nominatedDayDelivery = {
                 "delivery_date": selectedTimeItem.getAttribute('data-delivery-date'),
                 "formatted_delivery_date": selectedTimeItem.getAttribute('data-formatted-delivery-date'),
-                "processing_date": selectedTimeItem.getAttribute('data-parcel-handover-date')
+                "parcel_handover_date": selectedTimeItem.getAttribute('data-parcel-handover-date')
             }
             self.setDeliveryOptionsData();
         },
@@ -86,11 +86,12 @@ define([
                 };
             var result = {
                 "checkout_payload": {
+                    "sender_address_id": this.options.deliveryMethod.sender_address_id,
                     shipping_product,
                     "nominated_day_delivery": {
                         "delivery_date": selectedTimeItem.getAttribute('data-delivery-date'),
                         "formatted_delivery_date": selectedTimeItem.getAttribute('data-formatted-delivery-date'),
-                        "processing_date": selectedTimeItem.getAttribute('data-parcel-handover-date')
+                        "parcel_handover_date": selectedTimeItem.getAttribute('data-parcel-handover-date')
                     }
                 }
             }

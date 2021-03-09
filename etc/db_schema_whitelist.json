@@ -27,7 +27,9 @@
             "selected_functionalities": true,
             "delivery_date": true,
             "formatted_delivery_date": true,
-            "processing_date": true
+            "processing_date": true,
+            "sender_address_id": true,
+            "parcel_handover_date": true
         },
         "index": {
             "SENDCLOUD_CHECKOUT_PAYLOAD_QUOTE_ID": true

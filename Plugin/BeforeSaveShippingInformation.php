@@ -90,6 +90,7 @@ class BeforeSaveShippingInformation
 
                 $shippingProduct = $checkoutPayload->getShippingProduct();
                 $nominatedDayDelivery = $checkoutPayload->getNominatedDayDelivery();
+                $senderAddressId = $checkoutPayload->getSenderAddressId();
 
                 $checkoutPayloadModel = $this->checkoutPayloadFactory->create();
                 if ($this->checkoutPayload->getIdByQuoteId($quote->getEntityId())) {
@@ -106,7 +107,8 @@ class BeforeSaveShippingInformation
                 $checkoutPayloadModel->setSelectedFunctionalities(json_encode($shippingProduct->getSelectedFunctionalities()->getData()));
                 $checkoutPayloadModel->setDeliveryDate($nominatedDayDelivery->getDeliveryDate());
                 $checkoutPayloadModel->setFormattedDeliveryDate($nominatedDayDelivery->getFormattedDeliveryDate());
-                $checkoutPayloadModel->setProcessingDate($nominatedDayDelivery->getProcessingDate());
+                $checkoutPayloadModel->setParcelHandoverDate($nominatedDayDelivery->getParcelHandoverDate());
+                $checkoutPayloadModel->setSenderAddressId($senderAddressId);
 
                 $this->checkoutPayload->save($checkoutPayloadModel);
                 $quote->setSendcloudCheckoutPayload(json_encode($sendcloudCheckoutPayload));

@@ -29,13 +29,13 @@ interface NominatedDayDeliveryInterface extends ExtensibleDataInterface
     public function getFormattedDeliveryDate();
 
     /**
-     * @param $processingDate
+     * @param $parcelHandoverDate
      * @return mixed
      */
-    public function setProcessingDate($processingDate);
+    public function setParcelHandoverDate($parcelHandoverDate);
 
     /**
      * @return mixed
      */
-    public function getProcessingDate();
+    public function getParcelHandoverDate();
 }
