@@ -23,7 +23,6 @@
                             "code": "postnl",
                             "logo_url": "https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg"
                         },
-                        "lead_time_hours": 24,
                         "show_carrier_information_in_checkout": true,
                         "shipping_product": {
                             "code": "postnl:standard/signature,home_only,eve",
@@ -31,6 +30,7 @@
                             "selected_functionalities": {
                                 "signature": true
                             },
+                            "lead_time_hours": 24,
                             "delivery_days": {
                                 "monday": {
                                     "start_time_hours": 7,
