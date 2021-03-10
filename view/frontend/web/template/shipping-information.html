@@ -28,21 +28,29 @@
             </button>
         </div>
         <div class="shipping-information-content">
-            <span class="value" data-bind="text: getShippingMethodTitle()"></span>
+            <if args="!getFormattedSendCloudData()">
+                <span class="value" data-bind="text: getShippingMethodTitle()"></span>
+            </if>
 
             <!-- //TODO: SC-19: Use the .getSendCloudData() container to store the data -->
-            <!-- ko if: (getServicePointInformation()) -->
-            <div class="service-point-information" data-bind="visible: selectedMethod() == 'SendCloud_SendCloudV2'">
-                <strong data-bind="text: getServicePointInformation().name"></strong><br>
-                <span>
-                    <!-- ko text: getServicePointInformation().street --><!-- /ko -->
-                    <!-- ko text: getServicePointInformation().house_number --><!-- /ko -->
-                </span><br>
-                <span data-bind="text: getServicePointInformation().postal_code"></span>
-                <span data-bind="text: getServicePointInformation().city"></span><br>
-                <span data-bind="text: getServicePointInformation().postnumber"></span>
-            </div>
-            <!--/ko-->
+            <if args="getServicePointInformation()">
+                <div class="service-point-information" data-bind="visible: selectedMethod() == 'sendcloudv2servicepoint_sendcloudv2servicepoint'">
+                    <strong data-bind="text: getServicePointInformation().name"></strong><br>
+                    <span>
+                        <!-- ko text: getServicePointInformation().street --><!-- /ko -->
+                        <!-- ko text: getServicePointInformation().house_number --><!-- /ko -->
+                    </span><br>
+                    <span data-bind="text: getServicePointInformation().postal_code"></span>
+                    <span data-bind="text: getServicePointInformation().city"></span><br>
+                    <span data-bind="text: getServicePointInformation().postnumber"></span>
+                </div>
+            </if>
+            <if args="getFormattedSendCloudData()">
+                <div class="sendcloud-data" data-bind="visible: selectedMethod() == 'sendcloudv2skeleton_sendcloudv2skeleton'">
+                    <strong data-bind="text: getFormattedSendCloudData().name"></strong><br>
+                    <span data-bind="i18n: 'Delivery Date'"></span>: <span data-bind="text: getFormattedSendCloudData().date"></span>
+                </div>
+            </if>
         </div>
     </div>
 </div>

@@ -1,0 +1,124 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\Escaper;
+use Magento\Sales\Block\Order\PrintOrder\Invoice;
+use SendCloud\SendCloudV2\ViewModel\SendCloudData;
+
+?>
+<?php
+/**
+ * @var Invoice $block
+ * @var Escaper $escaper
+ */
+
+$_order = $block->getOrder();
+/** @var SendCloudData $sendCloudData */
+$sendCloudData = $block->getData('sendcloudData');
+$checkoutPayload = $sendCloudData->getSendCloudData($_order->getQuoteId());
+?>
+<?php $_invoice = $block->getInvoice() ?>
+<?php if ($_invoice) : ?>
+    <?php $_invoices = [$_invoice]; ?>
+<?php else : ?>
+    <?php $_invoices = $_order->getInvoiceCollection() ?>
+<?php endif; ?>
+<?php foreach ($_invoices as $_invoice) : ?>
+    <div class="order-details-items invoice">
+        <div class="order-title">
+            <strong><?= $escaper->escapeHtml(__('Invoice #')) ?><?= (int) $_invoice->getIncrementId() ?></strong>
+        </div>
+        <div class="table-wrapper table-order-items invoice">
+            <table class="data table table-order-items invoice" id="my-invoice-table-<?= (int) $_invoice->getId() ?>">
+                <caption class="table-caption"><?= $escaper->escapeHtml(__('Items Invoiced')) ?></caption>
+                <thead>
+                <tr>
+                    <th class="col name"><?= $escaper->escapeHtml(__('Product Name')) ?></th>
+                    <th class="col sku"><?= $escaper->escapeHtml(__('SKU')) ?></th>
+                    <th class="col price"><?= $escaper->escapeHtml(__('Price')) ?></th>
+                    <th class="col qty"><?= $escaper->escapeHtml(__('Qty Invoiced')) ?></th>
+                    <th class="col subtotal"><?= $escaper->escapeHtml(__('Subtotal')) ?></th>
+                </tr>
+                </thead>
+                <?php $_items = $_invoice->getItemsCollection(); ?>
+                <?php foreach ($_items as $_item) : ?>
+                    <?php if (!$_item->getOrderItem()->getParentItem()) : ?>
+                        <tbody>
+                        <?= $block->getItemHtml($_item) ?>
+                        </tbody>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <tfoot>
+                <?= $block->getInvoiceTotalsHtml($_invoice) ?>
+                </tfoot>
+            </table>
+        </div>
+        <div class="block block-order-details-view">
+            <div class="block-title">
+                <strong><?= $escaper->escapeHtml(__('Order Information')) ?></strong>
+            </div>
+            <div class="block-content">
+                <?php if (!$_order->getIsVirtual()) : ?>
+                    <div class="box box-order-shipping-address">
+                        <div class="box-title">
+                            <strong><?= $escaper->escapeHtml(__('Shipping Address')) ?></strong>
+                        </div>
+                        <div class="box-content">
+                            <?php $_shipping = $_invoice->getShippingAddress() ?>
+                            <address><?= /* @noEscape */ $block->formatAddress($_shipping, 'html') ?></address>
+                        </div>
+                    </div>
+
+                    <div class="box box-order-shipping-method">
+                        <div class="box-title">
+                            <strong><?= $escaper->escapeHtml(__('Shipping Method')) ?></strong>
+                        </div>
+                        <div class="box-content">
+                            <?php if ($checkoutPayload->getEntityId()) : ?>
+                                <div class="sendcloud-data">
+                                    <div><?= $escaper->escapeHtml($checkoutPayload->getName()) ?></div>
+                                    <div><?= $escaper->escapeHtml(__('Delivery Date')) ?>: <?= $escaper->escapeHtml($checkoutPayload->getFormattedDeliveryDate()) ?></div>
+                                </div>
+                            <?php elseif ($_order->getSendcloudServicePointId() !== null) : ?>
+                                <div class="service-point-information">
+                                    <strong><?= __('Service Point') ?></strong>
+                                    <address>
+                                        <?= $escaper->escapeHtml($_order->getSendcloudServicePointName()) ?><br>
+                                        <?= $escaper->escapeHtml($_order->getSendcloudServicePointStreet()) ?> <?= $escaper->escapeHtml($_order->getSendcloudServicePointHouseNumber()) ?><br>
+                                        <?= $escaper->escapeHtml($_order->getSendcloudServicePointZipCode()) ?>  <?= $escaper->escapeHtml($_order->getSendcloudServicePointCity()) ?><br>
+                                        <?= $escaper->escapeHtml($_order->getSendCloudServicePointPostnumber()) ?>
+                                    </address>
+                                </div>
+                            <?php elseif ($_order->getShippingDescription()) : ?>
+                                <?= $escaper->escapeHtml($_order->getShippingDescription()) ?>
+                            <?php else : ?>
+                                <?= $escaper->escapeHtml(__('No shipping information available')) ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="box box-order-billing-address">
+                    <div class="box-title">
+                        <strong><?= $escaper->escapeHtml(__('Billing Address')) ?></strong>
+                    </div>
+                    <div class="box-content">
+                        <?php $_billing = $_invoice->getbillingAddress() ?>
+                        <address><?= /* @noEscape */ $block->formatAddress($_order->getBillingAddress(), 'html') ?></address>
+                    </div>
+                </div>
+
+                <div class="box box-order-billing-method">
+                    <div class="box-title">
+                        <strong><?= $escaper->escapeHtml(__('Payment Method')) ?></strong>
+                    </div>
+                    <div class="box-content">
+                        <?= $block->getPaymentInfoHtml() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>

@@ -15,6 +15,16 @@ class CheckoutPayload extends AbstractExtensibleModel implements CheckoutPayload
         $this->_init(\SendCloud\SendCloudV2\Model\ResourceModel\CheckoutPayload::class);
     }
 
+    public function getSenderAddressId()
+    {
+        return $this->getData(self::KEY_SENDER_ADDRESS_ID);
+    }
+
+    public function setSenderAddressId($id)
+    {
+        return $this->setData(self::KEY_SENDER_ADDRESS_ID, $id);
+    }
+
     public function getShippingProduct()
     {
         return $this->getData(self::KEY_SHIPPING_PRODUCT);
@@ -22,7 +32,7 @@ class CheckoutPayload extends AbstractExtensibleModel implements CheckoutPayload
 
     public function setShippingProduct(ShippingProductInterface $shippingProduct)
     {
-        return $this->setData('shipping_product', $shippingProduct);
+        return $this->setData(self::KEY_SHIPPING_PRODUCT, $shippingProduct);
     }
 
     /**

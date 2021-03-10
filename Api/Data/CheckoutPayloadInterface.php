@@ -8,6 +8,18 @@ interface CheckoutPayloadInterface extends ExtensibleDataInterface
 {
     const KEY_SHIPPING_PRODUCT = 'shipping_product';
     const KEY_NOMINATED_DAY = 'nominated_day_delivery';
+    const KEY_SENDER_ADDRESS_ID = 'sender_address_id';
+
+    /**
+     * @return int
+     */
+    public function getSenderAddressId();
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function setSenderAddressId($id);
 
     /**
      * @return \SendCloud\SendCloudV2\Api\Data\ShippingProductInterface
