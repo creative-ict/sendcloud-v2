@@ -1,0 +1,815 @@
+openapi: 3.0.2
+info:
+    title: SendCloud Delivery Method Configuration
+    version: 0.1.0
+    description: Checkout Middleware API schema (from Checkout to Integration)
+paths:
+    /v1/checkout/configuration:
+        put:
+            tags:
+                - checkout-configuration
+            summary: Update Checkout
+            description: |2-
+                  Updates a checkout configuration for a specific integration.
+              eckout
+                  :param request: Request
+                  :param payload: CheckoutConfiguration
+                  :param jwt_data: JWTData
+                  :return: None
+            operationId: update_checkout_v1_checkout_configuration_put
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CheckoutPayload'
+                required: true
+            responses:
+                '204':
+                    description: Successful Response
+                '422':
+                    description: Validation Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/HTTPValidationError'
+            security:
+                - APIKeyHeader: []
+        delete:
+            tags:
+                - checkout-configuration
+            summary: Delete Checkout
+            description: |-
+                Delete a published checkout configuration of an integration
+
+                :param request: Request
+                :param jwt_data:
+                :return: None
+            operationId: delete_checkout_v1_checkout_configuration_delete
+            responses:
+                '204':
+                    description: Successful Response
+            security:
+                - APIKeyHeader: []
+components:
+    schemas:
+        Carrier:
+            title: Carrier
+            required:
+                - name
+                - code
+                - logo_url
+            type: object
+            properties:
+                name:
+                    title: Name
+                    type: string
+                code:
+                    title: Code
+                    type: string
+                logo_url:
+                    title: Logo Url
+                    maxLength: 2083
+                    minLength: 1
+                    type: string
+                    format: uri
+            description: Describes a carrier
+            x-examples:
+                Carrier:
+                    name: PostNL
+                    code: postnl
+                    logo_url: 'https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg'
+        CheckoutConfiguration:
+            title: CheckoutConfiguration
+            type: object
+            description: Checkout configuration model.
+            x-examples:
+                Checkout configruation:
+                    id: 2f56479a-e1d2-4354-b0ea-bbf08e34a2c0
+                    version: 1
+                    updated_at: '2020-10-20T07:33:56.328Z'
+                    delivery_zones:
+                        - id: '1'
+                          location:
+                              country:
+                                  iso_2: NL
+                                  name: Netherlands
+                          delivery_methods:
+                              - id: '1'
+                                delivery_method_type: nominated_day_delivery
+                                external_title: My PostNL Checkout
+                                internal_title: postnl_checkout
+                                carrier:
+                                    name: PostNL
+                                    code: postnl
+                                    logo_url: 'https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg'
+                                show_carrier_information_in_checkout: true
+                                shipping_product:
+                                    code: 'postnl:standard/signature,home_only,eve'
+                                    name: PostNL Standard
+                                    selected_functionalities:
+                                        signature: true
+                                    lead_time_hours: 24
+                                    delivery_days:
+                                        monday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 19
+                                            end_time_minutes: 30
+                                        tuesday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 19
+                                            end_time_minutes: 30
+                                        wednesday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 19
+                                            end_time_minutes: 30
+                                        thursday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 19
+                                            end_time_minutes: 30
+                                        friday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 22
+                                            end_time_minutes: 0
+                                        saturday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 15
+                                            end_time_minutes: 0
+                                        sunday:
+                                            start_time_hours: 7
+                                            start_time_minutes: 0
+                                            end_time_hours: 15
+                                            end_time_minutes: 0
+                                nominated_day_processing_days:
+                                    monday:
+                                        enabled: true
+                                        cut_off_time_hours: 17
+                                        cut_off_time_minutes: 0
+                                    tuesday:
+                                        enabled: true
+                                        cut_off_time_hours: 17
+                                        cut_off_time_minutes: 0
+                                    wednesday:
+                                        enabled: true
+                                        cut_off_time_hours: 17
+                                        cut_off_time_minutes: 0
+                                    thursday:
+                                        enabled: true
+                                        cut_off_time_hours: 17
+                                        cut_off_time_minutes: 0
+                                    friday:
+                                        enabled: true
+                                        cut_off_time_hours: 20
+                                        cut_off_time_minutes: 0
+                                    saturday:
+                                        enabled: true
+                                        cut_off_time_hours: 16
+                                        cut_off_time_minutes: 0
+                                    sunday:
+                                        enabled: false
+                                        cut_off_time_hours: 0
+                                        cut_off_time_minutes: 0
+            properties:
+                id:
+                    type: string
+                version:
+                    title: Version
+                    type: number
+                    format: uuid
+                updated_at:
+                    title: Updated At
+                    type: string
+                    format: date-time
+                delivery_zones:
+                    title: Delivery Zones
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DeliveryZone'
+            required:
+                - version
+                - delivery_zones
+        CheckoutPayload:
+            title: CheckoutPayload
+            required:
+                - checkout_configuration
+            type: object
+            properties:
+                checkout_configuration:
+                    $ref: '#/components/schemas/CheckoutConfiguration'
+            description: Root object for the entire checkout configuration.
+            x-examples:
+                Complete checkout configuration:
+                    checkout_configuration:
+                        id: 2f56479a-e1d2-4354-b0ea-bbf08e34a2c0
+                        version: 1
+                        updated_at: '2020-10-20T07:33:56.328Z'
+                        delivery_zones:
+                            - id: '1'
+                              location:
+                                  country:
+                                      iso_2: NL
+                                      name: Netherlands
+                              delivery_methods:
+                                  - id: '1'
+                                    delivery_method_type: nominated_day_delivery
+                                    external_title: My PostNL Checkout
+                                    internal_title: postnl_checkout
+                                    carrier:
+                                        name: PostNL
+                                        code: postnl
+                                        logo_url: 'https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg'
+                                    show_carrier_information_in_checkout: true
+                                    shipping_product:
+                                        code: 'postnl:standard/signature,home_only,eve'
+                                        name: PostNL Standard
+                                        selected_functionalities:
+                                            signature: true
+                                        lead_time_hours: 24
+                                        delivery_days:
+                                            monday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 19
+                                                end_time_minutes: 30
+                                            tuesday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 19
+                                                end_time_minutes: 30
+                                            wednesday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 19
+                                                end_time_minutes: 30
+                                            thursday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 19
+                                                end_time_minutes: 30
+                                            friday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 22
+                                                end_time_minutes: 0
+                                            saturday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 15
+                                                end_time_minutes: 0
+                                            sunday:
+                                                start_time_hours: 7
+                                                start_time_minutes: 0
+                                                end_time_hours: 15
+                                                end_time_minutes: 0
+                                    nominated_day_processing_days:
+                                        monday:
+                                            enabled: true
+                                            cut_off_time_hours: 17
+                                            cut_off_time_minutes: 0
+                                        tuesday:
+                                            enabled: true
+                                            cut_off_time_hours: 17
+                                            cut_off_time_minutes: 0
+                                        wednesday:
+                                            enabled: true
+                                            cut_off_time_hours: 17
+                                            cut_off_time_minutes: 0
+                                        thursday:
+                                            enabled: true
+                                            cut_off_time_hours: 17
+                                            cut_off_time_minutes: 0
+                                        friday:
+                                            enabled: true
+                                            cut_off_time_hours: 20
+                                            cut_off_time_minutes: 0
+                                        saturday:
+                                            enabled: true
+                                            cut_off_time_hours: 16
+                                            cut_off_time_minutes: 0
+                                        sunday:
+                                            enabled: false
+                                            cut_off_time_hours: 0
+                                            cut_off_time_minutes: 0
+        Country:
+            title: Country
+            required:
+                - iso_2
+                - name
+            type: object
+            properties:
+                iso_2:
+                    title: Iso 2
+                    type: string
+                name:
+                    title: Name
+                    type: string
+            description: Describes a country within a location.
+            x-examples:
+                Country:
+                    iso_2: NL
+                    name: Netherlands
+        DeliveryDayDetails:
+            title: DeliveryDayDetails
+            required:
+                - start_time_hours
+                - start_time_minutes
+                - end_time_hours
+                - end_time_minutes
+            type: object
+            properties:
+                start_time_hours:
+                    title: Start Time Hours
+                    type: integer
+                start_time_minutes:
+                    title: Start Time Minutes
+                    type: integer
+                end_time_hours:
+                    title: End Time Hours
+                    type: integer
+                end_time_minutes:
+                    title: End Time Minutes
+                    type: integer
+            description: |-
+                Provides the details for a delivert day, most importantly the times of the shipping product delivery hours
+                and minutes.
+            x-examples:
+                Delivery day details:
+                    start_time_hours: 7
+                    start_time_minutes: 0
+                    end_time_hours: 19
+                    end_time_minutes: 30
+        DeliveryDays:
+            title: DeliveryDays
+            type: object
+            properties:
+                monday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+                tuesday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+                wednesday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+                thursday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+                friday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+                saturday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+                sunday:
+                    $ref: '#/components/schemas/DeliveryDayDetails'
+            description: The delivery days / times of the shipping product.
+            x-examples:
+                Delivery days:
+                    monday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 19
+                        end_time_minutes: 30
+                    tuesday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 19
+                        end_time_minutes: 30
+                    wednesday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 19
+                        end_time_minutes: 30
+                    thursday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 19
+                        end_time_minutes: 30
+                    friday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 22
+                        end_time_minutes: 0
+                    saturday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 15
+                        end_time_minutes: 0
+                    sunday:
+                        start_time_hours: 7
+                        start_time_minutes: 0
+                        end_time_hours: 15
+                        end_time_minutes: 0
+        DeliveryMethod:
+            title: DeliveryMethod
+            type: object
+            description: The delivery method of the delivery zone
+            x-examples:
+                Delivery method:
+                    id: '1'
+                    delivery_method_type: nominated_day_delivery
+                    external_title: My PostNL Checkout
+                    internal_title: postnl_checkout
+                    carrier:
+                        name: PostNL
+                        code: postnl
+                        logo_url: 'https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg'
+                    show_carrier_information_in_checkout: true
+                    shipping_product:
+                        code: 'postnl:standard/signature,home_only,eve'
+                        name: PostNL Standard
+                        selected_functionalities:
+                            signature: true
+                        lead_time_hours: 24
+                        delivery_days:
+                            monday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 19
+                                end_time_minutes: 30
+                            tuesday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 19
+                                end_time_minutes: 30
+                            wednesday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 19
+                                end_time_minutes: 30
+                            thursday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 19
+                                end_time_minutes: 30
+                            friday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 22
+                                end_time_minutes: 0
+                            saturday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 15
+                                end_time_minutes: 0
+                            sunday:
+                                start_time_hours: 7
+                                start_time_minutes: 0
+                                end_time_hours: 15
+                                end_time_minutes: 0
+                    nominated_day_processing_days:
+                        monday:
+                            enabled: true
+                            cut_off_time_hours: 17
+                            cut_off_time_minutes: 0
+                        tuesday:
+                            enabled: true
+                            cut_off_time_hours: 17
+                            cut_off_time_minutes: 0
+                        wednesday:
+                            enabled: true
+                            cut_off_time_hours: 17
+                            cut_off_time_minutes: 0
+                        thursday:
+                            enabled: true
+                            cut_off_time_hours: 17
+                            cut_off_time_minutes: 0
+                        friday:
+                            enabled: true
+                            cut_off_time_hours: 20
+                            cut_off_time_minutes: 0
+                        saturday:
+                            enabled: true
+                            cut_off_time_hours: 16
+                            cut_off_time_minutes: 0
+                        sunday:
+                            enabled: false
+                            cut_off_time_hours: 0
+                            cut_off_time_minutes: 0
+            properties:
+                id:
+                    title: Id
+                    type: string
+                delivery_method_type:
+                    title: Delivery Method Type
+                    type: string
+                carrier:
+                    $ref: '#/components/schemas/Carrier'
+                external_title:
+                    title: External Title
+                    type: string
+                internal_title:
+                    title: Internal Title
+                    type: string
+                shipping_product:
+                    $ref: '#/components/schemas/ShippingProduct'
+                show_carrier_information_in_checkout:
+                    title: Show Carrier Information In Checkout
+                    type: boolean
+                nominated_day_processing_days:
+                    $ref: '#/components/schemas/NominatedDayProcessingDays'
+                lead_time_hours:
+                    type: integer
+            required:
+                - id
+                - delivery_method_type
+                - carrier
+                - external_title
+                - internal_title
+                - shipping_product
+                - show_carrier_information_in_checkout
+                - nominated_day_processing_days
+        DeliveryZone:
+            title: DeliveryZone
+            required:
+                - id
+                - location
+            type: object
+            properties:
+                id:
+                    title: Id
+                    type: string
+                location:
+                    $ref: '#/components/schemas/Location'
+                delivery_methods:
+                    title: Delivery Methods
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DeliveryMethod'
+            description: The delivery zone of the checkout configuration
+            x-examples:
+                Delivery zone:
+                    id: '1'
+                    location:
+                        country:
+                            iso_2: NL
+                            name: Netherlands
+                    delivery_methods:
+                        - id: '1'
+                          delivery_method_type: nominated_day_delivery
+                          external_title: My PostNL Checkout
+                          internal_title: postnl_checkout
+                          carrier:
+                              name: PostNL
+                              code: postnl
+                              logo_url: 'https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg'
+                          show_carrier_information_in_checkout: true
+                          shipping_product:
+                              code: 'postnl:standard/signature,home_only,eve'
+                              name: PostNL Standard
+                              selected_functionalities:
+                                  signature: true
+                              lead_time_hours: 24
+                              delivery_days:
+                                  monday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 19
+                                      end_time_minutes: 30
+                                  tuesday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 19
+                                      end_time_minutes: 30
+                                  wednesday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 19
+                                      end_time_minutes: 30
+                                  thursday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 19
+                                      end_time_minutes: 30
+                                  friday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 22
+                                      end_time_minutes: 0
+                                  saturday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 15
+                                      end_time_minutes: 0
+                                  sunday:
+                                      start_time_hours: 7
+                                      start_time_minutes: 0
+                                      end_time_hours: 15
+                                      end_time_minutes: 0
+                          nominated_day_processing_days:
+                              monday:
+                                  enabled: true
+                                  cut_off_time_hours: 17
+                                  cut_off_time_minutes: 0
+                              tuesday:
+                                  enabled: true
+                                  cut_off_time_hours: 17
+                                  cut_off_time_minutes: 0
+                              wednesday:
+                                  enabled: true
+                                  cut_off_time_hours: 17
+                                  cut_off_time_minutes: 0
+                              thursday:
+                                  enabled: true
+                                  cut_off_time_hours: 17
+                                  cut_off_time_minutes: 0
+                              friday:
+                                  enabled: true
+                                  cut_off_time_hours: 20
+                                  cut_off_time_minutes: 0
+                              saturday:
+                                  enabled: true
+                                  cut_off_time_hours: 16
+                                  cut_off_time_minutes: 0
+                              sunday:
+                                  enabled: false
+                                  cut_off_time_hours: 0
+                                  cut_off_time_minutes: 0
+        HTTPValidationError:
+            title: HTTPValidationError
+            type: object
+            properties:
+                detail:
+                    title: Detail
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ValidationError'
+        Location:
+            title: Location
+            required:
+                - country
+            type: object
+            properties:
+                country:
+                    $ref: '#/components/schemas/Country'
+            description: |-
+                Describes a geo location, either by country or by combination of a country and optionally postal codes,
+                region or state.
+            x-examples:
+                Location:
+                    country:
+                        iso_2: NL
+                        name: Netherlands
+        NominatedDayProcessingDays:
+            title: NominatedDayProcessingDays
+            type: object
+            properties:
+                monday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+                tuesday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+                wednesday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+                thursday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+                friday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+                saturday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+                sunday:
+                    $ref: '#/components/schemas/NominatedDayProcessingDetails'
+            description: |-
+                The processing days and times of the merchant, this determines which delivery days should be displayed
+                during the checkout, based on the provided days and times.
+            x-examples:
+                Processing days:
+                    monday:
+                        enabled: true
+                        cut_off_time_hours: 17
+                        cut_off_time_minutes: 0
+                    tuesday:
+                        enabled: true
+                        cut_off_time_hours: 17
+                        cut_off_time_minutes: 0
+                    wednesday:
+                        enabled: true
+                        cut_off_time_hours: 17
+                        cut_off_time_minutes: 0
+                    thursday:
+                        enabled: true
+                        cut_off_time_hours: 17
+                        cut_off_time_minutes: 0
+                    friday:
+                        enabled: true
+                        cut_off_time_hours: 20
+                        cut_off_time_minutes: 0
+                    saturday:
+                        enabled: true
+                        cut_off_time_hours: 16
+                        cut_off_time_minutes: 0
+                    sunday:
+                        enabled: false
+                        cut_off_time_hours: 0
+                        cut_off_time_minutes: 0
+        NominatedDayProcessingDetails:
+            title: NominatedDayProcessingDetails
+            required:
+                - enabled
+                - cut_off_time_hours
+                - cut_off_time_minutes
+            type: object
+            properties:
+                enabled:
+                    title: Enabled
+                    type: boolean
+                cut_off_time_hours:
+                    title: Cut Off Time Hours
+                    type: integer
+                cut_off_time_minutes:
+                    title: Cut Off Time Minutes
+                    type: integer
+            description: |-
+                Provides the details for a processing day, most importantly the cut off time of the merchant in hours
+                and minutes.
+            x-examples:
+                Processing day details:
+                    enabled: true
+                    cut_off_time_hours: 17
+                    cut_off_time_minutes: 0
+        ShippingProduct:
+            title: ShippingProduct
+            type: object
+            description: Describes a SCP shipping product configured for this delivery method and all it's selected functionalities.
+            x-examples:
+                Shipping Product:
+                    code: 'postnl:standard/signature,home_only,eve'
+                    name: PostNL Standard
+                    selected_functionalities:
+                        signature: true
+                    lead_time_hours: 24
+                    delivery_days:
+                        monday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 19
+                            end_time_minutes: 30
+                        tuesday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 19
+                            end_time_minutes: 30
+                        wednesday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 19
+                            end_time_minutes: 30
+                        thursday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 19
+                            end_time_minutes: 30
+                        friday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 22
+                            end_time_minutes: 0
+                        saturday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 15
+                            end_time_minutes: 0
+                        sunday:
+                            start_time_hours: 7
+                            start_time_minutes: 0
+                            end_time_hours: 15
+                            end_time_minutes: 0
+            properties:
+                code:
+                    title: Code
+                    type: string
+                name:
+                    title: Name
+                    type: string
+                selected_functionalities:
+                    title: Selected Functionalities
+                    type: object
+                delivery_days:
+                    $ref: '#/components/schemas/DeliveryDays'
+            required:
+                - code
+                - name
+                - selected_functionalities
+                - delivery_days
+        ValidationError:
+            title: ValidationError
+            required:
+                - loc
+                - msg
+                - type
+            type: object
+            properties:
+                loc:
+                    title: Location
+                    type: array
+                    items:
+                        type: string
+                msg:
+                    title: Message
+                    type: string
+                type:
+                    title: Error Type
+                    type: string
+    securitySchemes:
+        APIKeyHeader:
+            type: apiKey
+            in: header
+            name: Authorization

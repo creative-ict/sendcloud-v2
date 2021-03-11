@@ -28,13 +28,13 @@ class NominatedDayDelivery extends AbstractExtensibleModel implements NominatedD
         return $this->getData('formatted_delivery_date');
     }
 
-    public function setProcessingDate($processingDate)
+    public function setParcelHandoverDate($parcelHandoverDate)
     {
-        return $this->setData('processing_date', $processingDate);
+        return $this->setData('parcel_handover_date', $parcelHandoverDate);
     }
 
-    public function getProcessingDate()
+    public function getParcelHandoverDate()
     {
-        return $this->getData('processing_date');
+        return $this->getData('parcel_handover_date');
     }
 }

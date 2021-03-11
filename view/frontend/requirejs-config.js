@@ -1,11 +1,12 @@
 var config = {
     "map": {
         "*": {
-            'SendCloudCheckoutPluginUi': 'https://cdn.jsdelivr.net/npm/@sendcloud/checkout-plugin-ui@1.0.0',
+            'SendCloudCheckoutPluginUi': 'https://cdn.jsdelivr.net/npm/@sendcloud/checkout-plugin-ui@1/dist/checkout-plugin-ui.js',
             'SendCloudV2RatesValidationRulesServicepoint' : 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/servicepoint',
             'SendCloudV2RatesValidationRulesDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/deliveryoptions',
             'SendCloudV2RatesValidatorServicepoint': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint',
-            'SendCloudV2RatesValidatorDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint'
+            'SendCloudV2RatesValidatorDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint',
+            'SendCloudData': 'SendCloud_SendCloudV2/js/view/shipping-information/sendcloud-data'
         }
     },
     config: {

@@ -12,7 +12,7 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
-    <route method="DELETE" url="/V1/sendcloud-sendcloudv2/checkout">
+    <route method="DELETE" url="/V1/sendcloud-sendcloudv2/checkout/:id">
         <service class="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" method="deleteCheckout"/>
         <resources>
             <resource ref="anonymous"/>

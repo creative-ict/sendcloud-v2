@@ -6,19 +6,15 @@ interface CheckoutManagementInterface
 {
 
     /**
-     * PUT for checkout api
-     * @api
-     * @param array $param
-     * @return string
+     * @param mixed $checkout_configuration
+     * @return \SendCloud\SendCloudV2\Api\Data\CheckoutConfigInterface
      */
-    public function putCheckout(array $param);
+    public function putCheckout($checkout_configuration);
 
 
     /**
-     * DELETE for checkout api
-     * @api
-     * @param string $param
-     * @return string
+     * @param string $id
+     * @return $this
      */
-    public function deleteCheckout($param);
+    public function deleteCheckout($id);
 }

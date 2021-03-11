@@ -2,12 +2,12 @@
 
 namespace SendCloud\SendCloudV2\Model;
 
+use SendCloud\SendCloudV2\Api\ServicePointInterface;
+use SendCloud\SendCloudV2\Logger\SendCloudLogger;
 use Exception;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
-use SendCloud\SendCloudV2\Api\ServicePointInterface;
-use SendCloud\SendCloudV2\Logger\SendCloudLogger;
 
 class ServicePoint implements ServicePointInterface
 {

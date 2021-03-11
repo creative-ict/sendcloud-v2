@@ -42,11 +42,6 @@ class OrderRepository
     private $checkoutPayload;
 
     /**
-     * @var CheckoutPayloadBuilder
-     */
-    private $checkoutPayloadBuilder;
-
-    /**
      * @var ShippingProductFactory
      */
     private $shippingProductFactory;
@@ -224,12 +219,13 @@ class OrderRepository
             $nominatedDay = $this->nominatedFactory->create();
             $nominatedDay->setDeliveryDate($checkoutPayloadModel->getDeliveryDate());
             $nominatedDay->setFormattedDeliveryDate($checkoutPayloadModel->getFormattedDeliveryDate());
-            $nominatedDay->setProcessingDate($checkoutPayloadModel->getProcessingDate());
+            $nominatedDay->setParcelHandoverDate($checkoutPayloadModel->getParcelHandoverDate());
 
             /** @var CheckoutPayloadInterface $sendcloudCheckoutPayload */
             $sendcloudCheckoutPayload = $this->checkoutPayloadFactory->create();
             $sendcloudCheckoutPayload->setShippingProduct($shippingProduct);
             $sendcloudCheckoutPayload->setNominatedDayDelivery($nominatedDay);
+            $sendcloudCheckoutPayload->setSenderAddressId($checkoutPayloadModel->getSenderAddressId());
 
             /** @var SendCloudDataInterface $sendCloudData */
             $sendCloudData = $this->sendCloudDataFactory->create();

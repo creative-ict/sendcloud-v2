@@ -47,7 +47,6 @@ class BeforeSaveShippingInformation
      */
     private $checkoutPayloadBuilder;
 
-
     /**
      * BeforeSaveShippingInformation constructor.
      * @param RequestInterface $request
@@ -62,8 +61,7 @@ class BeforeSaveShippingInformation
         Checkout $helper,
         CheckoutPayloadFactory $checkoutPayloadFactory,
         CheckoutPayload $checkoutPayload
-    )
-    {
+    ) {
         $this->request = $request;
         $this->quoteRepository = $quoteRepository;
         $this->helper = $helper;
@@ -83,29 +81,38 @@ class BeforeSaveShippingInformation
     public function beforeSaveAddressInformation(ShippingInformationManagement $subject, $cartId, ShippingInformationInterface $addressInformation)
     {
         $extensionAttributes = $addressInformation->getExtensionAttributes();
-        if ($extensionAttributes != null ) {
+        if ($extensionAttributes != null) {
             $quote = $this->quoteRepository->getActive($cartId);
 
-            $checkoutPayload = $extensionAttributes->getSendcloudData()->getCheckoutPayload();
-            $sendcloudCheckoutPayload = [$checkoutPayload->getCheckoutPayload()];
+            if ($extensionAttributes->getSendcloudData()) {
+                $checkoutPayload = $extensionAttributes->getSendcloudData()->getCheckoutPayload();
+                $sendcloudCheckoutPayload = [$checkoutPayload->getCheckoutPayload()];
 
-            $shippingProduct = $checkoutPayload->getShippingProduct();
-            $nominatedDayDelivery = $checkoutPayload->getNominatedDayDelivery();
+                $shippingProduct = $checkoutPayload->getShippingProduct();
+                $nominatedDayDelivery = $checkoutPayload->getNominatedDayDelivery();
+                $senderAddressId = $checkoutPayload->getSenderAddressId();
 
-            $checkoutPayloadModel = $this->checkoutPayloadFactory->create();
-            $checkoutPayload = $this->getCheckoutPayloadBuilderDependency();
-            $checkoutPayload->setOrderId($quote->getEntityId());
+                $checkoutPayloadModel = $this->checkoutPayloadFactory->create();
+                if ($this->checkoutPayload->getIdByQuoteId($quote->getEntityId())) {
+                    $checkoutPayloadId = $this->checkoutPayload->getIdByQuoteId($quote->getEntityId());
+                    $this->checkoutPayload->load($checkoutPayloadModel, $checkoutPayloadId);
+                }
+                $checkoutPayload = $this->getCheckoutPayloadBuilderDependency();
 
-            $checkoutPayloadModel->setQuoteId($quote->getEntityId());
-            $checkoutPayloadModel->setCode($shippingProduct->getCode());
-            $checkoutPayloadModel->setName($shippingProduct->getName());
-            $checkoutPayloadModel->setSelectedFunctionalities(json_encode($shippingProduct->getSelectedFunctionalities()->getData()));
-            $checkoutPayloadModel->setDeliveryDate($nominatedDayDelivery->getDeliveryDate());
-            $checkoutPayloadModel->setFormattedDeliveryDate($nominatedDayDelivery->getFormattedDeliveryDate());
-            $checkoutPayloadModel->setProcessingDate($nominatedDayDelivery->getProcessingDate());
+                $checkoutPayload->setOrderId($quote->getEntityId());
 
-            $this->checkoutPayload->save($checkoutPayloadModel);
-            $quote->setSendcloudCheckoutPayload(json_encode($sendcloudCheckoutPayload));
+                $checkoutPayloadModel->setQuoteId($quote->getEntityId());
+                $checkoutPayloadModel->setCode($shippingProduct->getCode());
+                $checkoutPayloadModel->setName($shippingProduct->getName());
+                $checkoutPayloadModel->setSelectedFunctionalities(json_encode($shippingProduct->getSelectedFunctionalities()->getData()));
+                $checkoutPayloadModel->setDeliveryDate($nominatedDayDelivery->getDeliveryDate());
+                $checkoutPayloadModel->setFormattedDeliveryDate($nominatedDayDelivery->getFormattedDeliveryDate());
+                $checkoutPayloadModel->setParcelHandoverDate($nominatedDayDelivery->getParcelHandoverDate());
+                $checkoutPayloadModel->setSenderAddressId($senderAddressId);
+
+                $this->checkoutPayload->save($checkoutPayloadModel);
+                $quote->setSendcloudCheckoutPayload(json_encode($sendcloudCheckoutPayload));
+            }
         }
 
         if ($this->helper->checkForScriptUrl() && $extensionAttributes != null && $this->helper->checkIfModuleIsActive()) {

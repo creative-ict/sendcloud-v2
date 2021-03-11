@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Final Checkout Payload</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta keywords="">
+    <style>
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        line-height: 1.6;
+        color: #24292e;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+        sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+        font-size: 16px;
+        line-height: 1.6;
+        word-wrap: break-word;
+
+        .dark, .solarizedDark {
+            color: #FFF;
+        }
+
+        details {
+            display: block;
+        }
+
+        summary {
+            display: list-item;
+        }
+
+        a {
+            background-color: transparent;
+        }
+
+        a:active,
+        a:hover {
+            outline-width: 0;
+        }
+
+        strong {
+            font-weight: inherit;
+            font-weight: bolder;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 0.67em 0;
+        }
+
+        img {
+            border-style: none;
+        }
+
+        code,
+        kbd,
+        pre {
+            font-family: monospace, monospace;
+            font-size: 1em;
+        }
+
+        hr {
+            box-sizing: content-box;
+            height: 0;
+            overflow: visible;
+        }
+
+        input {
+            font: inherit;
+            margin: 0;
+        }
+
+        input {
+            overflow: visible;
+        }
+
+        [type='checkbox'] {
+            box-sizing: border-box;
+            padding: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        input {
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        strong {
+            font-weight: 600;
+        }
+
+        hr {
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid #dfe2e5;
+            height: 0;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        hr:before {
+            content: '';
+            display: table;
+        }
+
+        hr:after {
+            clear: both;
+            content: '';
+            display: table;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        td,
+        th {
+            padding: 0;
+        }
+
+        details summary {
+            cursor: pointer;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        h1,
+        h2 {
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        h3 {
+            font-size: 20px;
+        }
+
+        h3,
+        h4 {
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 16px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+
+        h5,
+        h6 {
+            font-weight: 600;
+        }
+
+        h6 {
+            font-size: 12px;
+        }
+
+        p {
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        blockquote {
+            margin: 0;
+        }
+
+        ol,
+        ul {
+            margin-bottom: 0;
+            margin-top: 0;
+            padding-left: 0;
+        }
+
+        ol ol,
+        ul ol {
+            list-style-type: lower-roman;
+        }
+
+        ol ol ol,
+        ol ul ol,
+        ul ol ol,
+        ul ul ol {
+            list-style-type: lower-alpha;
+        }
+
+        dd {
+            margin-left: 0;
+        }
+
+        code,
+        pre {
+            font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+            monospace;
+            font-size: 12px;
+        }
+
+        pre {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        input::-webkit-inner-spin-button,
+        input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        &:before {
+             content: '';
+             display: table;
+         }
+
+        &:after {
+             clear: both;
+             content: '';
+             display: table;
+         }
+
+        > :first-child {
+            margin-top: 0 !important;
+        }
+
+        > :last-child {
+            margin-bottom: 0 !important;
+        }
+
+        a:not([href]) {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        blockquote,
+        dl,
+        ol,
+        p,
+        pre,
+        table,
+        ul {
+            margin-bottom: 16px;
+            margin-top: 0;
+        }
+
+        hr {
+            background-color: #e1e4e8;
+            border: 0;
+            height: 0.25em;
+            margin: 24px 0;
+            padding: 0;
+        }
+
+        blockquote {
+            border-left: 0.25em solid #dfe2e5;
+            color: #6a737d;
+            padding: 0 1em;
+        }
+
+        blockquote > :first-child {
+            margin-top: 0;
+        }
+
+        blockquote > :last-child {
+            margin-bottom: 0;
+        }
+
+        kbd {
+            background-color: #fafbfc;
+            border: 1px solid #c6cbd1;
+            border-bottom-color: #959da5;
+            border-radius: 3px;
+            box-shadow: inset 0 -1px 0 #959da5;
+            color: #444d56;
+            display: inline-block;
+            font-size: 11px;
+            line-height: 10px;
+            padding: 3px 5px;
+            vertical-align: middle;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            margin-top: 24px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        h1,
+        h2 {
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+        h3 {
+            font-size: 1.25em;
+        }
+
+        h4 {
+            font-size: 1em;
+        }
+
+        h5 {
+            font-size: 0.875em;
+        }
+
+        h6 {
+            color: #6a737d;
+            font-size: 0.85em;
+        }
+
+        ol,
+        ul {
+            padding-left: 2em;
+        }
+
+        ol ol,
+        ol ul,
+        ul ol,
+        ul ul {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        li {
+            word-wrap: break-all;
+        }
+
+        li > p {
+            margin-top: 16px;
+        }
+
+        li + li {
+            margin-top: 0.25em;
+        }
+
+        dl {
+            padding: 0;
+        }
+
+        dl dt {
+            font-size: 1em;
+            font-style: italic;
+            font-weight: 600;
+            margin-top: 16px;
+            padding: 0;
+        }
+
+        dl dd {
+            margin-bottom: 16px;
+            padding: 0 16px;
+        }
+
+        table {
+            display: block;
+            overflow: auto;
+            width: 100%;
+        }
+
+        table th {
+            font-weight: 600;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #dfe2e5;
+            padding: 6px 13px;
+        }
+
+        table tr {
+            background-color: #fff;
+            border-top: 1px solid #c6cbd1;
+        }
+
+        table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+
+        img {
+            background-color: #fff;
+            box-sizing: content-box;
+            max-width: 100%;
+        }
+
+        img[align='right'] {
+            padding-left: 20px;
+        }
+
+        img[align='left'] {
+            padding-right: 20px;
+        }
+
+        code {
+            background-color: rgba(27, 31, 35, 0.05);
+            border-radius: 3px;
+            font-size: 85%;
+            margin: 0;
+            padding: 0.2em 0.4em;
+        }
+
+        p code,
+        li code
+        {
+            padding: 2px;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 5px;
+        }
+
+        pre {
+            word-wrap: normal;
+        }
+
+        pre > code {
+            background: transparent;
+            border: 0;
+            font-size: 100%;
+            margin: 0;
+            padding: 0;
+            white-space: pre;
+            word-break: normal;
+        }
+
+        .highlight {
+            margin-bottom: 16px;
+        }
+
+        .highlight pre {
+            margin-bottom: 0;
+            word-break: normal;
+        }
+
+        .highlight pre,
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            font-size: 85%;
+            line-height: 1.45;
+            overflow: auto;
+            padding: 16px;
+        }
+
+        pre code {
+            background-color: transparent;
+            border: 0;
+            display: inline;
+            line-height: inherit;
+            margin: 0;
+            max-width: auto;
+            overflow: visible;
+            padding: 0;
+            word-wrap: normal;
+        }
+
+        kbd {
+            background-color: #fafbfc;
+            border: 1px solid #d1d5da;
+            border-bottom-color: #c6cbd1;
+            border-radius: 3px;
+            box-shadow: inset 0 -1px 0 #c6cbd1;
+            color: #444d56;
+            display: inline-block;
+            font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+            monospace;
+            line-height: 10px;
+            padding: 3px 5px;
+            vertical-align: middle;
+        }
+
+        :checked + .radio-label {
+            border-color: #0366d6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .task-list-item {
+            list-style-type: none;
+        }
+
+        .task-list-item + .task-list-item {
+            margin-top: 3px;
+        }
+
+        .task-list-item input {
+            margin: 0 0.2em 0.25em -1.6em;
+            vertical-align: middle;
+        }
+
+        hr {
+            border-bottom-color: #eee;
+        }
+
+        .dark p code,
+        .dark li code
+        {
+            background-color: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.3);
+            color: #03C588;
+        }
+        .auto p code,
+        .auto li code
+        {
+            background-color: #F9F9F9;
+            border-color: rgba(0,0,0,0.26);
+            color: #03C588;
+        }
+        .light p code,
+        .light li code
+        {
+            background-color: #F9F9F9;
+            border-color: rgba(0,0,0,0.26);
+            color: #03C588;
+        }
+        .sepia p code,
+        .sepia li code
+        {
+            background-color: #efe8d6;
+            border-color: rgba(0,0,0,0.26);
+            color: #F77942;
+        }
+        .solarizedDark p code,
+        .solarizedDark li code
+        {
+            background-color: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.3);
+            color: #36abe3;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+</head>
+<body>
+<h2>Checkout configuration</h2>
+<p>This is the final payload from the checkout middleware towards the integration.  </p>
+<h2>Checkout Configuration</h2>
+<p>Acts as the root checkout configuration object:</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>id</code> - String, The unique identifier of the checkout configuration</li>
+    <li><code>version</code> - Number, The current version of the checkout configuration</li>
+    <li><code>updated_at</code> - DateTime, JSON string representation of the checkout updated timestamp in UTC &#x26; ISO 8601 format (YYYY-MM-DDThh:mm:ss.sssZ)</li>
+    <li><code>delivery_zones</code> - Array of <a href="#Delivery-Zone">Delivery Zone</a></li>
+</ul>
+<h2>Delivery Zone</h2>
+<p>All the information regarding the delivery zone is handled in the specific object.</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>id</code> - String, The unique ID of the Delivery Zone</li>
+    <li><code>location</code> - Object, The configured <a href="#Location">Location</a> for this Delivery Zone</li>
+    <li><code>delivery_methods</code> - Array of <a href="#Delivery-Method">Delivery Method</a></li>
+</ul>
+<h2>Location</h2>
+<p>Describes the locaztion of the specific delivery zone (checkout for the first phase supports only domestic delivery zones).</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>country</code> - Object, the destination <a href="#Country">Country</a></li>
+</ul>
+<h2>Country</h2>
+<p>Describes the origin / destination country for the specific location.</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>iso_2</code> - String, ISO2 representation of the Country</li>
+    <li><code>name</code> - String, full official name of the Country</li>
+</ul>
+<h2>Delivery Method</h2>
+<p>A delivery method describes the delivery capabilities of a checkout project and is mix of Shipping Product information and merchant configured details.</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>id</code> - String, The unique ID of the Delivery Method</li>
+    <li><code>delivery_method_type</code> - String, describes the type of this delivery method (for the first phase of the project this will always be <code>nominated_day_delivery</code>).</li>
+    <li><code>shipping_product</code> - Object, the [Shipping Product] (#Shipping-Product) The user selected Shipping Product</li>
+    <li><code>external_title</code> - String, the integrations end user facing naming of the Delivery Method (e.g. "PostNL insured")</li>
+    <li><code>internal_title</code> - String, the internal naming of the specific Delivery Method (to be used in admin interfaces)</li>
+    <li><code>carrier</code> - Object, the <a href="#Carrier">Carrier</a></li>
+    <li><code>show_carrier_information_in_checkout</code> - Boolean, switch to hide or display carrier information in the checkout page</li>
+    <li><code>shipping_product</code> - Object, the configured <a href="#Shipping-Product">Shipping Product</a></li>
+    <li><code>nominated_day_processing_days</code> - Object, the merchant configured <a href="#Processing-Days">Processing days</a></li>
+    <li><code>lead_time_hours</code> - Number, the Delivery Method lead times in hours</li>
+</ul>
+<h3>Carrier</h3>
+<p>Describes the carrier for the selected <a href="#Delivery-Zone">Delivery Zone</a></p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>name</code> - String, the name of the carrier</li>
+    <li><code>code</code> - String, a unique identifier of the carrier</li>
+    <li><code>logo_url</code> - String, a url pointing to the carrier logo</li>
+</ul>
+<h2>Shipping Product</h2>
+<p>Describes a Sendcloud Shipping Product and the user selected functionalities of it.</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>code</code> - String, a unique identifier of a Shipping Product</li>
+    <li><code>name</code> - String, user friendly naming of the Shipping Product</li>
+    <li><code>selected_functionalities</code> - Object, the user selected functionalities for the specific Shipping Product.</li>
+    <li><code>delivery_days</code> - Object, describes the <a href="#Delivery-Days">Delivery Days</a> of the carrier for the specific Shipping Product </li>
+</ul>
+<h2>Selected Functionalities</h2>
+<p>Describes the user selected functionalities of the configured <a href="#Shipping-Product">Shipping Product</a></p>
+<h3>Representation</h3>
+<hr>
+<p>This is a dynamic object, current representation is out of the scope as the plugin itself is responsible of handling the data.</p>
+<h2>Processing Days</h2>
+<p>The merchant selected processing days with their cut off times.</p>
+<h3>Representation</h3>
+<hr>
+<ul>
+    <li><code>day</code> - Object, the day of the week represented as a string for every processing day of the merchant.</li>
+    <li><code>enabled</code> - Boolean, enables / disables the selected day as a processing day</li>
+    <li><code>cut_off_time_hours</code> - Number, the merchant's cut of time hours for the specified day</li>
+    <li><code>cut_off_time_minutes</code> - Number, the merchant's cut of time minutes for the specified day</li>
+</ul>
+<h2>Example payload</h2>
+<pre class="cm-s-material-darker CodeMirror language-json"><code class="language-json"><span>{</span><span>
+</span><span>  </span><span class="cm-string cm-property">"checkout_configuration"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>    </span><span class="cm-string cm-property">"id"</span><span>:</span><span> </span><span class="cm-string">"2f56479a-e1d2-4354-b0ea-bbf08e34a2c0"</span><span>,</span><span>
+</span><span>    </span><span class="cm-string cm-property">"version"</span><span>:</span><span> </span><span class="cm-number">1</span><span>,</span><span>
+</span><span>    </span><span class="cm-string cm-property">"updated_at"</span><span>:</span><span> </span><span class="cm-string">"2020-10-20T07:33:56.328Z"</span><span>,</span><span>
+</span><span>    </span><span class="cm-string cm-property">"delivery_zones"</span><span>:</span><span> </span><span>[</span><span>
+</span><span>      </span><span>{</span><span>
+</span><span>        </span><span class="cm-string cm-property">"id"</span><span>:</span><span> </span><span class="cm-string">"1"</span><span>,</span><span>
+</span><span>        </span><span class="cm-string cm-property">"location"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>          </span><span class="cm-string cm-property">"country"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>            </span><span class="cm-string cm-property">"iso_2"</span><span>:</span><span> </span><span class="cm-string">"NL"</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"name"</span><span>:</span><span> </span><span class="cm-string">"Netherlands"</span><span>
+</span><span>          </span><span>}</span><span>
+</span><span>        </span><span>}</span><span>,</span><span>
+</span><span>        </span><span class="cm-string cm-property">"delivery_methods"</span><span>:</span><span> </span><span>[</span><span>
+</span><span>          </span><span>{</span><span>
+</span><span>            </span><span class="cm-string cm-property">"id"</span><span>:</span><span> </span><span class="cm-string">"1"</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"delivery_method_type"</span><span>:</span><span> </span><span class="cm-string">"nominated_day_delivery"</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"external_title"</span><span>:</span><span> </span><span class="cm-string">"My PostNL Checkout"</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"internal_title"</span><span>:</span><span> </span><span class="cm-string">"postnl_checkout"</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"carrier"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>              </span><span class="cm-string cm-property">"name"</span><span>:</span><span> </span><span class="cm-string">"PostNL"</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"code"</span><span>:</span><span> </span><span class="cm-string">"postnl"</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"logo_url"</span><span>:</span><span> </span><span class="cm-string">"https://sendcloud-prod-scp-static-files.s3.amazonaws.com/postnl/img/logo.svg"</span><span>
+</span><span>            </span><span>}</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"show_carrier_information_in_checkout"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"lead_time_hours"</span><span>:</span><span> </span><span class="cm-number">24</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"shipping_product"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>              </span><span class="cm-string cm-property">"code"</span><span>:</span><span> </span><span class="cm-string">"postnl:standard/signature,home_only,eve"</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"name"</span><span>:</span><span> </span><span class="cm-string">"PostNL Standard"</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"selected_functionalities"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"signature"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"delivery_days"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"monday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">19</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">30</span><span>
+</span><span>                </span><span>}</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"tuesday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">19</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">30</span><span>
+</span><span>                </span><span>}</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"wednesday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">19</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">30</span><span>
+</span><span>                </span><span>}</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"thursday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">19</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">30</span><span>
+</span><span>                </span><span>}</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"friday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">22</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>                </span><span>}</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"saturday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">15</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>                </span><span>}</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"sunday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_hours"</span><span>:</span><span> </span><span class="cm-number">7</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"start_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_hours"</span><span>:</span><span> </span><span class="cm-number">15</span><span>,</span><span>
+</span><span>                  </span><span class="cm-string cm-property">"end_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>                </span><span>}</span><span>
+</span><span>              </span><span>}</span><span>
+</span><span>            </span><span>}</span><span>,</span><span>
+</span><span>            </span><span class="cm-string cm-property">"nominated_day_processing_days"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>              </span><span class="cm-string cm-property">"monday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">17</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"tuesday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">17</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"wednesday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">17</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"thursday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">17</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"friday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">20</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"saturday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">true</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">16</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>,</span><span>
+</span><span>              </span><span class="cm-string cm-property">"sunday"</span><span>:</span><span> </span><span>{</span><span>
+</span><span>                </span><span class="cm-string cm-property">"enabled"</span><span>:</span><span> </span><span class="cm-atom">false</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_hours"</span><span>:</span><span> </span><span class="cm-number">0</span><span>,</span><span>
+</span><span>                </span><span class="cm-string cm-property">"cut_off_time_minutes"</span><span>:</span><span> </span><span class="cm-number">0</span><span>
+</span><span>              </span><span>}</span><span>
+</span><span>            </span><span>}</span><span>
+</span><span>          </span><span>}</span><span>
+</span><span>        </span><span>]</span><span>
+</span><span>      </span><span>}</span><span>
+</span><span>    </span><span>]</span><span>
+</span><span>  </span><span>}</span><span>
+</span><span>}</span><span>
+</span><span>
+</span></code></pre>
+</body>
+</html>
