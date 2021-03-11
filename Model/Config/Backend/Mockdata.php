@@ -47,7 +47,7 @@ class Mockdata extends Field
         $mockdata = $this->checkoutConfigCollection->create()->getLastItem()->getConfigJson();
 
         $html = '<div><p>Checkout Configuration JSON array</p>';
-        $html .='<textarea id="mockdata" name="mockdata" rows="50" cols="70">' . print_r($mockdata, true) . '</textarea>';
+        $html .='<textarea id="mockdata" name="mockdata" rows="50" cols="70" disabled>' . print_r($mockdata, true) . '</textarea>';
         $html .= '</div>';
 
         return $html;
