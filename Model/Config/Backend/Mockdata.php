@@ -6,6 +6,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use SendCloud\SendCloudV2\Helper\Backend;
+use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig\CollectionFactory;
 
 
 class Mockdata extends Field
@@ -16,15 +17,23 @@ class Mockdata extends Field
     public $backendHelper;
 
     /**
+     * @var CollectionFactory
+     */
+    private CollectionFactory $checkoutConfigCollection;
+
+    /**
      * @param Context $context
      * @param Backend $backendHelper
+     * @param CollectionFactory $checkoutConfigCollection
      */
     public function __construct(
         Context $context,
-        Backend $backendHelper
+        Backend $backendHelper,
+        CollectionFactory $checkoutConfigCollection
     ) {
         parent::__construct($context);
         $this->backendHelper = $backendHelper;
+        $this->checkoutConfigCollection = $checkoutConfigCollection;
     }
 
     /**
@@ -35,14 +44,10 @@ class Mockdata extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $mockdata = false;
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $mockModel = $objectManager->get('SendCloud\SendCloudV2\Model\Checkoutconfiguration');
-        $mockdata = $mockModel->get();
+        $mockdata = $this->checkoutConfigCollection->create()->getLastItem()->getConfigJson();
 
-        $html = '<div><p>Mockdata from the middleware in core_config:</p>';
+        $html = '<div><p>Checkout Configuration JSON array</p>';
         $html .='<textarea id="mockdata" name="mockdata" rows="50" cols="70">' . print_r($mockdata, true) . '</textarea>';
-//        $html .='<pre style="max-width:100%">' . print_r($mockdata, true) . '</pre>';
         $html .= '</div>';
 
         return $html;
