@@ -5,7 +5,7 @@ var config = {
             'SendCloudV2RatesValidationRulesServicepoint' : 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/servicepoint',
             'SendCloudV2RatesValidationRulesDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/deliveryoptions',
             'SendCloudV2RatesValidatorServicepoint': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint',
-            'SendCloudV2RatesValidatorDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint',
+            'SendCloudV2RatesValidatorDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/deliveryoptions',
             'SendCloudData': 'SendCloud_SendCloudV2/js/view/shipping-information/sendcloud-data'
         }
     },
