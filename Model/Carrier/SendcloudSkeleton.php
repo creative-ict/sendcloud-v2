@@ -3,20 +3,17 @@
 namespace SendCloud\SendCloudV2\Model\Carrier;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory;
 use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
-use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Rate\ResultFactory;
 use Psr\Log\LoggerInterface;
-use SendCloud\SendCloudV2\Model\Carrier\SendcloudAbstract;
+use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig\CollectionFactory;
 
-
-class SendcloudSkeleton extends SendcloudAbstract
-        implements CarrierInterface
+class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
 {
-
     protected $_code = 'sendcloudv2skeleton';
     protected $_isFixed = true;
 
@@ -31,6 +28,16 @@ class SendcloudSkeleton extends SendcloudAbstract
     protected $_rateMethodFactory;
 
     /**
+     * @var SerializerInterface
+     */
+    private SerializerInterface $serializer;
+
+    /**
+     * @var CollectionFactory
+     */
+    private CollectionFactory $checkoutConfigCollection;
+
+    /**
      * Constructor
      *
      * @param ScopeConfigInterface $scopeConfig
@@ -38,6 +45,8 @@ class SendcloudSkeleton extends SendcloudAbstract
      * @param LoggerInterface $logger
      * @param ResultFactory $rateResultFactory
      * @param MethodFactory $rateMethodFactory
+     * @param SerializerInterface $serializer
+     * @param CollectionFactory $checkoutConfigCollection
      * @param array $data
      */
     public function __construct(
@@ -46,11 +55,15 @@ class SendcloudSkeleton extends SendcloudAbstract
         LoggerInterface $logger,
         ResultFactory $rateResultFactory,
         MethodFactory $rateMethodFactory,
+        SerializerInterface $serializer,
+        CollectionFactory $checkoutConfigCollection,
         array $data = []
     ) {
+        parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
+        $this->serializer = $serializer;
+        $this->checkoutConfigCollection = $checkoutConfigCollection;
     }
 
     /**
@@ -69,11 +82,14 @@ class SendcloudSkeleton extends SendcloudAbstract
         if ($shippingPrice !== false) {
             $method = $this->_rateMethodFactory->create();
 
-            //to do: test
-            $test = get_parent_class($this);
-
             $method->setCarrier($this->_code);
-            $method->setCarrierTitle($this->getConfigData('title'));
+
+
+            if ($this->getConfigData('title')) {
+                $method->setCarrierTitle($this->getConfigData('title'));
+            } else {
+                $method->setCarrierTitle($this->getExternalTitle());
+            }
 
             $method->setMethod($this->_code);
             $method->setMethodTitle($this->getConfigData('name'));
@@ -99,5 +115,23 @@ class SendcloudSkeleton extends SendcloudAbstract
     public function getAllowedMethods()
     {
         return [$this->_code => $this->getConfigData('name')];
+    }
+
+    /**
+     * @return array
+     */
+    private function getCheckoutConfig()
+    {
+        return $this->serializer->unserialize($this->checkoutConfigCollection->create()->getLastItem()->getConfigJson());
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getExternalTitle()
+    {
+        $configJson = $this->getCheckoutConfig();
+
+        return $configJson['delivery_zones'][0]['delivery_methods'][0]['external_title'];
     }
 }
