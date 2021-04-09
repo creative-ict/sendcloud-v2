@@ -33,6 +33,9 @@ class ShippingProduct extends AbstractExtensibleModel implements ShippingProduct
     public function getSelectedFunctionalities()
     {
         $data = $this->getData('selected_functionalities');
+        if(is_string($data)) {
+            return $data;
+        }
         $functionalitiesObject = (array)$data->getFunctionalitiesData();
         return json_encode($functionalitiesObject);
     }
