@@ -207,7 +207,7 @@ class OrderRepository
             /** @var SelectedFunctionalitiesInterface $selectedFunctionalities */
             $selectedFunctionalities = $this->selectedFunctionalitiesFactory->create();
             $data = json_decode($checkoutPayloadModel->getSelectedFunctionalities());
-            $selectedFunctionalities->setSignature($data->signature);
+            $selectedFunctionalities->setFunctionalitiesData($data);
 
             /** @var ShippingProductInterface $shippingProduct */
             $shippingProduct = $this->shippingProductFactory->create();

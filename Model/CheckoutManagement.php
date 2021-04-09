@@ -2,7 +2,6 @@
 
 namespace SendCloud\SendCloudV2\Model;
 
-use Exception;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
@@ -94,23 +93,16 @@ class CheckoutManagement
     }
 
     /**
-     * @param string $configId
-     * @return bool
-     * @throws Exception
+     * @return mixed[]
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function deleteCheckout(string $configId): bool
+    public function deleteCheckout()
     {
-        $entityId = (int) $this->checkoutResource->getIdByConfigId($configId);
-        if (!$entityId) {
-            return false;
-        }
-        $checkoutConfigModel = $this->checkoutFactory->create();
-        $this->checkoutResource->load($checkoutConfigModel, $entityId);
-        $this->checkoutResource->delete($checkoutConfigModel);
+        $connection = $this->checkoutResource->getConnection();
+        $tableName = $this->checkoutResource->getMainTable();
 
-        $this->writer->save('carriers/sendcloudv2skeleton/active', 0);
-        $this->cache->cleanType('config');
+        $connection->truncateTable($tableName);
 
-        return true;
+        return ['message' => ['success' => 'Checkout configuration successfully removed']];
     }
 }

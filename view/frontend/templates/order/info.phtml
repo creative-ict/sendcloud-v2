@@ -44,7 +44,7 @@ $checkoutPayload = $block->getSendCloudData($_order->getQuoteId());
                                 <?= $escaper->escapeHtml($_order->getSendcloudServicePointName()) ?><br>
                                 <?= $escaper->escapeHtml($_order->getSendcloudServicePointStreet()) ?> <?= $escaper->escapeHtml($_order->getSendcloudServicePointHouseNumber()) ?><br>
                                 <?= $escaper->escapeHtml($_order->getSendcloudServicePointZipCode()) ?>  <?= $escaper->escapeHtml($_order->getSendcloudServicePointCity()) ?><br>
-                                <?= $escaper->escapeHtml($_order->getSendCloudServicePointPostnumber()) ?>
+                                <?= $escaper->escapeHtml($_order->getSendcloudServicePointPostnumber()) ?>
                             </address>
                         </div>
                     <?php elseif ($_order->getShippingDescription()) : ?>

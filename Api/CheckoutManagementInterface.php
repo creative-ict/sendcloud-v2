@@ -13,9 +13,7 @@ interface CheckoutManagementInterface
 
 
     /**
-     * @param string $id
-     * @return bool
-     * @throws \Exception
+     * @return mixed[]
      */
-    public function deleteCheckout(string $id): bool;
+    public function deleteCheckout();
 }

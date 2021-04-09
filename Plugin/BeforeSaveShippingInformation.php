@@ -104,7 +104,7 @@ class BeforeSaveShippingInformation
                 $checkoutPayloadModel->setQuoteId($quote->getEntityId());
                 $checkoutPayloadModel->setCode($shippingProduct->getCode());
                 $checkoutPayloadModel->setName($shippingProduct->getName());
-                $checkoutPayloadModel->setSelectedFunctionalities(json_encode($shippingProduct->getSelectedFunctionalities()->getData()));
+                $checkoutPayloadModel->setSelectedFunctionalities($shippingProduct->getSelectedFunctionalities());
                 $checkoutPayloadModel->setDeliveryDate($nominatedDayDelivery->getDeliveryDate());
                 $checkoutPayloadModel->setFormattedDeliveryDate($nominatedDayDelivery->getFormattedDeliveryDate());
                 $checkoutPayloadModel->setParcelHandoverDate($nominatedDayDelivery->getParcelHandoverDate());

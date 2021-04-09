@@ -28,16 +28,17 @@ interface ShippingProductInterface extends ExtensibleDataInterface
      */
     public function setName($name);
 
+    
     /**
-     * @return \SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface|null
+     * @return mixed
      */
     public function getSelectedFunctionalities();
 
     /**
-     * @param \SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface $selected
+     * @param string $selected
      * @return $this
      */
-    public function setSelectedFunctionalities(\SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface $selected);
+    public function setSelectedFunctionalities($selected);
 
     /**
      * @param \SendCloud\SendCloudV2\Api\Data\ShippingProductExtensionInterface $extensionAttributes

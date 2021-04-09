@@ -6,6 +6,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 interface NominatedDayDeliveryInterface extends ExtensibleDataInterface
 {
+
+
     /**
      * @param $deliveryDate
      * @return mixed

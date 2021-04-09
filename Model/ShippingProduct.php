@@ -28,14 +28,19 @@ class ShippingProduct extends AbstractExtensibleModel implements ShippingProduct
     }
 
     /**
-     * @return \SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface|null
+     * @return mixed
      */
     public function getSelectedFunctionalities()
     {
-        return $this->getData('selected_functionalities');
+        $data = $this->getData('selected_functionalities');
+        if(is_string($data)) {
+            return $data;
+        }
+        $functionalitiesObject = (array)$data->getFunctionalitiesData();
+        return json_encode($functionalitiesObject);
     }
 
-    public function setSelectedFunctionalities(\SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface $selected)
+    public function setSelectedFunctionalities($selected)
     {
         return $this->setData('selected_functionalities', $selected);
     }

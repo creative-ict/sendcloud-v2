@@ -43,6 +43,8 @@ interface CheckoutPayloadInterface extends ExtensibleDataInterface
      */
     public function setNominatedDayDelivery(\SendCloud\SendCloudV2\Api\Data\NominatedDayDeliveryInterface $nominatedDay);
 
+    
+
     /**
      * @return \SendCloud\SendCloudV2\Api\Data\CheckoutPayloadExtensionInterface|null
      */
