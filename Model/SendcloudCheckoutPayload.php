@@ -23,6 +23,5 @@ class SendcloudCheckoutPayload implements SendcloudCheckoutPayloadInterface
     public function setSendcloudCheckoutPayload($sendcloudCheckoutPayload)
     {
         $this->sendcloudCheckoutPayload = json_decode($sendcloudCheckoutPayload);
-        //$this->sendcloudCheckoutPayload = ['sendcloud_checkout_payload' => ['blaat' => 'blaatdata', 'kjhgaskj' => 'lkjasData']];
     }
 }

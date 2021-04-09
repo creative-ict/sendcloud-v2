@@ -64,4 +64,13 @@
             <column name="config_id"/>
         </index>
     </table>
+    <table name="sales_order" resource="sales" comment="Sales Flat Order">
+        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="SendCloud Checkout Payload"/>
+    </table>
+    <table name="sales_order_grid" resource="sales" comment="Sales Flat Order Grid">
+        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="SendCloud Checkout Payload"/>
+    </table>
+    <table name="quote" resource="checkout" comment="Sales Flat Quote   ">
+        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="SendCloud Checkout Payload"/>
+    </table>
 </schema>

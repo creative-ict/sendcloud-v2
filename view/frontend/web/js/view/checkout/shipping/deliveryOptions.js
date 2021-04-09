@@ -96,7 +96,7 @@ define([
                 }
             }
 
-            result.checkout_payload.shipping_product['selected_functionalities'] = selectedFunctionalities;
+            result.checkout_payload.shipping_product['selected_functionalities'] = JSON.stringify(selectedFunctionalities);
 
             self.deliveryOptionsData(result);
             window.checkoutConfig.scDeliveryOptionsData = JSON.stringify(result);

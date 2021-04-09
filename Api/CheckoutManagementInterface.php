@@ -13,8 +13,7 @@ interface CheckoutManagementInterface
 
 
     /**
-     * @param string $id
-     * @return $this
+     * @return mixed[]
      */
-    public function deleteCheckout($id);
+    public function deleteCheckout();
 }

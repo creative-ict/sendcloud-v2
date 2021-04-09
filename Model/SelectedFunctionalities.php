@@ -7,23 +7,6 @@ use SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesInterface;
 
 class SelectedFunctionalities extends AbstractExtensibleModel implements SelectedFunctionalitiesInterface
 {
-    /**
-     * @param boolean $value
-     * @return $this
-     */
-    public function setSignature($value)
-    {
-        return $this->setData('signature', $value);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getSignature()
-    {
-        return $this->getData('signature');
-    }
-
     public function setExtensionAttributes(\SendCloud\SendCloudV2\Api\Data\SelectedFunctionalitiesExtensionInterface $extensionAttributes)
     {
         return $this->_setExtensionAttributes($extensionAttributes);
