@@ -5,6 +5,7 @@ namespace SendCloud\SendCloudV2\Block\Checkout;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\ScopeInterface;
+use SendCloud\SendCloudV2\Helper\Checkoutconfiguration;
 use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig\CollectionFactory;
 
 /**
@@ -23,16 +24,31 @@ class Config extends Template
      */
     private SerializerInterface $serializer;
 
+    /**
+     * @var Checkoutconfiguration
+     */
+    public $helper;
+
+    /**
+     * Config constructor.
+     * @param Template\Context $context
+     * @param CollectionFactory $checkoutConfigCollection
+     * @param SerializerInterface $serializer
+     * @param Checkoutconfiguration $helper
+     * @param array $data
+     */
     public function __construct(
         Template\Context $context,
         CollectionFactory $checkoutConfigCollection,
         SerializerInterface $serializer,
+        Checkoutconfiguration $helper,
         array $data = []
     ) {
         parent::__construct($context, $data);
 
         $this->checkoutConfigCollection = $checkoutConfigCollection;
         $this->serializer = $serializer;
+        $this->helper = $helper;
     }
 
     /**
@@ -51,8 +67,19 @@ class Config extends Template
         );
     }
 
+    public function getMethods()
+    {
+        return $this->helper->getBlockMethods();
+    }
+
+
     public function getCheckoutConfig()
     {
         return $this->serializer->unserialize($this->checkoutConfigCollection->create()->getLastItem()->getConfigJson());
+    }
+
+    public function getLocale()
+    {
+        return $this->helper->getCurrentLocale();
     }
 }

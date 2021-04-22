@@ -1,2 +1,5 @@
-<div class="sendcloud-delivery-options" data-bind="visible: selectedMethod() == 'sendcloudv2skeleton_sendcloudv2skeleton'" afterRender="renderDeliveryOptions()">
+<div class="sendcloud-delivery-options" data-bind="scope: 'sendcloudv2skeleton'">
+    <div data-bind="attr: {'id': 'delivery-method-' + $parent.method_code}">
+        <div afterRender="renderDeliveryOptions($parent.method_code)"></div>
+    </div>
 </div>

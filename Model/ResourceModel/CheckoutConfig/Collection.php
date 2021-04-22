@@ -17,4 +17,7 @@ class Collection extends AbstractCollection
     {
         $this->_init('SendCloud\SendCloudV2\Model\CheckoutConfig', 'SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig');
     }
+
+
+
 }

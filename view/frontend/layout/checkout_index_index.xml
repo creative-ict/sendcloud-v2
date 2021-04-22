@@ -18,6 +18,9 @@
                                         <item name="shipping-step" xsi:type="array">
                                             <item name="children" xsi:type="array">
                                                 <item name="shippingAddress" xsi:type="array">
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="shippingMethodItemTemplate" xsi:type="string">SendCloud_SendCloudV2/shipping-address/shipping-method-item</item>
+                                                    </item>
                                                     <item name="children" xsi:type="array">
                                                         <item name="shippingAdditional" xsi:type="array">
                                                             <item name="component" xsi:type="string">uiComponent</item>
@@ -25,9 +28,6 @@
                                                             <item name="children" xsi:type="array">
                                                                 <item name="service-point" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SendCloud_SendCloudV2/js/view/checkout/shipping/servicePoint</item>
-                                                                </item>
-                                                                <item name="sendcloud-delivery-options" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">SendCloud_SendCloudV2/js/view/checkout/shipping/deliveryOptions</item>
                                                                 </item>
                                                             </item>
                                                         </item>

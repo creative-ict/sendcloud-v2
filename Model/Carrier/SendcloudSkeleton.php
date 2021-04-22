@@ -11,6 +11,7 @@ use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\ResultFactory;
 use Psr\Log\LoggerInterface;
 use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig\CollectionFactory;
+use SendCloud\SendCloudV2\Helper\Checkoutconfiguration;
 
 class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
 {
@@ -30,15 +31,21 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
     /**
      * @var SerializerInterface
      */
-    private SerializerInterface $serializer;
+    private $serializer;
 
     /**
      * @var CollectionFactory
      */
-    private CollectionFactory $checkoutConfigCollection;
+    private $checkoutConfigCollection;
+
 
     /**
-     * Constructor
+     * @var Checkoutconfiguration
+     */
+    private $checkouConfigurationHelper;
+
+    /**
+     * SendcloudSkeleton constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
      * @param ErrorFactory $rateErrorFactory
@@ -47,6 +54,7 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
      * @param MethodFactory $rateMethodFactory
      * @param SerializerInterface $serializer
      * @param CollectionFactory $checkoutConfigCollection
+     * @param Checkoutconfiguration $checkouConfigurationHelper
      * @param array $data
      */
     public function __construct(
@@ -57,6 +65,7 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
         MethodFactory $rateMethodFactory,
         SerializerInterface $serializer,
         CollectionFactory $checkoutConfigCollection,
+        Checkoutconfiguration $checkouConfigurationHelper,
         array $data = []
     ) {
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
@@ -64,6 +73,8 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->serializer = $serializer;
         $this->checkoutConfigCollection = $checkoutConfigCollection;
+        $this->checkouConfigurationHelper = $checkouConfigurationHelper;
+        $this->getDeliveryZoneMethods();
     }
 
     /**
@@ -75,63 +86,37 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
             return false;
         }
 
-        $shippingPrice = $this->getConfigData('price');
-
         $result = $this->_rateResultFactory->create();
 
-        if ($shippingPrice !== false) {
-            $method = $this->_rateMethodFactory->create();
+        if(in_array($request->getDestCountryId(), $this->checkouConfigurationHelper->getZones())) {
 
-            $method->setCarrier($this->_code);
+            $shippingPrice = $this->getConfigData('price');
 
+            $methods = $this->checkouConfigurationHelper->getMethods();
+            foreach ($methods[$request->getDestCountryId()] as $value)
+            {
+                $method = $this->_rateMethodFactory->create();
+                $method->setCarrier($this->_code);
 
-            if ($this->getConfigData('title')) {
-                $method->setCarrierTitle($this->getConfigData('title'));
-            } else {
-                $method->setCarrierTitle($this->getExternalTitle());
+                $method->setCarrierTitle($value->getCarrierName());
+
+                $method->setMethod($value->getId());
+                $method->setMethodTitle($value->getTitle());
+
+                $method->setPrice($shippingPrice);
+                $method->setCost($shippingPrice);
+
+                $result->append($method);
             }
-
-            $method->setMethod($this->_code);
-            $method->setMethodTitle($this->getConfigData('name'));
-
-            if ($request->getFreeShipping() === true || $request->getPackageQty() == $this->getFreeBoxes()) {
-                $shippingPrice = '0.00';
-            }
-
-            $method->setPrice($shippingPrice);
-            $method->setCost($shippingPrice);
-
-            $result->append($method);
         }
-
         return $result;
     }
 
     /**
-     * getAllowedMethods
-     *
      * @return array
      */
     public function getAllowedMethods()
     {
         return [$this->_code => $this->getConfigData('name')];
-    }
-
-    /**
-     * @return array
-     */
-    private function getCheckoutConfig()
-    {
-        return $this->serializer->unserialize($this->checkoutConfigCollection->create()->getLastItem()->getConfigJson());
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getExternalTitle()
-    {
-        $configJson = $this->getCheckoutConfig();
-
-        return $configJson['delivery_zones'][0]['delivery_methods'][0]['external_title'];
     }
 }

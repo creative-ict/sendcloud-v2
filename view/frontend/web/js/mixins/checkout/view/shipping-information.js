@@ -15,10 +15,15 @@ define([
             initObservable: function () {
                 this._super();
                 this.selectedMethod = ko.computed(function() {
-                    var method = quote.shippingMethod();
-                    var selectedMethod = method != null ? method.carrier_code + '_' + method.method_code : null;
-
+                    var method = quote.shippingMethod(),
+                        selectedMethod = method != null ? method.carrier_code + '_' + method.method_code : null;
                     return selectedMethod;
+                }, this);
+
+                this.selectedCarrier = ko.computed(function () {
+                    var method = quote.shippingMethod(),
+                        selectedCarrier = method != null ? method.carrier_code : null;
+                    return selectedCarrier;
                 }, this);
 
                 return this;

@@ -8,11 +8,12 @@ define([
     return function (payloadExtender) {
         return wrapper.wrap(payloadExtender, function (originalAction, payload) {
             var self = this,
-                methodCode = quote.shippingMethod()['method_code'];
+                methodCode = quote.shippingMethod()['method_code'],
+                carrierCode = quote.shippingMethod()['carrier_code'];
 
             payload = originalAction(payload);
 
-            if (methodCode === 'sendcloudv2skeleton') {
+            if (carrierCode === 'sendcloudv2skeleton') {
                 var checkoutPayload = JSON.parse(window.checkoutConfig.scDeliveryOptionsData);
                 payload.addressInformation['extension_attributes']['sendcloud_data'] = checkoutPayload;
             } else if (methodCode === 'sendcloudv2servicepoint') {

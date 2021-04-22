@@ -32,8 +32,6 @@ class JsonPlugin
      */
     public function aroundRender(Json $jsonRenderer, callable $proceed, $data)
     {
-
-
         if (isset($data['items']) && !isset($data['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'])) {
             foreach($data['items'] as $key => $value) {
                 if (isset($value['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'])) {

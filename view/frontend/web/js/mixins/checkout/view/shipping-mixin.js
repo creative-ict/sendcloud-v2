@@ -66,6 +66,18 @@ define([
                         behavior: "smooth"
                     })
                 }
+            },
+            canShowSendCloudShippingOption: function (method) {
+                //TODO: check if widget can be rendered for this method
+                if (method['carrier_code'] + '_' + method['method_code'] == this.isSelected()) {
+                    return true;
+                }
+            },
+            getShippingOptionsTemplate: function () {
+                return deliveryOptions().shippingOptionsTemplate;
+            },
+            renderShippingOption: function (methodCode) {
+                return deliveryOptions().renderDeliveryOptions(methodCode);
             }
         });
     }

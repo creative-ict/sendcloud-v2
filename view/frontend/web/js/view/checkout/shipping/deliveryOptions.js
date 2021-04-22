@@ -9,33 +9,35 @@ define([
     'use strict';
 
     var self = this,
-        deliveryOptions = ko.observable(false),
-        checkoutConfig = ko.observable(false);
+        deliveryOptions = ko.observable(false);
 
     return Component.extend({
         defaults: {
-            template: 'SendCloud_SendCloudV2/checkout/shipping/deliveryOptions'
+            shippingOptionsTemplate: 'SendCloud_SendCloudV2/checkout/shipping/deliveryOptions'
         },
         options: {
-            mountElement: ko.observable(document.querySelector('.sendcloud-delivery-options')),
-            nominatedDayDelivery: ko.observable(false),
+            mountElement: ko.observable(false),
             deliveryMethod: ko.observable(false),
-            locale: 'nl-NL'
+            locale: ko.observable(false)
         },
+        deliveryMethods: ko.observable(false),
         deliveryOptionsData: deliveryOptions,
         initialize: function (config) {
-            var deliveryMethods;
             this._super();
 
-            checkoutConfig = config.checkoutConfig;
-            if (checkoutConfig) {
-                deliveryMethods = checkoutConfig.delivery_zones[0].delivery_methods[0];
-                this.options.deliveryMethod = deliveryMethods;
+            if (config) {
+                if (config.locale) {
+                    this.options.locale = config.locale;
+                }
+                if (config.deliveryMethods) {
+                    this.deliveryMethods = config.deliveryMethods;
+                }
             }
 
             return this;
         },
         initObservable: function () {
+            this._super();
             this.selectedMethod = ko.computed(function () {
                 var method = quote.shippingMethod();
                 return method != null ? method.carrier_code + '_' + method.method_code : null;
@@ -43,8 +45,14 @@ define([
 
             return this;
         },
-        renderDeliveryOptions: function () {
-            this.getMountElement();
+        renderDeliveryOptions: function (methodCode) {
+            if (!this.deliveryMethods[methodCode]) {
+                return;
+            }
+
+            this.options.deliveryMethod = this.deliveryMethods[methodCode];
+
+            this.getMountElement(methodCode);
 
             window.renderScShippingOption(this.options);
 
@@ -64,8 +72,8 @@ define([
             }
             self.setDeliveryOptionsData();
         },
-        getMountElement: function () {
-            this.options.mountElement = document.querySelector('.sendcloud-delivery-options');
+        getMountElement: function (methodCode) {
+            this.options.mountElement = document.getElementById('delivery-method-' + methodCode);
         },
         handleScShippingOptionChange: function (event) {
             var self = this,

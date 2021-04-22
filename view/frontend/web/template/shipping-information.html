@@ -46,7 +46,7 @@
                 </div>
             </if>
             <if args="getFormattedSendCloudData()">
-                <div class="sendcloud-data" data-bind="visible: selectedMethod() == 'sendcloudv2skeleton_sendcloudv2skeleton'">
+                <div class="sendcloud-data" data-bind="visible: selectedCarrier() == 'sendcloudv2skeleton'">
                     <strong data-bind="text: getFormattedSendCloudData().name"></strong><br>
                     <span data-bind="i18n: 'Delivery Date'"></span>: <span data-bind="text: getFormattedSendCloudData().date"></span>
                 </div>
