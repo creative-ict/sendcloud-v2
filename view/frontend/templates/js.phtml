@@ -25,7 +25,8 @@
                     "sendcloudv2skeleton": {
                         "component": "SendCloud_SendCloudV2/js/view/checkout/shipping/deliveryOptions",
                         "config": {
-                            "checkoutConfig": <?= Zend_Json::encode($block->getCheckoutConfig()) ?>
+                            "deliveryMethods": <?= Zend_Json::encode($block->getMethods()) ?>,
+                            "locale": "<?= $block->getLocale() ?>"
                         }
                     }
                 }
