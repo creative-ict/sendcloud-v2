@@ -9,13 +9,13 @@
     <route method="PUT" url="/V1/sendcloud-sendcloudv2/checkout">
         <service class="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" method="putCheckout"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Magento_Sales::sales"/>
         </resources>
     </route>
     <route method="DELETE" url="/V1/sendcloud-sendcloudv2/checkout">
         <service class="SendCloud\SendCloudV2\Api\CheckoutManagementInterface" method="deleteCheckout"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Magento_Sales::sales"/>
         </resources>
     </route>
     <route method="DELETE" url="/V1/sendcloud-sendcloudv2/uninstall">
