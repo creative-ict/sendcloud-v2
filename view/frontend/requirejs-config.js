@@ -25,6 +25,9 @@ var config = {
             },
             'Amasty_Checkout/js/model/one-step-layout': {
                 'SendCloud_SendCloudV2/js/mixins/model/one-step-layout-mixin': true
+            },
+            'Onestepcheckout_Iosc/js/shipping': {
+                'SendCloud_SendCloudV2/js/mixins/shipping': true
             }
         }
     }
