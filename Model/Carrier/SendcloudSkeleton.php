@@ -3,19 +3,28 @@
 namespace SendCloud\SendCloudV2\Model\Carrier;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Request\Http as Request;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory;
 use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\ResultFactory;
+use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
-use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig\CollectionFactory;
 use SendCloud\SendCloudV2\Helper\Checkoutconfiguration;
+use SendCloud\SendCloudV2\Model\ResourceModel\CheckoutConfig\CollectionFactory;
 
 class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
 {
+    /**
+     * @var string
+     */
     protected $_code = 'sendcloudv2skeleton';
+
+    /**
+     * @var bool
+     */
     protected $_isFixed = true;
 
     /**
@@ -29,32 +38,23 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
     protected $_rateMethodFactory;
 
     /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
-     * @var CollectionFactory
-     */
-    private $checkoutConfigCollection;
-
-
-    /**
      * @var Checkoutconfiguration
      */
-    private $checkouConfigurationHelper;
+    private $checkoutConfigurationHelper;
+
+    /**
+     * @var Request
+     */
+    private Request $request;
 
     /**
      * SendcloudSkeleton constructor.
-     *
      * @param ScopeConfigInterface $scopeConfig
      * @param ErrorFactory $rateErrorFactory
      * @param LoggerInterface $logger
      * @param ResultFactory $rateResultFactory
      * @param MethodFactory $rateMethodFactory
-     * @param SerializerInterface $serializer
-     * @param CollectionFactory $checkoutConfigCollection
-     * @param Checkoutconfiguration $checkouConfigurationHelper
+     * @param Checkoutconfiguration $checkoutConfigurationHelper
      * @param array $data
      */
     public function __construct(
@@ -63,17 +63,15 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
         LoggerInterface $logger,
         ResultFactory $rateResultFactory,
         MethodFactory $rateMethodFactory,
-        SerializerInterface $serializer,
-        CollectionFactory $checkoutConfigCollection,
-        Checkoutconfiguration $checkouConfigurationHelper,
+        Checkoutconfiguration $checkoutConfigurationHelper,
+        Request $request,
         array $data = []
     ) {
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $this->serializer = $serializer;
-        $this->checkoutConfigCollection = $checkoutConfigCollection;
-        $this->checkouConfigurationHelper = $checkouConfigurationHelper;
+        $this->checkoutConfigurationHelper = $checkoutConfigurationHelper;
+        $this->request = $request;
         $this->getDeliveryZoneMethods();
     }
 
@@ -88,13 +86,11 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
 
         $result = $this->_rateResultFactory->create();
 
-        if(in_array($request->getDestCountryId(), $this->checkouConfigurationHelper->getZones())) {
-
+        if (in_array($request->getDestCountryId(), $this->checkoutConfigurationHelper->getZones())) {
             $shippingPrice = $this->getConfigData('price');
 
-            $methods = $this->checkouConfigurationHelper->getMethods();
-            foreach ($methods[$request->getDestCountryId()] as $value)
-            {
+            $methods = $this->checkoutConfigurationHelper->getMethods();
+            foreach ($methods[$request->getDestCountryId()] as $value) {
                 $method = $this->_rateMethodFactory->create();
                 $method->setCarrier($this->_code);
 
@@ -117,6 +113,54 @@ class SendcloudSkeleton extends SendcloudAbstract implements CarrierInterface
      */
     public function getAllowedMethods()
     {
-        return [$this->_code => $this->getConfigData('name')];
+        $methods = $this->checkoutConfigurationHelper->getMethods();
+        $countryId = $this->getCountryId();
+        $methodsArray = [];
+
+        if (isset($methods[$countryId])) {
+            foreach ($methods[$countryId] as $method) {
+                $methodsArray[$method->getId()] = $this->getMethodTitle($method);
+            }
+        } else {
+            $methods = $this->checkoutConfigurationHelper->getAllMethods();
+            foreach ($methods as $method) {
+                $methodsArray[$method->getId()] = $this->getMethodTitle($method);
+            }
+        }
+
+        return $methodsArray;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getCountryId()
+    {
+        $storeId = $this->getCurrentStoreId();
+
+        return $this->_scopeConfig->getValue('general/country/default', ScopeInterface::SCOPE_STORE, $storeId);
+    }
+
+    /**
+     * @return int
+     */
+    private function getCurrentStoreId()
+    {
+        $storeId = 0;
+
+        if ($this->request->getParam('store') !== null) {
+            $storeId = $this->request->getParam('store');
+        }
+
+        return $storeId;
+    }
+
+    /**
+     * @param $method
+     * @return string
+     */
+    private function getMethodTitle($method)
+    {
+        return $method->getCarrierName() . ' ' . $method->getTitle();
     }
 }

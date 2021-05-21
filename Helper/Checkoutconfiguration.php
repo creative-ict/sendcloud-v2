@@ -29,6 +29,7 @@ class Checkoutconfiguration extends AbstractHelper
 
     private $checkoutConfig;
     private $methods = [];
+    private $allMethods = [];
     private $blockMethods = null;
     private $zones = [];
 
@@ -70,6 +71,9 @@ class Checkoutconfiguration extends AbstractHelper
     private function getDeliveryZoneMethods()
     {
         $configJson = $this->getCheckoutConfig();
+        if (!$configJson) {
+            return false;
+        }
         foreach ($configJson['delivery_zones'] as $item)
         {
             $countryIso2 = $item['location']['country']['iso_2'];
@@ -92,6 +96,7 @@ class Checkoutconfiguration extends AbstractHelper
 
                 $this->methods[$countryIso2][] = new Varien($varien);
                 $this->blockMethods[$method['id']] = $method;
+                $this->allMethods[] = new Varien($varien);
             }
         }
     }
@@ -122,6 +127,17 @@ class Checkoutconfiguration extends AbstractHelper
     /**
      * @return array
      */
+    public function getAllMethods()
+    {
+        if(!isset($this->allMethods)) {
+            $this->getDeliveryZoneMethods();
+        }
+        return $this->allMethods;
+    }
+
+    /**
+     * @return array
+     */
     public function getBlockMethods()
     {
         if(!isset($this->blockMethods)) {
@@ -136,7 +152,9 @@ class Checkoutconfiguration extends AbstractHelper
     public function getCheckoutConfig()
     {
         if(!isset($this->checkoutConfig)) {
-            $this->checkoutConfig = $this->serializer->unserialize($this->checkoutConfigCollection->create()->getLastItem()->getConfigJson());
+            if ($this->checkoutConfigCollection->create()->getLastItem()->getConfigJson()) {
+                $this->checkoutConfig = $this->serializer->unserialize($this->checkoutConfigCollection->create()->getLastItem()->getConfigJson());
+            }
         }
         return $this->checkoutConfig;
     }

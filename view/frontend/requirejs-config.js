@@ -2,7 +2,7 @@ var config = {
     "map": {
         "*": {
             'SendCloudCheckoutPluginUi': 'https://cdn.jsdelivr.net/npm/@sendcloud/checkout-plugin-ui@1/dist/checkout-plugin-ui.js',
-            'SendCloudV2RatesValidationRulesServicepoint' : 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/servicepoint',
+            'SendCloudV2RatesValidationRulesServicepoint': 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/servicepoint',
             'SendCloudV2RatesValidationRulesDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validation-rules/deliveryoptions',
             'SendCloudV2RatesValidatorServicepoint': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/servicepoint',
             'SendCloudV2RatesValidatorDeliveryoptions': 'SendCloud_SendCloudV2/js/model/shipping-rates-validator/deliveryoptions',
@@ -22,6 +22,9 @@ var config = {
             },
             'Magento_Checkout/js/model/shipping-save-processor/payload-extender': {
                 'SendCloud_SendCloudV2/js/model/shipping-save-processor/payload-extender': true
+            },
+            'Amasty_Checkout/js/model/one-step-layout': {
+                'SendCloud_SendCloudV2/js/mixins/model/one-step-layout-mixin': true
             }
         }
     }
