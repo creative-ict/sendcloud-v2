@@ -5,8 +5,8 @@
             <sendcloudv2skeleton>
                 <model>SendCloud\SendCloudV2\Model\Carrier\SendcloudSkeleton</model>
                 <active>0</active>
-                <title>SendcloudV2Skeleton</title>
-                <name>SendcloudV2Skeleton</name>
+                <title>Sendcloud</title>
+                <name>Sendcloud</name>
                 <price>0.00</price>
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <sallowspecific>0</sallowspecific>
