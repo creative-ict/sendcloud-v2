@@ -65,7 +65,7 @@ endif; ?>
                 <?php if ($extensionAttributes->getSendcloudData()) : ?>
                     <?php $sendCloudData = $extensionAttributes->getSendcloudData(); ?>
                     <div class="sendcloud-data">
-                        <strong><?= $escaper->escapeHtml(__('SendCloud Data')) ?></strong>
+                        <strong><?= $escaper->escapeHtml(__('Sendcloud Data')) ?></strong>
                         <div><?= $escaper->escapeHtml($sendCloudData->getCheckoutPayload()->getShippingProduct()->getName()) ?></div>
                         <div><?= $escaper->escapeHtml($sendCloudData->getCheckoutPayload()->getNominatedDayDelivery()->getFormattedDeliveryDate()) ?></div>
                     </div>

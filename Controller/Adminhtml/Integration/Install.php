@@ -32,9 +32,9 @@ class Install extends Action
     {
         try{
             $this->integrationManager->processIntegrationConfig(['SendCloud']);
-            $this->messageManager->addSuccessMessage(__('SendCloud Integration installed successfully.'));
+            $this->messageManager->addSuccessMessage(__('Sendcloud Integration installed successfully.'));
         } catch (\Exception $e) {
-            $this->messageManager->addExceptionMessage(__('SendCloud Integration fails.'));
+            $this->messageManager->addExceptionMessage(__('Sendcloud Integration fails.'));
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();

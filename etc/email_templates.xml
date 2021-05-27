@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
-    <template id="scv2_sales_email_shipment_template" label="SendCloudV2 New Shipment" file="shipment_new.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
-    <template id="scv2_sales_email_shipment_guest_template" label="SendCloudV2 New Shipment for Guest" file="shipment_new_guest.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
+    <template id="scv2_sales_email_shipment_template" label="SendcloudV2 New Shipment" file="shipment_new.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
+    <template id="scv2_sales_email_shipment_guest_template" label="SendcloudV2 New Shipment for Guest" file="shipment_new_guest.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
 
-    <template id="scv2_sales_email_order_template" label="SendCloudV2 New Order" file="order_new.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
-    <template id="scv2_sales_email_order_guest_template" label="SendCloudV2 New Order for Guest" file="order_new_guest.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
+    <template id="scv2_sales_email_order_template" label="SendcloudV2 New Order" file="order_new.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
+    <template id="scv2_sales_email_order_guest_template" label="SendcloudV2 New Order for Guest" file="order_new_guest.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
 
-    <template id="scv2_sales_email_invoice_template" label="SendCloudV2 New Invoice" file="invoice_new.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
-    <template id="scv2_sales_email_invoice_guest_template" label="SendCloudV2 New Invoice for Guest" file="invoice_new_guest.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
+    <template id="scv2_sales_email_invoice_template" label="SendcloudV2 New Invoice" file="invoice_new.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
+    <template id="scv2_sales_email_invoice_guest_template" label="SendcloudV2 New Invoice for Guest" file="invoice_new_guest.html" type="html" module="SendCloud_SendCloudV2" area="frontend"/>
 </config>

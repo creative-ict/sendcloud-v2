@@ -45,7 +45,7 @@ class Export extends AbstractElement
 
         $url = $this->_backendUrl->getUrl("sendcloudv2_exportrates/exportrates/exportrates", $params);
         $data = [
-            'label' => __('Export SendCloud CSV'),
+            'label' => __('Export Sendcloud CSV'),
             'onclick' => "setLocation('" .
             $url .
             "conditionName/' + $('carriers_sendcloudv2servicepoint_sen_condition_name').value + '/sendcloud_servicepointrates.csv' )",
