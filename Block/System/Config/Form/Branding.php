@@ -26,12 +26,12 @@ class Branding extends Field
 
     public function getSendCloudLogo()
     {
-        return $this->getViewFileUrl('SendCloud_SendCloud::images/sendcloud-logo.svg');
+        return $this->getViewFileUrl('SendCloud_SendCloudV2::images/sendcloud-logo.svg');
     }
 
     public function getCreativeCTLogo()
     {
-        return $this->getViewFileUrl('SendCloud_SendCloud::images/creative-ct-logo.svg');
+        return $this->getViewFileUrl('SendCloud_SendCloudV2::images/creative-ct-logo.svg');
     }
 
     public function getCreativeCTUrl()
