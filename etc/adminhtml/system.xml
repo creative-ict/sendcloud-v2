@@ -91,7 +91,7 @@
                 </field>
             </group>
             <group id="sendcloudv2skeleton" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Sendcloud Skeleton</label>
+                <label>Sendcloud</label>
                 <field id="mockdata" translate="label" type="label" sortOrder="1" showInDefault="1" showInStore="1" showInWebsite="1">
                     <label>Checkout Configuration from Middleware</label>
                     <frontend_model>SendCloud\SendCloudV2\Model\Config\Backend\Mockdata</frontend_model>
