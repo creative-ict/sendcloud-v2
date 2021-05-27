@@ -11,15 +11,6 @@
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <sallowspecific>0</sallowspecific>
             </sendcloudv2skeleton>
-            <sendcloudv2>
-                <model>SendCloud\SendCloudV2\Model\Carrier\Sendcloudv2</model>
-                <active>0</active>
-                <title>SendcloudV2</title>
-                <name>SendcloudV2</name>
-                <price>0.00</price>
-                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
-                <sallowspecific>0</sallowspecific>
-            </sendcloudv2>
             <sendcloudv2servicepoint>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
