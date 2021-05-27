@@ -26,6 +26,21 @@
                         <field id="module_info">1</field>
                     </depends>
                 </field>
+
+            </group>
+            <group id="debug" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Debug information</label>
+                <field id="debug" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Debugging Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="mockdata" translate="label" type="label" sortOrder="1" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Checkout Configuration from Middleware</label>
+                    <frontend_model>SendCloud\SendCloudV2\Model\Config\Backend\Mockdata</frontend_model>
+                    <depends>
+                        <field id="debug">1</field>
+                    </depends>
+                </field>
             </group>
             <group id="branding" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Branding</label>
@@ -92,15 +107,11 @@
             </group>
             <group id="sendcloudv2skeleton" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sendcloud</label>
-                <field id="mockdata" translate="label" type="label" sortOrder="1" showInDefault="1" showInStore="1" showInWebsite="1">
-                    <label>Checkout Configuration from Middleware</label>
-                    <frontend_model>SendCloud\SendCloudV2\Model\Config\Backend\Mockdata</frontend_model>
-                </field>
                 <field id="active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="name" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                <field id="name" showInDefault="0" showInStore="0" showInWebsite="0" sortOrder="20" translate="label" type="text">
                     <label>Method Name</label>
                 </field>
                 <field id="price" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label" type="text">
@@ -110,7 +121,7 @@
                 <field id="sort_order" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="40" translate="label" type="text">
                     <label>Sort Order</label>
                 </field>
-                <field id="title" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="50" translate="label" type="text">
+                <field id="title" showInDefault="0" showInStore="0" showInWebsite="0" sortOrder="50" translate="label" type="text">
                     <label>Title</label>
                 </field>
                 <field id="sallowspecific" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="60" translate="label" type="select">
