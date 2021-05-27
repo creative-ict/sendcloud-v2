@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="sendcloudv2_servicepointrate" resource="default" engine="innodb" comment="Shipping SendCloud Servicepoint Rates">
+    <table name="sendcloudv2_servicepointrate" resource="default" engine="innodb" comment="Shipping Sendcloud Servicepoint Rates">
         <column xsi:type="int" name="pk" unsigned="true" nullable="false" identity="true"
                 comment="Primary key"/>
         <column xsi:type="int" name="website_id" unsigned="false" nullable="false" identity="false"
@@ -31,7 +31,7 @@
             <column name="condition_value"/>
         </constraint>
     </table>
-    <table name="sendcloud_checkout_payload" resource="default" engine="innodb" comment="SendCloud Checkout Payload">
+    <table name="sendcloud_checkout_payload" resource="default" engine="innodb" comment="Sendcloud Checkout Payload">
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
         <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID"/>
         <column xsi:type="int" name="sender_address_id" unsigned="true" nullable="false" comment="Sender Address ID"/>
@@ -49,10 +49,10 @@
         </index>
         <constraint xsi:type="foreign" referenceId="SENDCLOUD_CHECKOUT_PAYLOAD_QUOTE_ID_SALES_ORDER_QUOTE_ID" table="sendcloud_checkout_payload" column="quote_id" referenceTable="quote" referenceColumn="entity_id" />
     </table>
-    <table name="sendcloud_checkout_config" resource="default" engine="innodb" comment="SendCloud Checkout Configuration">
-        <column xsi:type="int" name="entity_id" identity="true" nullable="false" comment="SendCloud Checkout Entity ID"/>
-        <column xsi:type="varchar" name="config_id" nullable="false" comment="SendCloud Checkout Config ID"/>
-        <column xsi:type="blob" name="config_json" nullable="false" comment="SendCloud Checkout Config Json"/>
+    <table name="sendcloud_checkout_config" resource="default" engine="innodb" comment="Sendcloud Checkout Configuration">
+        <column xsi:type="int" name="entity_id" identity="true" nullable="false" comment="Sendcloud Checkout Entity ID"/>
+        <column xsi:type="varchar" name="config_id" nullable="false" comment="Sendcloud Checkout Config ID"/>
+        <column xsi:type="blob" name="config_json" nullable="false" comment="Sendcloud Checkout Config Json"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>
         </constraint>
@@ -65,12 +65,12 @@
         </index>
     </table>
     <table name="sales_order" resource="sales" comment="Sales Flat Order">
-        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="SendCloud Checkout Payload"/>
+        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="Sendcloud Checkout Payload"/>
     </table>
     <table name="sales_order_grid" resource="sales" comment="Sales Flat Order Grid">
-        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="SendCloud Checkout Payload"/>
+        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="Sendcloud Checkout Payload"/>
     </table>
     <table name="quote" resource="checkout" comment="Sales Flat Quote   ">
-        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="SendCloud Checkout Payload"/>
+        <column xsi:type="text" name="sendcloud_checkout_payload" nullable="true" comment="Sendcloud Checkout Payload"/>
     </table>
 </schema>

@@ -65,7 +65,7 @@ class Mockdata extends Field
     {
         $integrationResult = '<br/>';
         if (!extension_loaded('soap')) {
-            $integrationResult .= '<span style="color:red">SendCloud Integration is not activated!</span><br/>';
+            $integrationResult .= '<span style="color:red">Sendcloud Integration is not activated!</span><br/>';
         }
 
         return $integrationResult;

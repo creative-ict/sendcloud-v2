@@ -10,7 +10,7 @@ use \SendCloud\SendCloudV2\Model\ResourceModel\Carrier\Servicepointrate\Collecti
 
 /**
  * Shipping carrier service point rate grid block
- * WARNING: This grid is used for export SendCloud Servicepoint rates
+ * WARNING: This grid is used for export Sendcloud Servicepoint rates
  */
 class Grid extends Extended
 {

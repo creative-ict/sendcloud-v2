@@ -21,7 +21,7 @@
 
     <type name="SendCloud\SendCloudV2\Logger\SendCloudLogger">
         <arguments>
-            <argument name="name" xsi:type="string">SendCloud Logger</argument>
+            <argument name="name" xsi:type="string">Sendcloud Logger</argument>
             <argument name="handlers" xsi:type="array">
                 <item name="system" xsi:type="object">SendCloud\SendCloudV2\Logger\SendCloudHandler</item>
             </argument>

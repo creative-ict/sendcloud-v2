@@ -63,7 +63,7 @@ class Support extends Field
         $integrationResult = '<br/>';
         $integration = $this->integrationService->findByName('SendCloud');
         if (!$integration->getId()) {
-            $integrationResult .= '<span style="color:red">SendCloud Integration is not installed!</span><br/>';
+            $integrationResult .= '<span style="color:red">Sendcloud Integration is not installed!</span><br/>';
         }
 
         return $integrationResult;

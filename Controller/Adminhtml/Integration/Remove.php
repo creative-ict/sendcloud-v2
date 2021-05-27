@@ -38,15 +38,15 @@ class Remove extends Action
         $integration = $this->integrationService->findByName('SendCloud');
         if(!$integration->getId())
         {
-            $this->messageManager->addExceptionMessage(__('Integration SendCloud not found'));
+            $this->messageManager->addExceptionMessage(__('Integration Sendcloud not found'));
             return $resultRedirect;
         }
 
         try{
             $integration->delete();
-            $this->messageManager->addSuccessMessage(__('SendCloud Integration removed.'));
+            $this->messageManager->addSuccessMessage(__('Sendcloud Integration removed.'));
         } catch (Exception $e) {
-            $this->messageManager->addExceptionMessage(__('Remove SendCloud Integration fails. ' . $e->getMessage()));
+            $this->messageManager->addExceptionMessage(__('Remove Sendcloud Integration fails. ' . $e->getMessage()));
         }
 
         return $resultRedirect;

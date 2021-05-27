@@ -268,7 +268,7 @@ class Servicepointrate extends AbstractDb
     }
 
     /**
-     * Upload SendCloud Servicepoint rate file and import data from it
+     * Upload Sendcloud Servicepoint rate file and import data from it
      *
      * @param DataObject $object
      * @return Servicepointrate

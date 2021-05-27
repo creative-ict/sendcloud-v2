@@ -32,7 +32,6 @@
                 <span class="value" data-bind="text: getShippingMethodTitle()"></span>
             </if>
 
-            <!-- //TODO: SC-19: Use the .getSendCloudData() container to store the data -->
             <if args="getServicePointInformation()">
                 <div class="service-point-information" data-bind="visible: selectedMethod() == 'sendcloudv2servicepoint_sendcloudv2servicepoint'">
                     <strong data-bind="text: getServicePointInformation().name"></strong><br>
