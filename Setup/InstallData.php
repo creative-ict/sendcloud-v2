@@ -30,6 +30,6 @@ class InstallData implements InstallDataInterface
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
         //TODO: processIntegrationConfig deprecation fix need to implemented
-        $this->integrationManager->processIntegrationConfig(['SendCloud']);
+        $this->integrationManager->processIntegrationConfig(['Sendcloud']);
     }
 }

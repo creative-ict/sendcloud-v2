@@ -1,5 +1,5 @@
 <integrations>
-    <integration name="SendCloud">
+    <integration name="Sendcloud">
         <email>info@sendcloud.com</email>
         <endpoint_url>https://panel.sendcloud.sc/shops/magento_v2/oauth/callback/</endpoint_url>
         <identity_link_url>https://panel.sendcloud.sc/shops/magento_v2/oauth/identity-link/</identity_link_url>

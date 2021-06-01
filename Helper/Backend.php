@@ -73,7 +73,7 @@ class Backend extends AbstractHelper
         $scriptUrl = $this->scopeConfig->getValue('sendcloud/sendcloudv2/script_url', ScopeInterface::SCOPE_STORE);
 
         if ($scriptUrl == '' || $scriptUrl == null) {
-            $this->sendCloudLogger->debug('The option service point is not active in SendCloud');
+            $this->sendCloudLogger->debug('The option service point is not active in Sendcloud');
             $isScriptUrlDefined = false;
         }
 

@@ -31,7 +31,7 @@ class Install extends Action
     public function execute()
     {
         try{
-            $this->integrationManager->processIntegrationConfig(['SendCloud']);
+            $this->integrationManager->processIntegrationConfig(['Sendcloud']);
             $this->messageManager->addSuccessMessage(__('Sendcloud Integration installed successfully.'));
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage(__('Sendcloud Integration fails.'));

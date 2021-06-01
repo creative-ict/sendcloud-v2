@@ -1,5 +1,5 @@
 <integrations>
-    <integration name="SendCloud">
+    <integration name="Sendcloud">
         <resources>
             <resource name="Magento_Sales::sales" />
             <resource name="Magento_Sales::sales_operation" />
