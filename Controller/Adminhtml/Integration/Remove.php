@@ -35,7 +35,7 @@ class Remove extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
         $resultRedirect->setPath('adminhtml/system_config/edit/', ['section' => 'sendcloudv2']);
 
-        $integration = $this->integrationService->findByName('SendCloud');
+        $integration = $this->integrationService->findByName('Sendcloud');
         if(!$integration->getId())
         {
             $this->messageManager->addExceptionMessage(__('Integration Sendcloud not found'));

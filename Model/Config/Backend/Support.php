@@ -61,7 +61,7 @@ class Support extends Field
     protected function getCheckIntegration()
     {
         $integrationResult = '<br/>';
-        $integration = $this->integrationService->findByName('SendCloud');
+        $integration = $this->integrationService->findByName('Sendcloud');
         if (!$integration->getId()) {
             $integrationResult .= '<span style="color:red">Sendcloud Integration is not installed!</span><br/>';
         }

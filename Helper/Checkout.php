@@ -35,7 +35,7 @@ class Checkout extends AbstractHelper
         $scriptUrl = $this->scopeConfig->getValue('sendcloudv2/sendcloud/script_url', ScopeInterface::SCOPE_STORE);
 
         if ($scriptUrl == '' || $scriptUrl == null) {
-            $this->sendCloudLogger->debug('The option service point is not active in SendCloud');
+            $this->sendCloudLogger->debug('The option service point is not active in Sendcloud');
             $isScriptUrlDefined = false;
         }
 

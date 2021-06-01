@@ -53,21 +53,4 @@ class Mockdata extends Field
         return $html;
     }
 
-    protected function getModuleVersion()
-    {
-        return $this->backendHelper->getModuleVersion();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getCheckIntegration()
-    {
-        $integrationResult = '<br/>';
-        if (!extension_loaded('soap')) {
-            $integrationResult .= '<span style="color:red">Sendcloud Integration is not activated!</span><br/>';
-        }
-
-        return $integrationResult;
-    }
 }

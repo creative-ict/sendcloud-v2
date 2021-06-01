@@ -37,7 +37,7 @@ class Install extends Field
     {
         /** @var Button $buttonBlock  */
         $buttonBlock = $this->getForm()->getLayout()->createBlock(Button::class);
-        $integration = $this->integrationService->findByName('SendCloud');
+        $integration = $this->integrationService->findByName('Sendcloud');
 
         $url = $this->getUrl('setup_integration/integration/install');
         $label = __('Install Integration');

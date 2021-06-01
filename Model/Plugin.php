@@ -51,7 +51,7 @@ class Plugin implements PluginInterface
             $this->writer->save('sendcloudv2/general/enable', 0, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
             $this->cache->cleanType('config');
 
-            $integration = $this->integrationService->findByName('SendCloud');
+            $integration = $this->integrationService->findByName('Sendcloud');
             if ($integration->getId()) {
                 $this->integrationService->delete($integration->getId());
             }
