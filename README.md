@@ -11,7 +11,7 @@ php bin/magento setup:upgrade
 ````
 
 ## Configuration
-A guide on how to configure this module can be found on the [Magento Marketplace](https://marketplace.magento.com/sendcloud-sendcloud.html)
+A guide on how to configure this module can be found on the [Sendcloud helpcenter](https://support.sendcloud.com/hc/en-us/articles/360058939491-How-to-install-the-Checkout-feature-for-Magento-v2-4)
 
 ## Support
 For support, please contact [SendCloud](https://www.sendcloud.com/contact/)
