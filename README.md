@@ -5,7 +5,7 @@ This module requires Magento2 CE version 2.3 or higher.
 ## Installation
 This module can be installed through Composer. 
 ````
-composer require sendcloud/sendcloudv2
+composer require sendcloud/sendcloud-v2
 php bin/magento module:enable SendCloud_SendCloudV2
 php bin/magento setup:upgrade
 ````
