@@ -19,5 +19,10 @@
             "SendCloud\\SendCloudV2\\": ""
         }
     },
-    "minimum-stability": "stable"
+    "repositories": {
+        "sendcloud-v2": {
+            "type": "git",
+            "url": "https://github.com/creative-ict/sendcloud-v2.git"
+        }
+    }
 }
