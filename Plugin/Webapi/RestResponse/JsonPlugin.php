@@ -2,6 +2,7 @@
 
 namespace SendCloud\SendCloudV2\Plugin\Webapi\RestResponse;
 
+use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Framework\Webapi\Rest\Request;
 use Magento\Framework\Webapi\Rest\Response\Renderer\Json;
 
@@ -14,15 +15,25 @@ class JsonPlugin
     private $request;
 
     /**
+     * @var ArrayManager
+     */
+    private $arrayManager;
+
+
+    /**
      * JsonPlugin constructor.
+     * @param ArrayManager $arrayManager
      * @param Request $request
      */
     public function __construct(
+        ArrayManager $arrayManager,
         Request $request
     )
     {
+        $this->arrayManager = $arrayManager;
         $this->request = $request;
     }
+
 
     /**
      * @param Json $jsonRenderer
@@ -30,24 +41,33 @@ class JsonPlugin
      * @param $data
      * @return mixed
      */
-    public function aroundRender(Json $jsonRenderer, callable $proceed, $data)
+    public function aroundRender(Json $jsonRenderer, callable $proceed, &$data)
     {
-        if (isset($data['items']) && !isset($data['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'])) {
-            foreach($data['items'] as $key => $value) {
-                if (isset($value['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'])) {
+        if ($this->arrayManager->exists($this->_path, $data)) {
+            $data = $this->modifyData($data);
+        }
+        elseif($this->arrayManager->exists('items', $data) && !$this->arrayManager->exists($this->_path, $data)) {
 
-                    $target = $data['items'][$key]['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'];
-                    $result = json_decode($target);
-                    $data['items'][$key]['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'] = (array)$result;
-                }
+            foreach($data['items'] as $key => $value)
+            {
+                $data['items'][$key] = $this->modifyData($value);
             }
         }
-        elseif (isset($data['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'])) {
-            $target = $data['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'];
-            $result = json_decode($target);
-            $data['extension_attributes']['sendcloud_data']['checkout_payload']['shipping_product']['selected_functionalities'] = (array)$result;
-        }
-
         return $proceed($data);
+    }
+
+
+    /**
+     * @param $data
+     * @return array|mixed
+     */
+    private function modifyData($data)
+    {
+        if ($this->arrayManager->exists($this->_path, $data)) {
+            $target = $this->arrayManager->get($this->_path, $data) ?? [];
+            $result = json_decode($target);
+            $data = $this->arrayManager->replace($this->_path, $data, (array)$result);
+        }
+        return $data;
     }
 }
