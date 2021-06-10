@@ -1,22 +1,23 @@
 {
-  "name": "sendcloud/sendcloud-v2",
-  "description": "A Magento 2 module that connects the Magento environment to the Sendcloud environment",
-  "type": "magento2-module",
-  "homepage": "https://www.sendcloud.com",
-  "license": "Apache-2.0",
-  "version": "1.0.0",
-  "require": {
-    "php": "~7.4.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9"
-  },
-  "autoload": {
-    "files": [
-      "registration.php"
-    ],
-    "psr-4": {
-      "SendCloud\\SendCloudV2\\": ""
+    "name": "sendcloud/sendcloud-v2",
+    "description": "A Magento 2 module that connects the Magento environment to the Sendcloud environment",
+    "type": "magento2-module",
+    "homepage": "https://www.sendcloud.com",
+    "license": "Apache-2.0",
+    "version": "1.0.1",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "~7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "SendCloud\\SendCloudV2\\": ""
+        }
     }
-  }
 }
