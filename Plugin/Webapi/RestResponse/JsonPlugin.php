@@ -43,6 +43,9 @@ class JsonPlugin
      */
     public function aroundRender(Json $jsonRenderer, callable $proceed, &$data)
     {
+        if(!is_array($data)){
+            return $proceed($data);
+        }
         if ($this->arrayManager->exists($this->_path, $data)) {
             $data = $this->modifyData($data);
         }
